@@ -50,7 +50,11 @@ export class BebanKerjaKejadianPage implements OnInit, OnDestroy {
 
   // Statistics data
   statistics = {
+    totalEvents: 342,
     totalSensorEvents: 342,
+    averageResponseTime: 1.1,
+    accuracyRate: 89.5,
+    stressLevel: 40.2,
     averageSystemResponse: 1.1,
     systemAccuracy: 89.5,
     safetyScore: 40.2,
@@ -59,15 +63,15 @@ export class BebanKerjaKejadianPage implements OnInit, OnDestroy {
     systemCheckDuration: '20 menit'
   };
 
-  // Sensor types data
-  sensorTypes = [
+  // Event types data (renamed from sensorTypes to match template)
+  eventTypes = [
     {
       name: 'Sensor Parkir',
       icon: 'car-outline',
       count: 89,
       avgResponse: 1.2,
       accuracy: 94,
-      safetyScore: 35,
+      stressLevel: 35,
       trend: 'up'
     },
     {
@@ -76,7 +80,7 @@ export class BebanKerjaKejadianPage implements OnInit, OnDestroy {
       count: 76,
       avgResponse: 0.8,
       accuracy: 89,
-      safetyScore: 28,
+      stressLevel: 28,
       trend: 'stable'
     },
     {
@@ -85,7 +89,7 @@ export class BebanKerjaKejadianPage implements OnInit, OnDestroy {
       count: 92,
       avgResponse: 1.5,
       accuracy: 82,
-      safetyScore: 45,
+      stressLevel: 45,
       trend: 'down'
     },
     {
@@ -94,10 +98,11 @@ export class BebanKerjaKejadianPage implements OnInit, OnDestroy {
       count: 85,
       avgResponse: 1.0,
       accuracy: 91,
-      safetyScore: 52,
+      stressLevel: 52,
       trend: 'up'
     }
   ];
+
 
   // Recent events
   recentEvents = [
@@ -147,13 +152,15 @@ export class BebanKerjaKejadianPage implements OnInit, OnDestroy {
 
   private updateInterval: any;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
+    // Initialize component data
     this.startRealTimeUpdates();
   }
 
   ngOnDestroy() {
+    // Cleanup if needed
     if (this.updateInterval) {
       clearInterval(this.updateInterval);
     }

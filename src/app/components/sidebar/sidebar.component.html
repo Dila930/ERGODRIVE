@@ -1,0 +1,22 @@
+<div class="sidebar">
+  <a [routerLink]="['/beban-kerja-kemudi']" class="menu-item" [class.active]="isActive('/beban-kerja-kemudi')">
+    <ion-icon name="speedometer-outline" class="menu-icon"></ion-icon>
+    <span>Beban Kerja (Kemudi)</span>
+  </a>
+  <a [routerLink]="['/beban-kerja-kejadian']" class="menu-item" [class.active]="isActive('/beban-kerja-kejadian')">
+    <ion-icon name="alert-circle-outline" class="menu-icon"></ion-icon>
+    <span>Beban Kerja (Kejadian)</span>
+  </a>
+  <a [routerLink]="['/tes-kantuk']" class="menu-item" [class.active]="isActive('/tes-kantuk')">
+    <ion-icon name="bed-outline" class="menu-icon"></ion-icon>
+    <span>Tes Kantuk</span>
+  </a>
+  <a [routerLink]="['/waktu-reaksi-rem']" class="menu-item" [class.active]="isActive('/waktu-reaksi-rem')">
+    <ion-icon name="time-outline" class="menu-icon"></ion-icon>
+    <span>Waktu Reaksi Rem</span>
+  </a>
+  <a [routerLink]="['/waktu-reaksi-kemudi']" class="menu-item" [class.active]="isActive('/waktu-reaksi-kemudi')">
+    <ion-icon name="car-outline" class="menu-icon"></ion-icon>
+    <span>Waktu Reaksi Kemudi</span>
+  </a>
+</div>

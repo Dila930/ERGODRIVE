@@ -1,0 +1,21 @@
+ion-app {
+  display: flex;
+  min-height: 100vh;
+}
+
+.content-wrapper {
+  flex: 1;
+  margin-left: 250px; /* Same as sidebar width */
+  padding: 20px;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+  .content-wrapper {
+    margin-left: 0;
+    padding-top: 60px; /* Add space for mobile header */
+  }
+}

@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
+
 @Component({
   selector: 'app-waktu-reaksi-rem',
   templateUrl: './waktu-reaksi-rem.page.html',

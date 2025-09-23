@@ -103,12 +103,12 @@
         <!-- Deteksi Kejadian Card -->
         <div class="chart-card">
           <div class="card-header">
-            <h3 class="card-title">{{ chartData.deteksiKejadian.title }}</h3>
+            <h3 class="card-title">{{ chartData.deteksiSensor.title }}</h3>
           </div>
           <div class="card-content">
             <div class="bar-chart">
               <div class="chart-container">
-                <div class="bar-item" *ngFor="let data of chartData.deteksiKejadian.data">
+                <div class="bar-item" *ngFor="let data of chartData.deteksiSensor.data">
                   <div class="bar-label">{{ data.label }}</div>
                   <div class="bar-wrapper">
                     <div 
@@ -127,12 +127,12 @@
         <!-- Waktu Respon Card -->
         <div class="chart-card">
           <div class="card-header">
-            <h3 class="card-title">{{ chartData.waktuRespon.title }}</h3>
+            <h3 class="card-title">{{ chartData.sistemRem.title }}</h3>
           </div>
           <div class="card-content">
             <div class="bar-chart">
               <div class="chart-container">
-                <div class="bar-item" *ngFor="let data of chartData.waktuRespon.data">
+                <div class="bar-item" *ngFor="let data of chartData.sistemRem.data">
                   <div class="bar-label">{{ data.label }}</div>
                   <div class="bar-wrapper">
                     <div 
@@ -151,12 +151,12 @@
         <!-- Akurasi Keputusan Card -->
         <div class="chart-card">
           <div class="card-header">
-            <h3 class="card-title">{{ chartData.akurasiKeputusan.title }}</h3>
+            <h3 class="card-title">{{ chartData.akurasiNavigasi.title }}</h3>
           </div>
           <div class="card-content">
             <div class="bar-chart">
               <div class="chart-container">
-                <div class="bar-item" *ngFor="let data of chartData.akurasiKeputusan.data">
+                <div class="bar-item" *ngFor="let data of chartData.akurasiNavigasi.data">
                   <div class="bar-label">{{ data.label }}</div>
                   <div class="bar-wrapper">
                     <div 
@@ -175,12 +175,12 @@
         <!-- Tingkat Stres Card -->
         <div class="chart-card">
           <div class="card-header">
-            <h3 class="card-title">{{ chartData.tingkatStres.title }}</h3>
+            <h3 class="card-title">{{ chartData.sistemKeamanan.title }}</h3>
           </div>
           <div class="card-content">
             <div class="bar-chart">
               <div class="chart-container">
-                <div class="bar-item" *ngFor="let data of chartData.tingkatStres.data">
+                <div class="bar-item" *ngFor="let data of chartData.sistemKeamanan.data">
                   <div class="bar-label">{{ data.label }}</div>
                   <div class="bar-wrapper">
                     <div 

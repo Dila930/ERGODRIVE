@@ -6,19 +6,22 @@
     </div>
     <div class="header-center">
       <h1 class="welcome-title">Waktu Reaksi Rem</h1>
-      <p class="welcome-subtitle">Analisis kecepatan reaksi pengereman dan faktor-faktor yang mempengaruhinya</p>
+      <p class="welcome-subtitle">
+        Analisis kecepatan reaksi pengereman dan faktor-faktor yang
+        mempengaruhinya
+      </p>
     </div>
     <div class="header-right">
       <div class="action-buttons">
         <ion-button (click)="startBrakeTest()" fill="solid" size="small">
-          <ion-icon name="play-outline"></ion-icon>
+          <ion-icon name="play"></ion-icon>
           Mulai Tes
         </ion-button>
         <ion-button (click)="refreshData()" fill="clear" size="small">
-          <ion-icon name="refresh-outline"></ion-icon>
+          <ion-icon name="refresh"></ion-icon>
         </ion-button>
         <ion-button (click)="exportData()" fill="clear" size="small">
-          <ion-icon name="download-outline"></ion-icon>
+          <ion-icon name="download"></ion-icon>
         </ion-button>
       </div>
     </div>
@@ -30,15 +33,22 @@
       <div class="performance-card">
         <div class="performance-header">
           <h2>Performa Saat Ini</h2>
-          <div class="performance-status" [style.color]="getReactionTimeColor(statistics.averageReactionTime)">
-            {{ statistics.averageReactionTime <= 0.8 ? 'Sempurna' : 
-               statistics.averageReactionTime <= 1.2 ? 'Baik' : 
-               statistics.averageReactionTime <= 1.8 ? 'Cukup' : 'Perlu Perbaikan' }}
+          <div
+            class="performance-status"
+            [style.color]="getReactionTimeColor(statistics.averageReactionTime)"
+          >
+            {{ statistics.averageReactionTime <= 0.8 ? 'Sempurna' :
+            statistics.averageReactionTime <= 1.2 ? 'Baik' :
+            statistics.averageReactionTime <= 1.8 ? 'Cukup' : 'Perlu Perbaikan'
+            }}
           </div>
         </div>
         <div class="performance-content">
           <div class="performance-metric">
-            <div class="metric-value" [style.color]="getReactionTimeColor(statistics.averageReactionTime)">
+            <div
+              class="metric-value"
+              [style.color]="getReactionTimeColor(statistics.averageReactionTime)"
+            >
               {{ statistics.averageReactionTime }}s
             </div>
             <div class="metric-label">Waktu Reaksi Rata-rata</div>
@@ -59,7 +69,7 @@
     <div class="stats-overview">
       <div class="stat-card">
         <div class="stat-icon">
-          <ion-icon name="speedometer-outline"></ion-icon>
+          <ion-icon name="speedometer"></ion-icon>
         </div>
         <div class="stat-content">
           <div class="stat-value">{{ statistics.totalTests }}</div>
@@ -68,7 +78,7 @@
       </div>
       <div class="stat-card">
         <div class="stat-icon">
-          <ion-icon name="trending-up-outline"></ion-icon>
+          <ion-icon name="trending-up"></ion-icon>
         </div>
         <div class="stat-content">
           <div class="stat-value">+{{ statistics.improvementRate }}%</div>
@@ -77,7 +87,7 @@
       </div>
       <div class="stat-card">
         <div class="stat-icon">
-          <ion-icon name="checkmark-circle-outline"></ion-icon>
+          <ion-icon name="checkmark-circle"></ion-icon>
         </div>
         <div class="stat-content">
           <div class="stat-value">{{ statistics.accuracyRate }}%</div>
@@ -86,7 +96,7 @@
       </div>
       <div class="stat-card">
         <div class="stat-icon">
-          <ion-icon name="time-outline"></ion-icon>
+          <ion-icon name="time"></ion-icon>
         </div>
         <div class="stat-content">
           <div class="stat-value">{{ statistics.testDuration }}</div>
@@ -102,14 +112,20 @@
         <div class="speed-card" *ngFor="let speed of speedAnalysis">
           <div class="speed-header">
             <div class="speed-value">{{ speed.speed }}</div>
-            <div class="safety-indicator" [style.background]="getSafetyColor(speed.safetyLevel)">
+            <div
+              class="safety-indicator"
+              [style.background]="getSafetyColor(speed.safetyLevel)"
+            >
               {{ getSafetyLevel(speed.safetyLevel) }}
             </div>
           </div>
           <div class="speed-metrics">
             <div class="speed-metric">
               <span class="metric-label">Reaksi:</span>
-              <span class="metric-value" [style.color]="getReactionTimeColor(speed.reactionTime)">
+              <span
+                class="metric-value"
+                [style.color]="getReactionTimeColor(speed.reactionTime)"
+              >
                 {{ speed.reactionTime }}s
               </span>
             </div>
@@ -133,16 +149,21 @@
         <!-- Waktu Reaksi Rata-rata Card -->
         <div class="chart-card">
           <div class="card-header">
-            <h3 class="card-title">{{ chartData.waktuReaksiRataRata.title }}</h3>
+            <h3 class="card-title">
+              {{ chartData.waktuReaksiRataRata.title }}
+            </h3>
           </div>
           <div class="card-content">
             <div class="bar-chart">
               <div class="chart-container">
-                <div class="bar-item" *ngFor="let data of chartData.waktuReaksiRataRata.data">
+                <div
+                  class="bar-item"
+                  *ngFor="let data of chartData.waktuReaksiRataRata.data"
+                >
                   <div class="bar-label">{{ data.label }}</div>
                   <div class="bar-wrapper">
-                    <div 
-                      class="bar-fill" 
+                    <div
+                      class="bar-fill"
                       [style.width.%]="data.percentage"
                       [style.background]="getReactionTimeColor(data.value)"
                     ></div>
@@ -162,11 +183,14 @@
           <div class="card-content">
             <div class="bar-chart">
               <div class="chart-container">
-                <div class="bar-item" *ngFor="let data of chartData.jarakPengereman.data">
+                <div
+                  class="bar-item"
+                  *ngFor="let data of chartData.jarakPengereman.data"
+                >
                   <div class="bar-label">{{ data.label }}</div>
                   <div class="bar-wrapper">
-                    <div 
-                      class="bar-fill" 
+                    <div
+                      class="bar-fill"
                       [style.width.%]="data.percentage"
                       [style.background]="getBarColor(data.percentage)"
                     ></div>
@@ -186,11 +210,14 @@
           <div class="card-content">
             <div class="bar-chart">
               <div class="chart-container">
-                <div class="bar-item" *ngFor="let data of chartData.akurasiReaksi.data">
+                <div
+                  class="bar-item"
+                  *ngFor="let data of chartData.akurasiReaksi.data"
+                >
                   <div class="bar-label">{{ data.label }}</div>
                   <div class="bar-wrapper">
-                    <div 
-                      class="bar-fill" 
+                    <div
+                      class="bar-fill"
                       [style.width.%]="data.percentage"
                       [style.background]="getBarColor(data.value)"
                     ></div>
@@ -210,11 +237,14 @@
           <div class="card-content">
             <div class="bar-chart">
               <div class="chart-container">
-                <div class="bar-item" *ngFor="let data of chartData.tekananRem.data">
+                <div
+                  class="bar-item"
+                  *ngFor="let data of chartData.tekananRem.data"
+                >
                   <div class="bar-label">{{ data.label }}</div>
                   <div class="bar-wrapper">
-                    <div 
-                      class="bar-fill" 
+                    <div
+                      class="bar-fill"
                       [style.width.%]="data.percentage"
                       [style.background]="getBarColor(data.value)"
                     ></div>
@@ -234,11 +264,16 @@
       <div class="factors-grid">
         <div class="factor-card" *ngFor="let factor of reactionFactors">
           <div class="factor-icon">
-            <ion-icon [name]="factor.icon" [style.color]="factor.color"></ion-icon>
+            <ion-icon
+              [name]="factor.icon"
+              [style.color]="factor.color"
+            ></ion-icon>
           </div>
           <div class="factor-content">
             <h3>{{ factor.factor }}</h3>
-            <div class="factor-impact" [style.color]="factor.color">{{ factor.impact }}</div>
+            <div class="factor-impact" [style.color]="factor.color">
+              {{ factor.impact }}
+            </div>
             <p>{{ factor.description }}</p>
           </div>
         </div>
@@ -250,7 +285,10 @@
       <h2 class="section-title">Tes Terbaru</h2>
       <div class="recent-tests-list">
         <div class="test-item" *ngFor="let test of recentTests">
-          <div class="test-status" [style.background]="getStatusColor(test.status)"></div>
+          <div
+            class="test-status"
+            [style.background]="getStatusColor(test.status)"
+          ></div>
           <div class="test-details">
             <div class="test-time">{{ test.time }}</div>
             <div class="test-metrics">
@@ -276,18 +314,27 @@
     <div class="recommendations-section">
       <h2 class="section-title">Rekomendasi Keselamatan</h2>
       <div class="recommendations-grid">
-        <div class="recommendation-card" *ngFor="let rec of safetyRecommendations">
+        <div
+          class="recommendation-card"
+          *ngFor="let rec of safetyRecommendations"
+        >
           <div class="recommendation-icon">
-            <ion-icon [name]="rec.icon" [style.color]="getPriorityColor(rec.priority)"></ion-icon>
+            <ion-icon
+              [name]="rec.icon"
+              [style.color]="getPriorityColor(rec.priority)"
+            ></ion-icon>
           </div>
           <div class="recommendation-content">
             <h3>{{ rec.title }}</h3>
             <p>{{ rec.description }}</p>
           </div>
           <div class="recommendation-priority">
-            <span class="priority-badge" [style.background]="getPriorityColor(rec.priority)">
-              {{ rec.priority === 'high' ? 'Tinggi' : 
-                 rec.priority === 'medium' ? 'Sedang' : 'Rendah' }}
+            <span
+              class="priority-badge"
+              [style.background]="getPriorityColor(rec.priority)"
+            >
+              {{ rec.priority === 'high' ? 'Tinggi' : rec.priority === 'medium'
+              ? 'Sedang' : 'Rendah' }}
             </span>
           </div>
         </div>
@@ -300,11 +347,14 @@
       <div class="trends-card">
         <div class="trends-chart">
           <div class="trend-bars">
-            <div class="trend-bar" *ngFor="let value of performanceTrends.data; let i = index">
+            <div
+              class="trend-bar"
+              *ngFor="let value of performanceTrends.data; let i = index"
+            >
               <div class="trend-day">{{ performanceTrends.labels[i] }}</div>
               <div class="trend-bar-wrapper">
-                <div 
-                  class="trend-bar-fill" 
+                <div
+                  class="trend-bar-fill"
                   [style.height.%]="value"
                   [style.background]="getBarColor(value)"
                 ></div>
