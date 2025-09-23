@@ -1,20 +1,140 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+<div class="dashboard-container">
+  <!-- Header -->
+  <div class="dashboard-header">
+    <div class="header-left">
+      <div class="logo">ERGODRIVE</div>
+    </div>
+    <div class="header-center">
+      <h1 class="welcome-title">Selamat datang kembali!</h1>
+      <p class="welcome-subtitle">Berikut adalah analisis terbaru dari tes mengemudi.</p>
+    </div>
+    <div class="header-right">
+      <div class="user-profile">
+        <div class="user-avatar">
+          <span class="user-initial">{{ userInfo.initial }}</span>
+          <div class="online-indicator" *ngIf="userInfo.isOnline"></div>
+        </div>
+        <div class="user-info">
+          <div class="user-name">{{ userInfo.name }}</div>
+          <div class="user-status">{{ userInfo.status }}</div>
+        </div>
+      </div>
+    </div>
   </div>
-</ion-content>
+
+  <div class="dashboard-content">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div 
+        class="menu-item" 
+        *ngFor="let item of menuItems"
+        [class.active]="activeMenuItem === item.label"
+        (click)="selectMenuItem(item.label)"
+      >
+        <ion-icon [name]="item.icon" class="menu-icon"></ion-icon>
+        <span>{{ item.label }}</span>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="charts-grid">
+        <!-- Kecepatan Rata-rata Card -->
+        <div class="chart-card">
+          <div class="card-header">
+            <h3 class="card-title">{{ chartData.kecepatanRataRata.title }}</h3>
+          </div>
+          <div class="card-content">
+            <div class="bar-chart">
+              <div class="chart-container">
+                <div class="bar-item" *ngFor="let data of chartData.kecepatanRataRata.data">
+                  <div class="bar-label">{{ data.label }}</div>
+                  <div class="bar-wrapper">
+                    <div 
+                      class="bar-fill" 
+                      [style.width.%]="data.percentage"
+                      [style.background]="getBarColor(data.value)"
+                    ></div>
+                  </div>
+                  <div class="bar-value">{{ data.value }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SDLP Card -->
+        <div class="chart-card">
+          <div class="card-header">
+            <h3 class="card-title">{{ chartData.sdlp.title }}</h3>
+          </div>
+          <div class="card-content">
+            <div class="bar-chart">
+              <div class="chart-container">
+                <div class="bar-item" *ngFor="let data of chartData.sdlp.data">
+                  <div class="bar-label">{{ data.label }}</div>
+                  <div class="bar-wrapper">
+                    <div 
+                      class="bar-fill" 
+                      [style.width.%]="data.percentage"
+                      [style.background]="getBarColor(data.value)"
+                    ></div>
+                  </div>
+                  <div class="bar-value">{{ data.value }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Waktu Reaksi PDT Card -->
+        <div class="chart-card">
+          <div class="card-header">
+            <h3 class="card-title">{{ chartData.waktuReaksiPDT.title }}</h3>
+          </div>
+          <div class="card-content">
+            <div class="bar-chart">
+              <div class="chart-container">
+                <div class="bar-item" *ngFor="let data of chartData.waktuReaksiPDT.data">
+                  <div class="bar-label">{{ data.label }}</div>
+                  <div class="bar-wrapper">
+                    <div 
+                      class="bar-fill" 
+                      [style.width.%]="data.percentage"
+                      [style.background]="getBarColor(data.value)"
+                    ></div>
+                  </div>
+                  <div class="bar-value">{{ data.value }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PDT Gagal Card -->
+        <div class="chart-card">
+          <div class="card-header">
+            <h3 class="card-title">{{ chartData.pdtGagal.title }}</h3>
+          </div>
+          <div class="card-content">
+            <div class="bar-chart">
+              <div class="chart-container">
+                <div class="bar-item" *ngFor="let data of chartData.pdtGagal.data">
+                  <div class="bar-label">{{ data.label }}</div>
+                  <div class="bar-wrapper">
+                    <div 
+                      class="bar-fill" 
+                      [style.width.%]="data.percentage"
+                      [style.background]="getBarColor(data.value)"
+                    ></div>
+                  </div>
+                  <div class="bar-value">{{ data.value }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
