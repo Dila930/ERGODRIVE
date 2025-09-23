@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -95,7 +96,7 @@ export class HomePage implements OnInit, OnDestroy {
   
   private updateInterval: any;
   
-  constructor() {}
+  constructor(private router: Router) {}
   
   ngOnInit() {
     // Start real-time data updates
@@ -119,8 +120,27 @@ export class HomePage implements OnInit, OnDestroy {
   // Method to handle menu item clicks
   selectMenuItem(menuItem: string) {
     this.activeMenuItem = menuItem;
-    // Here you could add logic to load different data based on the selected menu
-    console.log('Selected menu item:', menuItem);
+    
+    // Navigate to the appropriate page based on menu item
+    switch(menuItem) {
+      case 'Beban Kerja (Kemudi)':
+        this.router.navigate(['/beban-kerja-kemudi']);
+        break;
+      case 'Beban Kerja (Kejadian)':
+        this.router.navigate(['/beban-kerja-kejadian']);
+        break;
+      case 'Tes Kantuk':
+        this.router.navigate(['/tes-kantuk']);
+        break;
+      case 'Waktu Reaksi Rem':
+        this.router.navigate(['/waktu-reaksi-rem']);
+        break;
+      case 'Waktu Reaksi Kemudi':
+        this.router.navigate(['/waktu-reaksi-kemudi']);
+        break;
+      default:
+        console.log('Selected menu item:', menuItem);
+    }
   }
   
   // Method to get chart data by key

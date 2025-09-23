@@ -11,48 +11,49 @@ export class BebanKerjaKemudiPage implements OnInit, OnDestroy {
   // Chart data for beban kerja kemudi
   chartData = {
     kecepatanRataRata: {
-      title: 'Kecepatan Rata-rata',
+      title: 'Kecepatan Rata-rata (km/h)',
       data: [
-        { label: 'Tanpa Lalu Lintas', value: 75, percentage: 75 },
-        { label: 'Lawan Arah', value: 60, percentage: 60 },
-        { label: 'Kendaraan Depan', value: 45, percentage: 45 }
+        { label: 'Jalan Tol', value: 85, percentage: 85 },
+        { label: 'Jalan Raya', value: 55, percentage: 55 },
+        { label: 'Perkotaan', value: 35, percentage: 35 }
       ]
     },
-    sdlp: {
-      title: 'SDLP',
+    konsumsiBbm: {
+      title: 'Konsumsi BBM (km/L)',
       data: [
-        { label: 'Tanpa Lalu Lintas', value: 85, percentage: 85 },
-        { label: 'Lawan Arah', value: 70, percentage: 70 },
-        { label: 'Kendaraan Depan', value: 55, percentage: 55 }
+        { label: 'Jalan Tol', value: 12, percentage: 80 },
+        { label: 'Jalan Raya', value: 10, percentage: 67 },
+        { label: 'Perkotaan', value: 8, percentage: 53 }
       ]
     },
-    waktuReaksiPDT: {
-      title: 'Waktu Reaksi PDT',
+    suhuMesin: {
+      title: 'Suhu Mesin (°C)',
       data: [
-        { label: 'Tanpa Lalu Lintas', value: 40, percentage: 40 },
-        { label: 'Lawan Arah', value: 65, percentage: 65 },
-        { label: 'Kendaraan Depan', value: 50, percentage: 50 }
+        { label: 'Jalan Tol', value: 85, percentage: 70 },
+        { label: 'Jalan Raya', value: 90, percentage: 75 },
+        { label: 'Perkotaan', value: 95, percentage: 79 }
       ]
     },
-    pdtGagal: {
-      title: 'PDT Gagal',
+    tekananBan: {
+      title: 'Tekanan Ban (PSI)',
       data: [
-        { label: 'Tanpa Lalu Lintas', value: 90, percentage: 90 },
-        { label: 'Lawan Arah', value: 95, percentage: 95 },
-        { label: 'Kendaraan Depan', value: 88, percentage: 88 }
+        { label: 'Depan Kiri', value: 32, percentage: 91 },
+        { label: 'Depan Kanan', value: 31, percentage: 89 },
+        { label: 'Belakang Kiri', value: 30, percentage: 86 },
+        { label: 'Belakang Kanan', value: 30, percentage: 86 }
       ]
     }
   };
 
   // Statistics data
   statistics = {
-    totalTests: 156,
-    averageScore: 78.5,
-    highestScore: 95,
-    lowestScore: 45,
-    improvementRate: 12.3,
-    lastTestDate: '2024-01-15',
-    testDuration: '15 menit'
+    totalTrips: 156,
+    averageSpeed: 58.5,
+    maxSpeed: 120,
+    minSpeed: 0,
+    efficiencyRate: 12.3,
+    lastTripDate: '2024-01-15',
+    tripDuration: '45 menit'
   };
 
   // Performance trends
@@ -63,28 +64,28 @@ export class BebanKerjaKemudiPage implements OnInit, OnDestroy {
 
   // Detailed analysis data
   detailedAnalysis = {
-    reactionTime: {
-      current: 1.2,
-      average: 1.5,
-      improvement: -0.3,
-      unit: 'detik'
-    },
-    accuracy: {
-      current: 92,
-      average: 85,
+    enginePerformance: {
+      current: 85,
+      average: 78,
       improvement: 7,
       unit: '%'
     },
-    fatigueLevel: {
-      current: 15,
-      average: 25,
-      improvement: -10,
+    fuelEfficiency: {
+      current: 10.2,
+      average: 9.5,
+      improvement: 0.7,
+      unit: 'km/L'
+    },
+    brakeCondition: {
+      current: 92,
+      average: 88,
+      improvement: 4,
       unit: '%'
     },
-    focusLevel: {
-      current: 88,
-      average: 75,
-      improvement: 13,
+    tireHealth: {
+      current: 78,
+      average: 82,
+      improvement: -4,
       unit: '%'
     }
   };

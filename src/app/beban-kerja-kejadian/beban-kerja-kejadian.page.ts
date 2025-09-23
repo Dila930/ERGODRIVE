@@ -10,91 +10,91 @@ export class BebanKerjaKejadianPage implements OnInit, OnDestroy {
   
   // Chart data for beban kerja kejadian
   chartData = {
-    deteksiKejadian: {
-      title: 'Deteksi Kejadian',
+    deteksiSensor: {
+      title: 'Deteksi Sensor',
       data: [
-        { label: 'Pejalan Kaki', value: 88, percentage: 88 },
-        { label: 'Kendaraan Berhenti', value: 92, percentage: 92 },
-        { label: 'Perubahan Jalur', value: 76, percentage: 76 },
-        { label: 'Hambatan Tiba-tiba', value: 84, percentage: 84 }
+        { label: 'Sensor Parkir', value: 88, percentage: 88 },
+        { label: 'Sensor Tabrak', value: 92, percentage: 92 },
+        { label: 'Sensor Blind Spot', value: 76, percentage: 76 },
+        { label: 'Sensor Lintasan', value: 84, percentage: 84 }
       ]
     },
-    waktuRespon: {
-      title: 'Waktu Respon',
+    sistemRem: {
+      title: 'Sistem Rem ABS',
       data: [
-        { label: 'Pejalan Kaki', value: 1.2, percentage: 75 },
-        { label: 'Kendaraan Berhenti', value: 0.8, percentage: 85 },
-        { label: 'Perubahan Jalur', value: 1.5, percentage: 65 },
-        { label: 'Hambatan Tiba-tiba', value: 1.0, percentage: 80 }
+        { label: 'Sensor Parkir', value: 1.2, percentage: 75 },
+        { label: 'Sensor Tabrak', value: 0.8, percentage: 85 },
+        { label: 'Sensor Blind Spot', value: 1.5, percentage: 65 },
+        { label: 'Sensor Lintasan', value: 1.0, percentage: 80 }
       ]
     },
-    akurasiKeputusan: {
-      title: 'Akurasi Keputusan',
+    akurasiNavigasi: {
+      title: 'Akurasi Navigasi GPS',
       data: [
-        { label: 'Pejalan Kaki', value: 94, percentage: 94 },
-        { label: 'Kendaraan Berhenti', value: 89, percentage: 89 },
-        { label: 'Perubahan Jalur', value: 82, percentage: 82 },
-        { label: 'Hambatan Tiba-tiba', value: 91, percentage: 91 }
+        { label: 'Sensor Parkir', value: 94, percentage: 94 },
+        { label: 'Sensor Tabrak', value: 89, percentage: 89 },
+        { label: 'Sensor Blind Spot', value: 82, percentage: 82 },
+        { label: 'Sensor Lintasan', value: 91, percentage: 91 }
       ]
     },
-    tingkatStres: {
-      title: 'Tingkat Stres',
+    sistemKeamanan: {
+      title: 'Sistem Keamanan',
       data: [
-        { label: 'Pejalan Kaki', value: 35, percentage: 35 },
-        { label: 'Kendaraan Berhenti', value: 28, percentage: 28 },
-        { label: 'Perubahan Jalur', value: 45, percentage: 45 },
-        { label: 'Hambatan Tiba-tiba', value: 52, percentage: 52 }
+        { label: 'Sensor Parkir', value: 35, percentage: 35 },
+        { label: 'Sensor Tabrak', value: 28, percentage: 28 },
+        { label: 'Sensor Blind Spot', value: 45, percentage: 45 },
+        { label: 'Sensor Lintasan', value: 52, percentage: 52 }
       ]
     }
   };
 
   // Statistics data
   statistics = {
-    totalEvents: 342,
-    averageResponseTime: 1.1,
-    accuracyRate: 89.5,
-    stressLevel: 40.2,
+    totalSensorEvents: 342,
+    averageSystemResponse: 1.1,
+    systemAccuracy: 89.5,
+    safetyScore: 40.2,
     improvementRate: 8.7,
-    lastTestDate: '2024-01-15',
-    testDuration: '20 menit'
+    lastMaintenanceDate: '2024-01-15',
+    systemCheckDuration: '20 menit'
   };
 
-  // Event types data
-  eventTypes = [
+  // Sensor types data
+  sensorTypes = [
     {
-      name: 'Pejalan Kaki',
-      icon: 'walk-outline',
+      name: 'Sensor Parkir',
+      icon: 'car-outline',
       count: 89,
       avgResponse: 1.2,
       accuracy: 94,
-      stressLevel: 35,
+      safetyScore: 35,
       trend: 'up'
     },
     {
-      name: 'Kendaraan Berhenti',
-      icon: 'car-outline',
+      name: 'Sensor Tabrak',
+      icon: 'shield-outline',
       count: 76,
       avgResponse: 0.8,
       accuracy: 89,
-      stressLevel: 28,
+      safetyScore: 28,
       trend: 'stable'
     },
     {
-      name: 'Perubahan Jalur',
-      icon: 'swap-horizontal-outline',
+      name: 'Sensor Blind Spot',
+      icon: 'eye-outline',
       count: 92,
       avgResponse: 1.5,
       accuracy: 82,
-      stressLevel: 45,
+      safetyScore: 45,
       trend: 'down'
     },
     {
-      name: 'Hambatan Tiba-tiba',
-      icon: 'alert-outline',
+      name: 'Sensor Lintasan',
+      icon: 'navigate-outline',
       count: 85,
       avgResponse: 1.0,
       accuracy: 91,
-      stressLevel: 52,
+      safetyScore: 52,
       trend: 'up'
     }
   ];
