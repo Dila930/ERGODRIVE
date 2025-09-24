@@ -61,8 +61,21 @@ export class HomePage implements OnInit, OnDestroy {
     name: 'Jimmy',
     initial: 'J',
     status: 'Online',
-    isOnline: true
+    isOnline: true,
+    email: 'jimmy@example.com',
+    phone: '+62 812 3456 7890'
   };
+  
+  // Edit user information for modal
+  editUserInfo = {
+    name: 'Jimmy',
+    email: 'jimmy@example.com',
+    phone: '+62 812 3456 7890',
+    status: 'Online'
+  };
+  
+  // Modal state
+  showProfileModal: boolean = false;
   
   // Dashboard statistics
   dashboardStats = {
@@ -225,6 +238,74 @@ export class HomePage implements OnInit, OnDestroy {
   // Method to calculate progress percentage
   getProgressPercentage(): number {
     return (this.dashboardStats.completedTests / this.dashboardStats.totalTests) * 100;
+  }
+  
+  // Profile modal methods
+  openProfileModal() {
+    // Load current user info into edit form
+    this.editUserInfo = {
+      name: this.userInfo.name,
+      email: this.userInfo.email || '',
+      phone: this.userInfo.phone || '',
+      status: this.userInfo.status
+    };
+    this.showProfileModal = true;
+  }
+  
+  closeProfileModal() {
+    this.showProfileModal = false;
+  }
+  
+  saveProfile() {
+    // Update user info with edited data
+    this.userInfo.name = this.editUserInfo.name;
+    this.userInfo.email = this.editUserInfo.email;
+    this.userInfo.phone = this.editUserInfo.phone;
+    this.userInfo.status = this.editUserInfo.status;
+    this.userInfo.initial = this.editUserInfo.name.charAt(0).toUpperCase();
+    this.userInfo.isOnline = this.editUserInfo.status === 'Online';
+    
+    // Save to localStorage
+    this.saveUserProfile();
+    
+    // Close modal
+    this.closeProfileModal();
+    
+    console.log('Profile saved:', this.userInfo);
+  }
+  
+  changeAvatar() {
+    // For now, just generate a random initial
+    const names = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+    const randomInitial = names[Math.floor(Math.random() * names.length)];
+    this.userInfo.initial = randomInitial;
+    this.editUserInfo.name = this.editUserInfo.name; // Keep the name but update initial
+    
+    console.log('Avatar changed to:', randomInitial);
+  }
+  
+  saveUserProfile() {
+    // Save user profile to localStorage
+    try {
+      localStorage.setItem('ergodriveUserProfile', JSON.stringify(this.userInfo));
+      console.log('User profile saved to localStorage');
+    } catch (error) {
+      console.error('Error saving user profile:', error);
+    }
+  }
+  
+  loadUserProfile() {
+    // Load user profile from localStorage
+    try {
+      const savedProfile = localStorage.getItem('ergodriveUserProfile');
+      if (savedProfile) {
+        const profileData = JSON.parse(savedProfile);
+        this.userInfo = { ...this.userInfo, ...profileData };
+        console.log('User profile loaded from localStorage:', this.userInfo);
+      }
+    } catch (error) {
+      console.error('Error loading user profile:', error);
+    }
   }
   
 }

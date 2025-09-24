@@ -1,5 +1,5 @@
 .dashboard-container {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(135deg, #8b2cf5 0%, #d63384 100%); /* Darker gradient */
   padding: 20px;
   position: relative;
   z-index: 1; /* Ensure main content is above sidebar but below header */
@@ -16,7 +16,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 30px 40px; /* Increased padding for more space */
-  background-color: rgba(255, 255, 255, 0.5); /* White transparent 50% */
+  background-color: rgba(255, 255, 255, 1); /* White 100% */
   backdrop-filter: blur(10px); /* Add blur effect for better transparency */
   -webkit-backdrop-filter: blur(10px); /* Safari support */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -31,12 +31,12 @@
   .logo {
     display: flex;
     align-items: center;
-    height: 40px;
+    height: 60px; /* Increased height */
     
     .logo-img {
       height: 100%;
       width: auto;
-      max-width: 150px;
+      max-width: 200px; /* Increased max-width */
       object-fit: contain;
     }
   }
@@ -73,8 +73,9 @@
 .dashboard-content {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 20px 30px; /* Add padding for content spacing */
+  padding: 30px 40px; /* Increased padding */
   box-sizing: border-box;
+  margin-top: 20px; /* Add top margin */
 }
 
 .stats-overview {
@@ -89,12 +90,13 @@
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 15px;
-  padding: 25px;
+  padding: 35px; /* Increased padding */
   border: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 25px; /* Increased gap */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 130px; /* Minimum height for consistency */
 }
 
 .stat-card:hover {

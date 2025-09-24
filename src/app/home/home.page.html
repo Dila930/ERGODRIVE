@@ -11,7 +11,7 @@
       <p class="welcome-subtitle">Berikut adalah analisis terbaru dari tes mengemudi.</p>
     </div>
     <div class="header-right">
-      <div class="user-profile">
+      <div class="user-profile" (click)="openProfileModal()">
         <div class="user-avatar">
           <span class="user-initial">{{ userInfo.initial }}</span>
           <div class="online-indicator" *ngIf="userInfo.isOnline"></div>
@@ -217,6 +217,64 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Profile Modal -->
+<div class="profile-modal" *ngIf="showProfileModal" (click)="closeProfileModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Profil Pengguna</h2>
+      <button class="close-btn" (click)="closeProfileModal()">
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <div class="profile-avatar-section">
+        <div class="avatar-upload">
+          <div class="avatar-preview">
+            <span class="avatar-initial">{{ userInfo.initial }}</span>
+          </div>
+          <button class="avatar-change-btn" (click)="changeAvatar()">
+            <ion-icon name="camera-outline"></ion-icon>
+            Ganti Avatar
+          </button>
+        </div>
+      </div>
+      
+      <div class="profile-form">
+        <div class="form-group">
+          <label for="userName">Nama Lengkap</label>
+          <input type="text" id="userName" [(ngModel)]="editUserInfo.name" placeholder="Masukkan nama lengkap">
+        </div>
+        
+        <div class="form-group">
+          <label for="userEmail">Email</label>
+          <input type="email" id="userEmail" [(ngModel)]="editUserInfo.email" placeholder="Masukkan email">
+        </div>
+        
+        <div class="form-group">
+          <label for="userPhone">Nomor Telepon</label>
+          <input type="tel" id="userPhone" [(ngModel)]="editUserInfo.phone" placeholder="Masukkan nomor telepon">
+        </div>
+        
+        <div class="form-group">
+          <label for="userStatus">Status</label>
+          <select id="userStatus" [(ngModel)]="editUserInfo.status">
+            <option value="Online">Online</option>
+            <option value="Offline">Offline</option>
+            <option value="Sibuk">Sibuk</option>
+            <option value="Away">Away</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="closeProfileModal()">Batal</button>
+      <button class="btn-save" (click)="saveProfile()">Simpan Perubahan</button>
     </div>
   </div>
 </div>
