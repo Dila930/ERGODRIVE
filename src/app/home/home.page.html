@@ -2,7 +2,9 @@
   <!-- Header -->
   <div class="dashboard-header">
     <div class="header-left">
-      <div class="logo">ERGODRIVE</div>
+      <div class="logo">
+        <img src="assets/logo/snapedit_1758626403883-removebg-preview.png" alt="ERGODRIVE Logo" class="logo-img">
+      </div>
     </div>
     <div class="header-center">
       <h1 class="welcome-title">Selamat datang kembali!</h1>
@@ -23,16 +25,43 @@
   </div>
 
   <div class="dashboard-content">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <div 
-        class="menu-item" 
-        *ngFor="let item of menuItems"
-        [class.active]="activeMenuItem === item.label"
-        (click)="selectMenuItem(item.label)"
-      >
-        <ion-icon [name]="item.icon" class="menu-icon"></ion-icon>
-        <span>{{ item.label }}</span>
+    <!-- Dashboard Statistics -->
+    <div class="stats-overview">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <ion-icon name="clipboard-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ dashboardStats.totalTests }}</div>
+          <div class="stat-label">Total Tes</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ dashboardStats.completedTests }}</div>
+          <div class="stat-label">Tes Selesai</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">
+          <ion-icon name="trophy-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ dashboardStats.averageScore }}%</div>
+          <div class="stat-label">Skor Rata-rata</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">
+          <ion-icon name="flame-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ dashboardStats.streakDays }}</div>
+          <div class="stat-label">Hari Berturut</div>
+        </div>
       </div>
     </div>
 
@@ -131,6 +160,59 @@
                   <div class="bar-value">{{ data.value }}</div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Performance Trends Section -->
+      <div class="performance-section">
+        <h2 class="section-title">Tren Performa Mingguan</h2>
+        <div class="trend-card">
+          <div class="trend-chart">
+            <div class="trend-container">
+              <div class="trend-item" *ngFor="let value of performanceTrends.data; let i = index">
+                <div class="trend-bar" [style.height.%]="value" [style.background]="getBarColor(value)"></div>
+                <div class="trend-label">{{ performanceTrends.labels[i] }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activities Section -->
+      <div class="activities-section">
+        <h2 class="section-title">Aktivitas Terkini</h2>
+        <div class="activities-grid">
+          <div class="activity-card" *ngFor="let activity of recentActivities">
+            <div class="activity-header">
+              <div class="activity-icon">
+                <ion-icon [name]="getActivityIcon(activity.type)"></ion-icon>
+              </div>
+              <div class="activity-info">
+                <h4 class="activity-title">{{ activity.title }}</h4>
+                <p class="activity-time">{{ activity.time }}</p>
+              </div>
+              <div class="activity-status" [class]="activity.status">
+                {{ activity.status === 'completed' ? 'Selesai' : activity.status === 'warning' ? 'Peringatan' : 'Sukses' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notifications Section -->
+      <div class="notifications-section">
+        <h2 class="section-title">Notifikasi</h2>
+        <div class="notifications-grid">
+          <div class="notification-card" *ngFor="let notification of notifications" [class.unread]="!notification.read">
+            <div class="notification-header">
+              <h4 class="notification-title">{{ notification.title }}</h4>
+              <span class="notification-time">{{ notification.time }}</span>
+            </div>
+            <p class="notification-message">{{ notification.message }}</p>
+            <div class="notification-actions">
+              <button class="mark-read-btn" (click)="markNotificationAsRead(notification.id)">Tandai Dibaca</button>
             </div>
           </div>
         </div>

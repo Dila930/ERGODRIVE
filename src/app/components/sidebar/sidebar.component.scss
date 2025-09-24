@@ -6,9 +6,10 @@
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 1000;
-  overflow-y: auto;
+  z-index: 5; /* Below header (z-index: 10) but above main content (z-index: 1) */
+  overflow-y: auto; /* Allow sidebar scrolling if needed */
   padding-top: 20px;
+  box-sizing: border-box;
 
   .menu-item {
     display: flex;

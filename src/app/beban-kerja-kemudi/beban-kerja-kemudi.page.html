@@ -2,7 +2,9 @@
   <!-- Header -->
   <div class="dashboard-header">
     <div class="header-left">
-      <div class="logo">ERGODRIVE</div>
+      <div class="logo">
+        <img src="assets/logo/ergodrive-logo.png" alt="ERGODRIVE Logo" class="logo-img">
+      </div>
     </div>
     <div class="header-center">
       <h1 class="welcome-title">Beban Kerja (Kemudi)</h1>
@@ -262,6 +264,92 @@
               </div>
               <div class="trend-value">{{ value }}%</div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activities -->
+    <div class="activities-section">
+      <h2 class="section-title">Aktivitas Terkini</h2>
+      <div class="activities-grid">
+        <div class="activity-card">
+          <div class="activity-header">
+            <div class="activity-icon">
+              <ion-icon name="car-outline"></ion-icon>
+            </div>
+            <div class="activity-info">
+              <h4 class="activity-title">Tes Beban Kerja Kemudi</h4>
+              <p class="activity-time">2 jam yang lalu</p>
+            </div>
+            <div class="activity-status completed">Selesai</div>
+          </div>
+          <div class="activity-details">
+            <p>Skor: 92% | Durasi: 15 menit</p>
+          </div>
+        </div>
+        <div class="activity-card">
+          <div class="activity-header">
+            <div class="activity-icon">
+              <ion-icon name="analytics-outline"></ion-icon>
+            </div>
+            <div class="activity-info">
+              <h4 class="activity-title">Analisis Performa</h4>
+              <p class="activity-time">4 jam yang lalu</p>
+            </div>
+            <div class="activity-status success">Optimal</div>
+          </div>
+          <div class="activity-details">
+            <p>Peningkatan: +8.7% dari rata-rata</p>
+          </div>
+        </div>
+        <div class="activity-card">
+          <div class="activity-header">
+            <div class="activity-icon">
+              <ion-icon name="alert-outline"></ion-icon>
+            </div>
+            <div class="activity-info">
+              <h4 class="activity-title">Peringatan Kelelahan</h4>
+              <p class="activity-time">6 jam yang lalu</p>
+            </div>
+            <div class="activity-status warning">Peringatan</div>
+          </div>
+          <div class="activity-details">
+            <p>Tingkat kelelahan: 35% (di atas rata-rata)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="recommendations-section">
+      <h2 class="section-title">Rekomendasi</h2>
+      <div class="recommendations-grid">
+        <div class="recommendation-card">
+          <div class="recommendation-icon">
+            <ion-icon name="bed-outline"></ion-icon>
+          </div>
+          <div class="recommendation-content">
+            <h4>Istirahat Cukup</h4>
+            <p>Disarankan untuk beristirahat minimal 7-8 jam sebelum melakukan tes.</p>
+          </div>
+        </div>
+        <div class="recommendation-card">
+          <div class="recommendation-icon">
+            <ion-icon name="water-outline"></ion-icon>
+          </div>
+          <div class="recommendation-content">
+            <h4>Hidrasi</h4>
+            <p>Minum air putih yang cukup untuk menjaga konsentrasi.</p>
+          </div>
+        </div>
+        <div class="recommendation-card">
+          <div class="recommendation-icon">
+            <ion-icon name="fitness-outline"></ion-icon>
+          </div>
+          <div class="recommendation-content">
+            <h4>Olahraga Ringan</h4>
+            <p>Lakukan peregangan sebelum tes untuk mengurangi kekakuan otot.</p>
           </div>
         </div>
       </div>

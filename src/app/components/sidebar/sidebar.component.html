@@ -1,4 +1,8 @@
 <div class="sidebar">
+  <a [routerLink]="['/home']" class="menu-item" [class.active]="isActive('/home')">
+    <ion-icon name="home-outline" class="menu-icon"></ion-icon>
+    <span>Home</span>
+  </a>
   <a [routerLink]="['/beban-kerja-kemudi']" class="menu-item" [class.active]="isActive('/beban-kerja-kemudi')">
     <ion-icon name="speedometer-outline" class="menu-icon"></ion-icon>
     <span>Beban Kerja (Kemudi)</span>
