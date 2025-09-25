@@ -1,4 +1,4 @@
-<div class="sidebar">
+<div class="sidebar" *ngIf="isVisible">
   <a [routerLink]="['/beban-kerja-kemudi']" class="menu-item" [class.active]="isActive('/beban-kerja-kemudi')">
     <ion-icon name="speedometer-outline" class="menu-icon"></ion-icon>
     <span>Beban Kerja (Kemudi)</span>
@@ -18,5 +18,12 @@
   <a [routerLink]="['/waktu-reaksi-kemudi']" class="menu-item" [class.active]="isActive('/waktu-reaksi-kemudi')">
     <ion-icon name="car-outline" class="menu-icon"></ion-icon>
     <span>Waktu Reaksi Kemudi</span>
+  </a>
+
+  <div class="spacer"></div>
+
+  <a (click)="logout()" class="menu-item logout-item">
+    <ion-icon name="log-out-outline" class="menu-icon"></ion-icon>
+    <span>Logout</span>
   </a>
 </div>

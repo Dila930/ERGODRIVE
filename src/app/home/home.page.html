@@ -24,17 +24,9 @@
 
   <div class="dashboard-content">
     <!-- Sidebar -->
-    <div class="sidebar">
-      <div 
-        class="menu-item" 
-        *ngFor="let item of menuItems"
-        [class.active]="activeMenuItem === item.label"
-        (click)="selectMenuItem(item.label)"
-      >
-        <ion-icon [name]="item.icon" class="menu-icon"></ion-icon>
-        <span>{{ item.label }}</span>
-      </div>
-    </div>
+    <app-sidebar [isVisible]="true"></app-sidebar>
+    
+    <!-- Main Content -->
 
     <!-- Main Content -->
     <div class="main-content">

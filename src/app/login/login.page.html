@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">Login Akun</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="login-container">
+    <ion-list>
+      <ion-item>
+        <ion-input
+          label="Email"
+          label-placement="floating"
+          type="email"
+          [(ngModel)]="email"
+          [disabled]="isLoading"
+          autocomplete="email">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          label="Password"
+          label-placement="floating"
+          [type]="showPassword ? 'text' : 'password'"
+          [(ngModel)]="password"
+          [disabled]="isLoading"
+          autocomplete="current-password">
+        </ion-input>
+        <ion-button
+          fill="clear"
+          slot="end"
+          (click)="togglePasswordVisibility()"
+          [disabled]="isLoading">
+          <ion-icon [name]="showPassword ? 'eye-off' : 'eye'"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+
+    <ion-button
+      expand="block"
+      (click)="login()"
+      class="login-email-button"
+      [disabled]="isLoading || !email || !password">
+      <ion-spinner *ngIf="isLoading" slot="start"></ion-spinner>
+      {{ isLoading ? 'Sedang Login...' : 'Login' }}
+    </ion-button>
+
+    <div class="separator">atau</div>
+
+    <ion-button
+      expand="block"
+      color="danger"
+      (click)="loginWithGoogle()"
+      class="login-google-button"
+      [disabled]="isLoading">
+      <ion-spinner *ngIf="isLoading" slot="start"></ion-spinner>
+      <ion-icon *ngIf="!isLoading" slot="start" name="logo-google"></ion-icon>
+      {{ isLoading ? 'Sedang Login...' : 'Login dengan Google' }}
+    </ion-button>
+
+    <div class="register-link">
+      <p>Belum punya akun? <a routerLink="/register">Daftar di sini</a></p>
+    </div>
+  </div>
+</ion-content>
