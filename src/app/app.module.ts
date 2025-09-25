@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -6,29 +6,38 @@ import { CommonModule } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { SharedModule } from './shared/shared.module';
+
+// Firebase
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideDatabase, getDatabase } from '@angular/fire/database';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { environment } from '../environments/environment';
 
 @NgModule({
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
-    AppComponent,
-    SidebarComponent
+    AppComponent
   ],
   imports: [
-    BrowserModule, 
+    BrowserModule,
+    SharedModule,
     IonicModule.forRoot({
       mode: 'md',
       rippleEffect: true,
       backButtonText: '',
       loadingSpinner: 'crescent'
-    }), 
+    }),
     AppRoutingModule,
     CommonModule
   ],
-  exports: [
-    SidebarComponent
-  ],
   providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideDatabase(() => getDatabase()),
+    provideFirestore(() => getFirestore())
   ],
   bootstrap: [AppComponent],
 })

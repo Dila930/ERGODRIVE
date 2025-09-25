@@ -1,0 +1,42 @@
+ion-toolbar {
+  --background: #007bff; // Warna biru primer, bisa diganti
+  --color: white;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+ion-list {
+  margin-bottom: 20px;
+}
+
+.login-email-button {
+  margin-top: 10px;
+  --background: #007bff;
+}
+
+.separator {
+  text-align: center;
+  margin: 20px 0;
+  color: #888;
+}
+
+.login-google-button {
+  --background: #db4437;
+  --background-activated: #b5372a;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 30px;
+
+  a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+}
