@@ -1,125 +1,327 @@
-.dashboard-container {
-  background: linear-gradient(135deg, #c33764 0%, #1d2671 100%); /* Darker purple-blue gradient */
-  padding: 20px;
-  position: relative;
-  z-index: 1; /* Ensure main content is above sidebar but below header */
-  min-height: 100vh;
-  height: auto;
-  overflow-y: auto; /* Enable vertical scrolling */
-  overflow-x: hidden; /* Prevent horizontal scrolling */
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch; /* For iOS momentum scrolling */
-}
-.dashboard-header {
+// Import theme variables
+@import '../../theme/variables';
+
+// Mixin for card styles
+@mixin card-style {
+  background: white;
+  border-radius: $border-radius-lg;
+  padding: $spacing-md;
+  box-shadow: $shadow-sm;
+  border: $border-width-sm solid rgba($accent-color, 0.1);
+  transition: all 0.3s ease;
+  min-height: $icon-size-xl * 2;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 30px 40px; /* Increased padding for more space */
-  background-color: rgba(255, 255, 255, 1); /* White 100% */
-  backdrop-filter: blur(10px); /* Add blur effect for better transparency */
-  -webkit-backdrop-filter: blur(10px); /* Safari support */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  border-bottom: 1px solid rgba(233, 236, 239, 0.5); /* Transparent border */
-  margin-bottom: 30px;
-  position: relative;
-  z-index: 10; /* Ensure header appears above sidebar */
-  min-height: 120px; /* Minimum height to prevent content collision */
+  flex-direction: column;
+  justify-content: center;
+
+  &:hover {
+    transform: translateY(-$spacing-xxs);
+    box-shadow: $shadow-md;
+  }
 }
 
-.header-left {
-  .logo {
-    display: flex;
-    align-items: center;
-    height: 60px; /* Increased height */
-    
-    .logo-img {
-      height: 100%;
-      width: auto;
-      max-width: 200px; /* Increased max-width */
-      object-fit: contain;
+// Dashboard Container
+.dashboard-container {
+  height: 100vh;
+  background: $background-light;
+  padding: $spacing-md;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  @media (max-width: $breakpoint-md) {
+    padding: $spacing-sm;
+  }
+}
+
+// Dashboard Content
+.dashboard-content {
+  max-width: $container-max-width;
+  margin: 0 auto;
+  padding: $spacing-lg $spacing-xl;
+  box-sizing: border-box;
+  margin-top: $spacing-md;
+}
+
+// Header Styles
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: $blue-gradient-2;
+  color: white;
+  padding: $spacing-md $spacing-lg;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-md;
+  margin-bottom: $spacing-lg;
+
+  @media (max-width: $breakpoint-md) {
+    flex-direction: column;
+    gap: $spacing-md;
+    text-align: center;
+  }
+
+  .header-left {
+    .logo {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: $blur-md;
+      border-radius: $border-radius;
+      padding: $spacing-xs;
+      display: inline-block;
+      border: $border-width solid rgba(255, 255, 255, 0.3);
+
+      .logo-img {
+        height: $icon-size-lg;
+        width: auto;
+        display: block;
+        filter: brightness(0) invert(1);
+      }
+    }
+  }
+
+  .header-center {
+    flex: 1;
+    margin: 0 $spacing-lg;
+
+    .welcome-title {
+      font-size: $font-size-xxxl;
+      font-weight: 600;
+      color: white;
+      margin: 0 0 $spacing-xxs 0;
+      text-shadow: $text-shadow-sm;
+    }
+
+    .welcome-subtitle {
+      color: rgba(255, 255, 255, 0.9);
+      margin: 0;
+      font-size: $font-size-sm;
+      text-shadow: $text-shadow-sm;
+    }
+  }
+
+  .header-right {
+    .action-buttons {
+      display: flex;
+      gap: $spacing-xs;
+
+      ion-button {
+        --background: rgba(255, 255, 255, 0.1);
+        --background-hover: rgba(255, 255, 255, 0.2);
+        --border-radius: $border-radius-full;
+        --padding-start: $spacing-xs;
+        --padding-end: $spacing-xs;
+        --padding-top: $spacing-xs;
+        --padding-bottom: $spacing-xs;
+        --color: white;
+        --box-shadow: $shadow-sm;
+        transition: all 0.3s ease;
+
+        &:hover {
+          --background: rgba(255, 255, 255, 0.2);
+          transform: scale(1.05);
+        }
+
+        ion-icon {
+          font-size: $font-size-xl;
+          color: white;
+        }
+      }
     }
   }
 }
-.header-center {
-  text-align: center;
-  flex: 1;
-}
-.welcome-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: #2c3e50;
-  margin: 0 0 8px 0;
-}
 
-.welcome-subtitle {
-  font-size: 16px;
-  color: #6c757d;
-  margin: 0;
-  font-weight: 400;
-}
-
-.header-right .action-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.action-buttons ion-button {
-  --color: white;
-  --background-hover: rgba(255, 255, 255, 0.2);
-}
-
-.dashboard-content {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 30px 40px; /* Increased padding */
-  box-sizing: border-box;
-  margin-top: 20px; /* Add top margin */
-}
-
+// Performance Section
 .current-performance {
-  margin-bottom: 30px;
+  margin-bottom: $spacing-xxl;
 }
 
 .performance-card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 25px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  @include card-style;
+
+  .performance-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-lg;
+
+    h2 {
+      font-size: $font-size-xxl;
+      font-weight: 600;
+      color: $text-primary;
+      margin: 0;
+    }
+
+    .performance-status {
+      padding: $spacing-xs $spacing-sm;
+      border-radius: $border-radius-full;
+      background: $success-color;
+      color: white;
+      font-weight: $font-weight-medium;
+      font-size: $font-size-sm;
+    }
+  }
+
+  .performance-content {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $spacing-md;
+
+    .metric-card {
+      text-align: center;
+      padding: $spacing-md;
+      background: $background-light;
+      border-radius: $border-radius;
+      border: $border-width solid $border-color;
+
+      .metric-value {
+        font-size: $font-size-xxl;
+        font-weight: $font-weight-bold;
+        color: $accent-color;
+        margin-bottom: $spacing-xxs;
+      }
+
+      .metric-label {
+        font-size: $font-size-sm;
+        color: $text-secondary;
+        font-weight: $font-weight-medium;
+      }
+    }
+  }
 }
 
-.performance-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+// Responsive design untuk performance-content
+@media (max-width: $breakpoint-lg) and (min-width: $breakpoint-md) {
+  .performance-card .performance-content {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-.performance-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+@media (max-width: $breakpoint-md) {
+  .performance-card .performance-content {
+    grid-template-columns: 1fr;
+  }
 }
 
-.performance-header h2 {
-  color: white;
-  font-size: 24px;
-  font-weight: bold;
-  margin: 0;
+// Speed Analysis Section
+.speed-analysis {
+  margin-bottom: $spacing-xxl;
+
+  .analysis-card {
+    @include card-style;
+
+    .analysis-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: $spacing-lg;
+
+      h3 {
+        font-size: $font-size-lg;
+        font-weight: 600;
+        color: $text-primary;
+        margin: 0;
+      }
+    }
+
+    .analysis-content {
+      .speed-chart {
+        height: $icon-size-xl * 3.33;
+        background: $background-light;
+        border-radius: $border-radius;
+        border: $border-width solid $border-color;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: $spacing-md;
+
+        .chart-placeholder {
+          color: $text-secondary;
+          font-size: $font-size-sm;
+        }
+      }
+
+      .speed-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax($icon-size-xl * 2, 1fr));
+        gap: $spacing-md;
+
+        .stat-item {
+          text-align: center;
+
+          .stat-value {
+            font-size: $font-size-lg;
+            font-weight: 600;
+            color: $accent-color;
+            margin-bottom: $spacing-xxs;
+          }
+
+          .stat-label {
+            font-size: $font-size-xs;
+            color: $text-secondary;
+            text-transform: uppercase;
+            letter-spacing: $letter-spacing-xs;
+          }
+        }
+      }
+    }
+  }
 }
 
-.performance-status {
-  padding: 8px 16px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.2);
-  font-weight: bold;
-  font-size: 14px;
-}
+// Recommendations Section
+.recommendations {
+  margin-bottom: $spacing-xxl;
+  .recommendation-card {
+    @include card-style;
 
-.performance-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 20px;
+    .recommendation-header {
+      margin-bottom: $spacing-lg;
+
+      h3 {
+        font-size: $font-size-lg;
+        font-weight: $font-weight-semibold;
+        color: $text-primary;
+        margin: 0;
+      }
+    }
+
+    .recommendation-list {
+      padding: 0;
+      margin: 0;
+
+      .recommendation-item {
+        display: flex;
+        align-items: flex-start;
+        gap: $spacing-sm;
+        padding: $spacing-sm 0;
+        border-bottom: $border-width solid $border-light;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        .recommendation-icon {
+          color: $info-color;
+          font-size: $font-size-lg;
+          margin-top: $spacing-xxs;
+        }
+
+        .recommendation-text {
+          flex: 1;
+
+          .recommendation-title {
+            font-weight: $font-weight-semibold;
+            color: $text-primary;
+            margin-bottom: $spacing-xxs;
+          }
+
+          .recommendation-description {
+            font-size: $font-size-sm;
+            color: $text-secondary;
+            line-height: 1.4;
+          }
+        }
+      }
+    }
+  }
 }
 
 .performance-metric {
@@ -127,56 +329,66 @@
 }
 
 .metric-value {
-  font-size: 32px;
-  font-weight: bold;
-  color: white;
-  margin-bottom: 5px;
+  font-size: $font-size-xxxl;
+  font-weight: 600;
+  color: $text-primary;
+  margin-bottom: $spacing-xxs;
 }
 
 .metric-label {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 14px;
+  color: $text-secondary;
+  font-size: $font-size-sm;
 }
 
 .stats-overview {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Increased min-width */
-  gap: 25px; /* Increased gap */
-  margin-bottom: 40px; /* Increased margin */
-  margin-top: 20px; /* Add top margin */
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-lg;
+  margin-bottom: $spacing-xl;
+  margin-top: $spacing-md;
+  max-width: $container-max-width;
+  margin-left: auto;
+  margin-right: auto;
+  
+  // For medium screens, 2 kotak per baris
+  @media (max-width: $breakpoint-lg) and (min-width: $breakpoint-md) {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: $container-max-width * 0.67;
+  }
+  
+  // For mobile, 1 kotak per baris
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .stat-card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 35px; /* Increased padding */
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  @include card-style;
   display: flex;
   align-items: center;
-  gap: 25px; /* Increased gap */
+  gap: $spacing-lg;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  min-height: 130px; /* Minimum height for consistency */
+  min-height: $icon-size-xl * 2.17;
 }
 
 .stat-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transform: translateY(-$spacing-sm);
+  box-shadow: $shadow-lg;
 }
 
 .stat-icon {
-  width: 60px;
-  height: 60px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
+  width: $icon-size-xl;
+  height: $icon-size-xl;
+  background: rgba($accent-color, 0.1);
+  border-radius: $border-radius-full;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .stat-icon ion-icon {
-  font-size: 30px;
-  color: white;
+  font-size: $font-size-xxl;
+  color: $accent-color;
 }
 
 .stat-content {
@@ -184,74 +396,82 @@
 }
 
 .stat-value {
-  font-size: 32px;
-  font-weight: bold;
-  color: white;
-  margin-bottom: 5px;
+  font-size: $font-size-xxxl;
+  font-weight: 600;
+  color: $text-primary;
+  margin-bottom: $spacing-xxs;
 }
 
 .stat-label {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 14px;
+  color: $text-secondary;
+  font-size: $font-size-sm;
 }
 
 .speed-analysis-section {
-  margin-bottom: 30px;
+  margin-bottom: $spacing-xl;
 }
 
 .section-title {
-  color: white;
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  color: $text-primary;
+  font-size: $font-size-xxl;
+  font-weight: 600;
+  margin-bottom: $spacing-md;
 }
 
 .speed-analysis-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-md;
+  max-width: $container-max-width;
+  margin: 0 auto;
+  
+  // For medium screens, tetap 2 kotak per baris
+  @media (max-width: $breakpoint-lg) and (min-width: $breakpoint-md) {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: $container-max-width * 0.67;
+  }
+  
+  // For mobile, 1 kotak per baris
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .speed-card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 25px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  @include card-style;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .speed-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transform: translateY(-$spacing-sm);
+  box-shadow: $shadow-lg;
 }
 
 .speed-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: $spacing-md;
 }
 
 .speed-value {
-  color: white;
-  font-size: 24px;
-  font-weight: bold;
+  color: $text-primary;
+  font-size: $font-size-xxl;
+  font-weight: 600;
 }
 
 .safety-indicator {
-  padding: 6px 12px;
-  border-radius: 12px;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $border-radius-md;
   color: white;
-  font-size: 12px;
-  font-weight: bold;
+  font-size: $font-size-xs;
+  font-weight: 600;
 }
 
 .speed-metrics {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: $spacing-sm;
 }
 
 .speed-metric {
@@ -259,52 +479,61 @@
   justify-content: space-between;
   align-items: center;
   color: rgba(255, 255, 255, 0.9);
-  font-size: 14px;
+  font-size: $font-size-sm;
 }
-
 .charts-section {
-  margin-bottom: 30px;
+  margin-bottom: $spacing-xl;
 }
 
 .charts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-md;
+  max-width: $container-max-width;
+  margin: 0 auto;
+  
+  // For medium screens, tetap 2 kotak per baris
+  @media (max-width: $breakpoint-lg) and (min-width: $breakpoint-md) {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: $container-max-width * 0.67;
+  }
+  
+  // For mobile, 1 kotak per baris
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .chart-card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  @include card-style;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .chart-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transform: translateY(-$spacing-sm);
+  box-shadow: $shadow-lg;
 }
 
 .card-header {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba($accent-color, 0.05);
+  padding: $spacing-md;
+  border-bottom: $border-width solid rgba($accent-color, 0.1);
 }
 
 .card-title {
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
+  color: $text-primary;
+  font-size: $font-size-lg;
+  font-weight: 600;
   margin: 0;
 }
 
 .card-content {
-  padding: 20px;
+  padding: $spacing-md;
 }
 
 .bar-chart {
-  height: 200px;
+  height: $icon-size-xl * 3.33;
 }
 
 .chart-container {
@@ -317,70 +546,79 @@
 .bar-item {
   display: flex;
   align-items: center;
-  gap: 15px;
-  margin-bottom: 15px;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
 }
 
 .bar-label {
-  min-width: 120px;
-  color: white;
-  font-size: 14px;
-  font-weight: 500;
+  min-width: $icon-size-xl * 2;
+  color: $text-primary;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
 }
 
 .bar-wrapper {
   flex: 1;
-  height: 20px;
+  height: $spacing-md;
   background: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
+  border-radius: $border-radius-md;
   overflow: hidden;
 }
 
 .bar-fill {
   height: 100%;
-  border-radius: 10px;
+  border-radius: $border-radius-md;
   transition: width 0.3s ease;
 }
 
 .bar-value {
-  min-width: 40px;
-  color: white;
-  font-size: 14px;
-  font-weight: bold;
+  min-width: $spacing-lg * 0.67;
+  color: $text-primary;
+  font-size: $font-size-sm;
+  font-weight: 600;
   text-align: right;
 }
 
 .factors-section {
-  margin-bottom: 30px;
+  margin-bottom: $spacing-xl;
 }
 
 .factors-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-md;
+  max-width: $container-max-width;
+  margin: 0 auto;
+  
+  // For medium screens, tetap 2 kotak per baris
+  @media (max-width: $breakpoint-lg) and (min-width: $breakpoint-md) {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: $container-max-width * 0.67;
+  }
+  
+  // For mobile, 1 kotak per baris
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .factor-card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 25px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  @include card-style;
   display: flex;
-  gap: 20px;
+  gap: $spacing-lg;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .factor-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transform: translateY(-$spacing-sm);
+  box-shadow: $shadow-lg;
 }
 
 .factor-icon {
-  width: 50px;
-  height: 50px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
+  width: $icon-size-lg;
+  height: $icon-size-lg;
+  background: rgba($accent-color, 0.1);
+  border-radius: $border-radius-full;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -388,7 +626,8 @@
 }
 
 .factor-icon ion-icon {
-  font-size: 25px;
+  font-size: $font-size-xl;
+  color: $accent-color;
 }
 
 .factor-content {
@@ -396,57 +635,57 @@
 }
 
 .factor-content h3 {
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-  margin: 0 0 5px 0;
+  color: $text-primary;
+  font-size: $font-size-lg;
+  font-weight: 600;
+  margin: 0 0 $spacing-xxs 0;
 }
 
 .factor-impact {
-  color: white;
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 10px;
+  color: $text-secondary;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  margin-bottom: $spacing-sm;
 }
 
 .factor-content p {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 14px;
+  color: $text-secondary;
+  font-size: $font-size-sm;
   line-height: 1.5;
   margin: 0;
 }
 
 .recent-tests-section {
-  margin-bottom: 30px;
+  margin-bottom: $spacing-xl;
 }
 
 .recent-tests-list {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: $spacing-md;
 }
 
 .test-item {
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: $blur-md;
+  border-radius: $border-radius-lg;
+  padding: $spacing-md;
+  border: $border-width solid rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: $spacing-md;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .test-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-$spacing-xs);
+  box-shadow: $shadow-md;
 }
 
 .test-status {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
+  width: $spacing-xs;
+  height: $spacing-xs;
+  border-radius: $border-radius-full;
   flex-shrink: 0;
 }
 
@@ -455,54 +694,62 @@
 }
 
 .test-time {
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 10px;
+  color: $text-primary;
+  font-size: $font-size-base;
+  font-weight: 600;
+  margin-bottom: $spacing-sm;
 }
 
 .test-metrics {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: $spacing-md;
 }
 
 .test-metric {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 14px;
+  color: $text-secondary;
+  font-size: $font-size-sm;
 }
-
 .recommendations-section {
-  margin-bottom: 30px;
+  margin-bottom: $spacing-xl;
 }
 
 .recommendations-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-md;
+  max-width: $container-max-width;
+  margin: 0 auto;
+  
+  // For medium screens, tetap 2 kotak per baris
+  @media (max-width: $breakpoint-lg) and (min-width: $breakpoint-md) {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: $container-max-width * 0.67;
+  }
+  
+  // For mobile, 1 kotak per baris
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .recommendation-card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 25px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  @include card-style;
   display: flex;
-  gap: 20px;
+  gap: $spacing-lg;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .recommendation-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transform: translateY(-$spacing-sm);
+  box-shadow: $shadow-lg;
 }
 
 .recommendation-icon {
-  width: 50px;
-  height: 50px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
+  width: $icon-size-lg;
+  height: $icon-size-lg;
+  background: rgba($accent-color, 0.1);
+  border-radius: $border-radius-full;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -510,7 +757,8 @@
 }
 
 .recommendation-icon ion-icon {
-  font-size: 25px;
+  font-size: $font-size-xl;
+  color: $accent-color;
 }
 
 .recommendation-content {
@@ -518,15 +766,15 @@
 }
 
 .recommendation-content h3 {
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-  margin: 0 0 10px 0;
+  color: $text-primary;
+  font-size: $font-size-lg;
+  font-weight: 600;
+  margin: 0 0 $spacing-sm 0;
 }
 
 .recommendation-content p {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 14px;
+  color: $text-secondary;
+  font-size: $font-size-sm;
   line-height: 1.5;
   margin: 0;
 }
@@ -537,27 +785,27 @@
 }
 
 .priority-badge {
-  padding: 4px 12px;
-  border-radius: 12px;
+  padding: $spacing-xxs $spacing-sm;
+  border-radius: $border-radius-md;
   color: white;
-  font-size: 12px;
-  font-weight: bold;
+  font-size: $font-size-xs;
+  font-weight: 600;
 }
 
 .trends-section {
-  margin-bottom: 30px;
+  margin-bottom: $spacing-xl;
 }
 
 .trends-card {
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 25px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: $blur-md;
+  border-radius: $border-radius-lg;
+  padding: $spacing-xl;
+  border: $border-width solid rgba(255, 255, 255, 0.2);
 }
 
 .trends-chart {
-  height: 300px;
+  height: $icon-size-xl * 5;
 }
 
 .trend-bars {
@@ -565,7 +813,7 @@
   justify-content: space-around;
   align-items: flex-end;
   height: 100%;
-  gap: 20px;
+  gap: $spacing-lg;
 }
 
 .trend-bar {
@@ -577,17 +825,17 @@
 }
 
 .trend-day {
-  color: white;
-  font-size: 14px;
+  color: $text-primary;
+  font-size: $font-size-sm;
   font-weight: 500;
-  margin-bottom: 10px;
+  margin-bottom: $spacing-sm;
 }
 
 .trend-bar-wrapper {
   flex: 1;
-  width: 40px;
+  width: $icon-size-lg * 1.33;
   background: rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
+  border-radius: $border-radius-lg;
   overflow: hidden;
   display: flex;
   align-items: flex-end;
@@ -595,23 +843,23 @@
 
 .trend-bar-fill {
   width: 100%;
-  border-radius: 20px;
+  border-radius: $border-radius-lg;
   transition: height 0.3s ease;
 }
 
 .trend-value {
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-  margin-top: 10px;
+  color: $text-primary;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  margin-top: $spacing-sm;
 }
 
-@media (max-width: 768px) {
+@media (max-width: $breakpoint-md) {
   .dashboard-header {
     flex-direction: column;
-    gap: 15px;
+    gap: $spacing-md;
     text-align: center;
-    padding: 15px 20px;
+    padding: $spacing-md $spacing-lg;
   }
 
   .header-center {
@@ -619,18 +867,10 @@
   }
 
   .stats-overview {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax($icon-size-xl * 3.33, 1fr));
   }
 
   .speed-analysis-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .charts-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .factors-grid {
     grid-template-columns: 1fr;
   }
 
@@ -638,40 +878,39 @@
     grid-template-columns: 1fr;
   }
 
-  .performance-content {
-    grid-template-columns: 1fr;
+  .recent-tests-list {
+    gap: $spacing-sm;
   }
 
-  .test-metrics {
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  .bar-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .bar-label {
-    min-width: auto;
-  }
-
-  .trend-bars {
-    flex-wrap: wrap;
-    height: auto;
-  }
-
-  .trend-bar {
-    height: 200px;
-  }
-
-  .factor-card {
+  .test-item {
     flex-direction: column;
     text-align: center;
+    gap: $spacing-sm;
   }
 
   .recommendation-card {
+    flex-direction: column;
+    text-align: center;
+    gap: $spacing-md;
+  }
+
+  .trend-bars {
+    gap: $spacing-md;
+  }
+
+  .trend-bar-wrapper {
+    width: $icon-size-lg;
+  }
+
+  .trend-day {
+    font-size: $font-size-xs;
+  }
+
+  .trend-value {
+    font-size: $font-size-xs;
+  }
+
+  .factor-card {
     flex-direction: column;
     text-align: center;
   }

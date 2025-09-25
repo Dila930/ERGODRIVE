@@ -18,6 +18,9 @@
         <ion-button (click)="exportData()" fill="clear" size="small">
           <ion-icon name="download-outline"></ion-icon>
         </ion-button>
+        <ion-button class="profile-button" (click)="toggleProfilePopup()" fill="clear" size="small">
+          <ion-icon name="person-outline"></ion-icon>
+        </ion-button>
       </div>
     </div>
   </div>
@@ -250,6 +253,60 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Popup -->
+  <div class="profile-popup" [class.active]="isProfilePopupOpen">
+    <div class="popup-content">
+      <div class="popup-header">
+        <h3 class="popup-title">Profil Pengguna</h3>
+        <ion-button class="close-button" (click)="toggleProfilePopup()" fill="clear" size="small">
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-button>
+      </div>
+      <div class="popup-body">
+        <div *ngIf="isLoggedIn; else loginPrompt" class="user-info">
+          <div class="user-avatar">
+            {{ userInitials }}
+          </div>
+          <h4 class="user-name">{{ userName }}</h4>
+          <p class="user-email">{{ userEmail }}</p>
+          
+          <div class="user-stats">
+            <div class="stat-item">
+              <div class="stat-number">{{ userStats.totalTests }}</div>
+              <div class="stat-text">Total Tes</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">{{ userStats.averageScore }}%</div>
+              <div class="stat-text">Skor Rata-rata</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">{{ userStats.hoursDriven }}</div>
+              <div class="stat-text">Jam Mengemudi</div>
+            </div>
+          </div>
+        </div>
+        
+        <ng-template #loginPrompt>
+          <div class="login-prompt">
+            <div class="prompt-icon">
+              <ion-icon name="person-circle-outline"></ion-icon>
+            </div>
+            <h4 class="prompt-title">Masuk ke Akun Anda</h4>
+            <p class="prompt-text">Masuk untuk menyimpan progress dan melihat statistik lengkap Anda</p>
+            <div>
+              <ion-button class="login-button" (click)="login()" fill="solid">
+                Masuk
+              </ion-button>
+              <ion-button class="register-button" (click)="register()" fill="outline">
+                Daftar
+              </ion-button>
+            </div>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>

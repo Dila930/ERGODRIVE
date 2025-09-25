@@ -211,7 +211,7 @@
                     <div 
                       class="bar-fill" 
                       [style.width.%]="data.percentage"
-                      [style.background]="getBarColor(data.value)"
+                      [style.background]="getBarColor(data.value, 'reaction')"
                     ></div>
                   </div>
                   <div class="bar-value">{{ data.value }}</div>
@@ -235,7 +235,7 @@
                     <div 
                       class="bar-fill" 
                       [style.width.%]="data.percentage"
-                      [style.background]="getBarColor(data.value)"
+                      [style.background]="getBarColor(data.value, 'failure')"
                     ></div>
                   </div>
                   <div class="bar-value">{{ data.value }}</div>

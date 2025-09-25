@@ -65,8 +65,9 @@
       </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
+    <!-- Charts Section -->
+    <div class="charts-section">
+      <h2 class="section-title">Grafik Performa</h2>
       <div class="charts-grid">
         <!-- Kecepatan Rata-rata Card -->
         <div class="chart-card">
@@ -164,26 +165,27 @@
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Performance Trends Section -->
-      <div class="performance-section">
-        <h2 class="section-title">Tren Performa Mingguan</h2>
-        <div class="trend-card">
-          <div class="trend-chart">
-            <div class="trend-container">
-              <div class="trend-item" *ngFor="let value of performanceTrends.data; let i = index">
-                <div class="trend-bar" [style.height.%]="value" [style.background]="getBarColor(value)"></div>
-                <div class="trend-label">{{ performanceTrends.labels[i] }}</div>
-              </div>
+    <!-- Performance Trends Section -->
+    <div class="trends-section">
+      <h2 class="section-title">Tren Performa Mingguan</h2>
+      <div class="trend-card">
+        <div class="trend-chart">
+          <div class="trend-container">
+            <div class="trend-item" *ngFor="let value of performanceTrends.data; let i = index">
+              <div class="trend-bar" [style.height.%]="value" [style.background]="getBarColor(value)"></div>
+              <div class="trend-label">{{ performanceTrends.labels[i] }}</div>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Recent Activities Section -->
-      <div class="activities-section">
-        <h2 class="section-title">Aktivitas Terkini</h2>
-        <div class="activities-grid">
+    <!-- Recent Activities Section -->
+    <div class="activities-section">
+      <h2 class="section-title">Aktivitas Terkini</h2>
+      <div class="activities-grid">
           <div class="activity-card" *ngFor="let activity of recentActivities">
             <div class="activity-header">
               <div class="activity-icon">
@@ -201,10 +203,10 @@
         </div>
       </div>
 
-      <!-- Notifications Section -->
-      <div class="notifications-section">
-        <h2 class="section-title">Notifikasi</h2>
-        <div class="notifications-grid">
+    <!-- Notifications Section -->
+    <div class="notifications-section">
+      <h2 class="section-title">Notifikasi</h2>
+      <div class="notifications-grid">
           <div class="notification-card" *ngFor="let notification of notifications" [class.unread]="!notification.read">
             <div class="notification-header">
               <h4 class="notification-title">{{ notification.title }}</h4>
@@ -219,7 +221,6 @@
       </div>
     </div>
   </div>
-</div>
 
 <!-- Profile Modal -->
 <div class="profile-modal" *ngIf="showProfileModal" (click)="closeProfileModal()">

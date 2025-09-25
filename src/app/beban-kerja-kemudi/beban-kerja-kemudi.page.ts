@@ -56,17 +56,17 @@ export class BebanKerjaKemudiPage implements OnInit, OnDestroy {
     waktuReaksiPDT: {
       title: 'Waktu Reaksi PDT (ms)',
       data: [
-        { label: 'Visual', value: 420, percentage: 80 },
-        { label: 'Auditori', value: 380, percentage: 85 },
-        { label: 'Taktil', value: 450, percentage: 75 }
+        { label: 'Visual', value: 420, percentage: 70 },
+        { label: 'Auditori', value: 380, percentage: 80 },
+        { label: 'Taktil', value: 450, percentage: 60 }
       ]
     },
     pdtGagal: {
       title: 'PDT Gagal (%)',
       data: [
-        { label: 'Visual', value: 8, percentage: 92 },
-        { label: 'Auditori', value: 5, percentage: 95 },
-        { label: 'Taktil', value: 12, percentage: 88 }
+        { label: 'Visual', value: 8, percentage: 20 },
+        { label: 'Auditori', value: 5, percentage: 15 },
+        { label: 'Taktil', value: 12, percentage: 25 }
       ]
     }
   };
@@ -172,12 +172,6 @@ export class BebanKerjaKemudiPage implements OnInit, OnDestroy {
     });
   }
 
-  // Get bar color based on value
-  getBarColor(value: number): string {
-    if (value >= 80) return '#28a745'; // Green
-    if (value >= 60) return '#ffc107'; // Yellow
-    return '#dc3545'; // Red
-  }
 
   // Get status color based on status
   getStatusColor(status: string): string {
@@ -227,6 +221,27 @@ export class BebanKerjaKemudiPage implements OnInit, OnDestroy {
     if (score >= 70) return 'average';
     if (score >= 60) return 'poor';
     return 'critical';
+  }
+
+  // Get bar color based on value and context
+  getBarColor(value: number, context: string = 'default'): string {
+    if (context === 'failure') {
+      // For failure rates, lower is better
+      if (value <= 10) return '#28a745'; // Green for low failure
+      if (value <= 20) return '#ffc107'; // Yellow for moderate failure
+      return '#dc3545'; // Red for high failure
+    } else if (context === 'reaction') {
+      // For reaction time, lower is better
+      if (value <= 400) return '#28a745'; // Green for fast reaction
+      if (value <= 450) return '#ffc107'; // Yellow for moderate reaction
+      return '#dc3545'; // Red for slow reaction
+    } else {
+      // Default: higher is better
+      if (value >= 80) return '#28a745'; // Green for good performance
+      if (value >= 60) return '#ffc107'; // Yellow for average performance
+      if (value >= 40) return '#fd7e14'; // Orange for below average
+      return '#dc3545'; // Red for poor performance
+    }
   }
 
   // Refresh data
