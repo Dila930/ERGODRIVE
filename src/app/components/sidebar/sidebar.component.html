@@ -1,29 +1,43 @@
-<div class="sidebar">
-  <a [routerLink]="['/beban-kerja-kemudi']" class="menu-item" [class.active]="isActive('/beban-kerja-kemudi')">
-    <ion-icon name="speedometer-outline" class="menu-icon"></ion-icon>
-    <span>Beban Kerja (Kemudi)</span>
-  </a>
-  <a [routerLink]="['/beban-kerja-kejadian']" class="menu-item" [class.active]="isActive('/beban-kerja-kejadian')">
-    <ion-icon name="alert-circle-outline" class="menu-icon"></ion-icon>
-    <span>Beban Kerja (Kejadian)</span>
-  </a>
-  <a [routerLink]="['/tes-kantuk']" class="menu-item" [class.active]="isActive('/tes-kantuk')">
-    <ion-icon name="bed-outline" class="menu-icon"></ion-icon>
-    <span>Tes Kantuk</span>
-  </a>
-  <a [routerLink]="['/waktu-reaksi-rem']" class="menu-item" [class.active]="isActive('/waktu-reaksi-rem')">
-    <ion-icon name="time-outline" class="menu-icon"></ion-icon>
-    <span>Waktu Reaksi Rem</span>
-  </a>
-  <a [routerLink]="['/waktu-reaksi-kemudi']" class="menu-item" [class.active]="isActive('/waktu-reaksi-kemudi')">
-    <ion-icon name="car-outline" class="menu-icon"></ion-icon>
-    <span>Waktu Reaksi Kemudi</span>
-  </a>
+<div class="sidebar" [class.collapsed]="isCollapsed">
+  <!-- Toggle Button -->
+  <div class="toggle-btn" (click)="toggleSidebar()">
+    <ion-icon [name]="isCollapsed ? 'menu' : 'close'" class="toggle-icon"></ion-icon>
+  </div>
+  
+  <!-- Menu Items -->
+  <div class="menu-items">
+    <a [routerLink]="['/home']" class="menu-item" [class.active]="isActive('/home')" [title]="isCollapsed ? 'Beranda' : ''">
+      <ion-icon name="home-outline" class="menu-icon"></ion-icon>
+      <span class="menu-text">Beranda</span>
+    </a>
+    <a [routerLink]="['/beban-kerja-kemudi']" class="menu-item" [class.active]="isActive('/beban-kerja-kemudi')" [title]="isCollapsed ? 'Beban Kerja (Kemudi)' : ''">
+      <ion-icon name="speedometer-outline" class="menu-icon"></ion-icon>
+      <span class="menu-text">Beban Kerja (Kemudi)</span>
+    </a>
+    <a [routerLink]="['/beban-kerja-kejadian']" class="menu-item" [class.active]="isActive('/beban-kerja-kejadian')" [title]="isCollapsed ? 'Beban Kerja (Kejadian)' : ''">
+      <ion-icon name="alert-circle-outline" class="menu-icon"></ion-icon>
+      <span class="menu-text">Beban Kerja (Kejadian)</span>
+    </a>
+    <a [routerLink]="['/tes-kantuk']" class="menu-item" [class.active]="isActive('/tes-kantuk')" [title]="isCollapsed ? 'Tes Kantuk' : ''">
+      <ion-icon name="bed-outline" class="menu-icon"></ion-icon>
+      <span class="menu-text">Tes Kantuk</span>
+    </a>
+    <a [routerLink]="['/waktu-reaksi-rem']" class="menu-item" [class.active]="isActive('/waktu-reaksi-rem')" [title]="isCollapsed ? 'Waktu Reaksi Rem' : ''">
+      <ion-icon name="time-outline" class="menu-icon"></ion-icon>
+      <span class="menu-text">Waktu Reaksi Rem</span>
+    </a>
+    <a [routerLink]="['/waktu-reaksi-kemudi']" class="menu-item" [class.active]="isActive('/waktu-reaksi-kemudi')" [title]="isCollapsed ? 'Waktu Reaksi Kemudi' : ''">
+      <ion-icon name="car-outline" class="menu-icon"></ion-icon>
+      <span class="menu-text">Waktu Reaksi Kemudi</span>
+    </a>
+  </div>
 
   <div class="spacer"></div>
 
-  <a (click)="logout()" class="menu-item logout-item">
-    <ion-icon name="log-out-outline" class="menu-icon"></ion-icon>
-    <span>Logout</span>
-  </a>
+  <div class="menu-items bottom">
+    <a (click)="logout()" class="menu-item logout-item" [title]="isCollapsed ? 'Logout' : ''">
+      <ion-icon name="log-out-outline" class="menu-icon"></ion-icon>
+      <span class="menu-text">Logout</span>
+    </a>
+  </div>
 </div>

@@ -1,5 +1,19 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
+import { User } from '@angular/fire/auth';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
+
+interface UserInfo {
+  name: string;
+  initial: string;
+  status: string;
+  isOnline: boolean;
+  email: string;
+  phone: string;
+  photoURL: string;
+}
 
 @Component({
   selector: 'app-home',
@@ -10,6 +24,17 @@ import { Router } from '@angular/router';
 export class HomePage implements OnInit, OnDestroy {
   
   activeMenuItem: string = 'Beban Kerja (Kemudi)';
+  userInfo: UserInfo = {
+    name: 'Guest',
+    initial: 'G',
+    status: 'Offline',
+    isOnline: false,
+    email: '',
+    phone: '',
+    photoURL: ''
+  };
+  
+  private userSubscription: any;
   
   // Chart data for different metrics
   chartData = {
@@ -56,22 +81,19 @@ export class HomePage implements OnInit, OnDestroy {
     { id: 'waktu-reaksi-kemudi', label: 'Waktu Reaksi Kemudi', icon: 'car-outline' }
   ];
   
-  // User information
-  userInfo = {
-    name: 'Jimmy',
-    initial: 'J',
-    status: 'Online',
-    isOnline: true,
-    email: 'jimmy@example.com',
-    phone: '+62 812 3456 7890'
-  };
+  // User information will be populated from auth service
   
   // Edit user information for modal
   editUserInfo = {
-    name: 'Jimmy',
-    email: 'jimmy@example.com',
-    phone: '+62 812 3456 7890',
-    status: 'Online'
+    name: 'Guest',
+    email: '',
+    phone: '',
+    status: 'Offline'
+  } as {
+    name: string;
+    email: string;
+    phone: string;
+    status: string;
   };
   
   // Modal state
@@ -109,14 +131,103 @@ export class HomePage implements OnInit, OnDestroy {
   
   private updateInterval: any;
   
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
   
   ngOnInit() {
+    console.log('HomePage initialized, subscribing to auth state...');
+    
+    // Subscribe to user authentication state
+    this.userSubscription = this.authService.user$.pipe(
+      tap(user => console.log('Auth state changed, user:', user)),
+      switchMap(user => {
+        if (!user) {
+          // No user is logged in
+          return of(null);
+        }
+        
+        // Get additional user data from Firestore
+        return this.authService.getUserData(user.uid).pipe(
+          tap(userData => console.log('User data from Firestore:', userData)),
+          map(userData => ({
+            authUser: user,
+            userData: userData
+          }))
+        );
+      })
+    ).subscribe((data: { authUser: any, userData: any } | null) => {
+      if (data?.authUser) {
+        const { authUser, userData } = data;
+        
+        // Use photoURL from Firestore if available, otherwise from auth
+        let photoURL = userData?.photoURL || authUser.photoURL || '';
+        
+        // Log the original photo URL for debugging
+        console.log('Original photo URL:', photoURL);
+        
+        // If this is a Google user with a photo URL
+        if (photoURL && photoURL.includes('googleusercontent.com')) {
+          // Ensure the URL has the correct format
+          if (!photoURL.includes('=s96-c')) {
+            // If it doesn't have the size parameter, add it
+            const baseUrl = photoURL.split('=')[0];
+            photoURL = `${baseUrl}=s96-c`;
+            console.log('Processed Google photo URL:', photoURL);
+          }
+        }
+        
+        // Set user info
+        this.userInfo = {
+          name: authUser.displayName || authUser.email?.split('@')[0] || 'User',
+          initial: this.getUserInitial(authUser),
+          status: 'Online',
+          isOnline: true,
+          email: authUser.email || '',
+          phone: authUser.phoneNumber || '',
+          photoURL: photoURL
+        };
+        
+        console.log('User info set:', this.userInfo);
+        
+        // Update edit form with user data
+        this.editUserInfo = {
+          name: this.userInfo.name,
+          email: this.userInfo.email,
+          phone: this.userInfo.phone,
+          status: this.userInfo.status
+        };
+      } else {
+        // No user is logged in
+        this.userInfo = {
+          name: 'Guest',
+          initial: 'G',
+          status: 'Offline',
+          isOnline: false,
+          email: '',
+          phone: '',
+          photoURL: ''
+        };
+        console.log('No user logged in, using default user info');
+      }
+      
+      // Save user profile to local storage
+      this.saveUserProfile();
+    });
+
+    // Load any saved profile data
+    this.loadUserProfile();
+    
     // Start real-time data updates
     this.startRealTimeUpdates();
   }
   
   ngOnDestroy() {
+    // Unsubscribe to prevent memory leaks
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
     // Clean up interval when component is destroyed
     if (this.updateInterval) {
       clearInterval(this.updateInterval);
@@ -130,6 +241,79 @@ export class HomePage implements OnInit, OnDestroy {
     }, 5000); // Update every 5 seconds
   }
   
+  // Helper method to get user initial from display name or email
+  private getUserInitial(user: { displayName?: string | null, email?: string | null }): string {
+    if (user.displayName) {
+      // Get first letter of each word in display name
+      const names = user.displayName.split(' ');
+      if (names.length > 1) {
+        return (names[0].charAt(0) + names[names.length - 1].charAt(0)).toUpperCase();
+      }
+      return user.displayName.charAt(0).toUpperCase();
+    } else if (user.email) {
+      // Use first letter of email if no display name
+      return user.email.charAt(0).toUpperCase();
+    }
+    return 'U';
+  }
+  
+  // Handle successful image load
+  onImageLoad(event: Event) {
+    console.log('Profile image loaded successfully');
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.style.display = 'block';
+    
+    // Hide the initial if it's visible
+    const avatarContainer = imgElement.closest('.user-avatar');
+    if (avatarContainer) {
+      const initialElement = avatarContainer.querySelector('.user-initial');
+      if (initialElement) {
+        (initialElement as HTMLElement).style.display = 'none';
+      }
+    }
+  }
+
+  // Function to check if image is accessible
+  private async checkImageAccessibility(url: string): Promise<boolean> {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = url;
+    });
+  }
+
+  // Handle image loading errors
+  async onImageError(event: any) {
+    const imgElement = event.target as HTMLImageElement;
+    const avatarContainer = imgElement.closest('.user-avatar');
+    
+    if (!avatarContainer) return;
+    
+    // Hide the broken image
+    imgElement.style.display = 'none';
+    
+    // Show user initial as fallback
+    this.showUserInitial(avatarContainer);
+    
+    // Log the error for debugging
+    console.error('Failed to load profile image. Showing fallback initial.');
+  }
+  
+  // Show user initial as fallback
+  private showUserInitial(container: Element) {
+    const initialElement = container.querySelector('.user-initial');
+    if (initialElement) {
+      (initialElement as HTMLElement).style.display = 'flex';
+    } else {
+      const initialSpan = document.createElement('span');
+      initialSpan.className = 'user-initial';
+      initialSpan.textContent = this.userInfo.initial || 'U';
+      container.appendChild(initialSpan);
+    }
+    this.saveUserProfile();
+  }
+
   // Method to handle menu item clicks
   selectMenuItem(menuItem: string) {
     this.activeMenuItem = menuItem;
@@ -284,17 +468,19 @@ export class HomePage implements OnInit, OnDestroy {
     console.log('Avatar changed to:', randomInitial);
   }
   
-  saveUserProfile() {
+  private saveUserProfile() {
     // Save user profile to localStorage
     try {
-      localStorage.setItem('ergodriveUserProfile', JSON.stringify(this.userInfo));
-      console.log('User profile saved to localStorage');
+      if (this.userInfo) {
+        localStorage.setItem('ergodriveUserProfile', JSON.stringify(this.userInfo));
+        console.log('User profile saved to localStorage');
+      }
     } catch (error) {
       console.error('Error saving user profile:', error);
     }
   }
   
-  loadUserProfile() {
+  private loadUserProfile() {
     // Load user profile from localStorage
     try {
       const savedProfile = localStorage.getItem('ergodriveUserProfile');

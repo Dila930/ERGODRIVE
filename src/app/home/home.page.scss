@@ -1,42 +1,162 @@
-// Dashboard Container
-.dashboard-container {
-  background-color: #F5F6FA;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  position: relative;
-  z-index: 1; /* Ensure main content is above sidebar but below header */
-  min-height: 100vh;
-  height: auto;
-  overflow-y: auto; /* Enable vertical scrolling */
-  overflow-x: hidden; /* Prevent horizontal scrolling */
-  width: 100%;
+/* Reset all elements */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:host {
   display: block;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch; /* For iOS momentum scrolling */
-  padding-bottom: 40px; /* Extra padding at bottom */
+  width: 100vw;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+  background-color: #f5f6fa;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  width: 100vw;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 /* Pastikan semua konten di dalam dashboard tidak menghalangi scrolling */
 .dashboard-content,
 .main-content {
-  overflow: visible;
-  min-height: auto;
-  height: auto;
-  display: block;
-  width: 100%;
-  padding: 30px 40px; /* Increased padding */
-  box-sizing: border-box;
-  margin-top: 20px; /* Add top margin */
+  width: 100vw;
+  max-width: 100%;
+  min-height: calc(100vh - 60px);
+  margin: 0;
+  padding: 0;
+  position: relative;
+  left: 0;
+  right: 0;
+  overflow-x: hidden;
 }
 
-/* Pastikan grid dan section tidak membatasi scrolling */
+/* Grid and sections */
 .stats-overview,
 .charts-grid,
 .activities-section {
-  overflow: visible;
-  min-height: auto;
-  height: auto;
-  display: block;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 15px;
   width: 100%;
+  margin: 0;
+  padding: 15px;
+}
+
+/* Card styles */
+.chart-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 15px;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+// Avatar and User Profile Styles
+.avatar-container {
+  position: relative;
+  display: inline-block;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.user-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5f6368;
+  font-weight: 600;
+  font-size: 16px;
+  overflow: hidden;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+
+  .profile-image-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    .profile-image {
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-url-debug {
+      position: absolute;
+      bottom: -20px;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      font-size: 10px;
+      padding: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover .profile-image {
+    transform: scale(1.1);
+  }
+
+  .user-initial {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #5f6368;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+  }
+}
+
+.online-indicator {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #4caf50;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  transition: all 0.2s ease;
 }
 
 // Header Styles
@@ -60,7 +180,7 @@
     display: flex;
     align-items: center;
     height: 60px; /* Increased height */
-    
+
     .logo-img {
       height: 100%;
       width: auto;
@@ -73,7 +193,10 @@
 // Dashboard Statistics Overview
 .stats-overview {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Increased min-width */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(280px, 1fr)
+  ); /* Increased min-width */
   gap: 25px; /* Increased gap */
   margin-bottom: 40px; /* Increased margin */
   margin-top: 20px; /* Add top margin */
@@ -393,14 +516,14 @@
 .header-center {
   text-align: center;
   flex: 1;
-  
+
   .welcome-title {
     font-size: 28px;
     font-weight: 700;
     color: #2c3e50;
     margin: 0 0 8px 0;
   }
-  
+
   .welcome-subtitle {
     font-size: 16px;
     color: #6c757d;
@@ -414,45 +537,97 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    
-    .user-avatar {
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 50px;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .avatar-container {
       position: relative;
-      width: 48px;
-      height: 48px;
+      display: inline-block;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+
+    .user-avatar {
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
-      background-color: #2B6EFF;
+      background-color: #f0f2f5;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
+      color: #5f6368;
       font-weight: 600;
-      font-size: 18px;
-      
-      .online-indicator {
-        position: absolute;
-        bottom: 2px;
-        right: 2px;
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background-color: #28a745;
-        border: 2px solid white;
+      font-size: 16px;
+      overflow: hidden;
+      border: 2px solid #fff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s ease;
+
+      .profile-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      &:hover .profile-image {
+        transform: scale(1.1);
       }
     }
-    
-    .user-info {
-      .user-name {
-        font-size: 16px;
-        font-weight: 600;
-        color: #2c3e50;
-        margin: 0;
-      }
-      
-      .user-status {
-        font-size: 14px;
-        color: #28a745;
-        margin: 0;
-        font-weight: 500;
+
+    .online-indicator {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: #4caf50;
+      border: 2px solid #fff;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      z-index: 2;
+      transition: all 0.2s ease;
+    }
+  }
+
+  .user-info {
+    .user-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1f1f1f;
+      margin: 0 0 2px 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 150px;
+    }
+
+    .user-status {
+      font-size: 12px;
+      color: #5f6368;
+      margin: 0;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      &::before {
+        content: "";
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        background-color: #4caf50;
+        border-radius: 50%;
+        margin-right: 4px;
       }
     }
   }
@@ -469,7 +644,7 @@
 .main-content {
   padding: 40px; /* Increased padding */
   margin-top: 20px; /* Add top margin */
-  
+
   .charts-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -484,16 +659,16 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  
+
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
   }
-  
+
   .card-header {
     padding: 20px 25px;
     border-bottom: 1px solid #f1f3f4;
-    
+
     .card-title {
       margin: 0;
       font-size: 18px;
@@ -501,28 +676,28 @@
       color: #2c3e50;
     }
   }
-  
+
   .card-content {
     padding: 25px;
-    
+
     .bar-chart {
       .chart-container {
         .bar-item {
           display: flex;
           align-items: center;
           margin-bottom: 20px;
-          
+
           &:last-child {
             margin-bottom: 0;
           }
-          
+
           .bar-label {
             flex: 0 0 140px;
             font-size: 14px;
             color: #495057;
             font-weight: 500;
           }
-          
+
           .bar-wrapper {
             flex: 1;
             height: 24px;
@@ -530,33 +705,38 @@
             border-radius: 12px;
             overflow: hidden;
             margin: 0 15px;
-            
+
             .bar-fill {
               height: 100%;
-              background: linear-gradient(135deg, #2B6EFF 0%, #1e5cdb 100%);
+              background: linear-gradient(135deg, #2b6eff 0%, #1e5cdb 100%);
               border-radius: 12px;
               transition: width 0.8s ease;
               position: relative;
-              
+
               &::after {
-                content: '';
+                content: "";
                 position: absolute;
                 top: 0;
                 left: 0;
                 right: 0;
                 bottom: 0;
-                background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+                background: linear-gradient(
+                  90deg,
+                  transparent 0%,
+                  rgba(255, 255, 255, 0.3) 50%,
+                  transparent 100%
+                );
                 animation: shimmer 2s infinite;
               }
             }
           }
-          
+
           .bar-value {
             flex: 0 0 40px;
             text-align: right;
             font-size: 16px;
             font-weight: 600;
-            color: #2B6EFF;
+            color: #2b6eff;
           }
         }
       }
@@ -591,37 +771,37 @@
     text-align: center;
     padding: 15px 20px;
   }
-  
+
   .header-center {
     .welcome-title {
       font-size: 24px;
     }
-    
+
     .welcome-subtitle {
       font-size: 14px;
     }
   }
-  
+
   .chart-card {
     .card-content {
       padding: 20px;
-      
+
       .bar-chart {
         .chart-container {
           .bar-item {
             flex-direction: column;
             align-items: flex-start;
             gap: 8px;
-            
+
             .bar-label {
               flex: none;
             }
-            
+
             .bar-wrapper {
               width: 100%;
               margin: 0;
             }
-            
+
             .bar-value {
               flex: none;
               align-self: flex-end;

@@ -5,10 +5,11 @@ import { AuthService } from '../../auth.service';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-  @Input() isVisible = false;
+  @Input() isVisible = true;
+  isCollapsed = true; // Default collapsed saat pertama kali dibuka
   currentRoute: string = '';
 
   constructor(
@@ -31,5 +32,10 @@ export class SidebarComponent implements OnInit {
   // Fungsi logout ditambahkan
   logout() {
     this.authService.logout();
+  }
+
+  // Fungsi untuk toggle sidebar
+  toggleSidebar() {
+    this.isCollapsed = !this.isCollapsed;
   }
 }

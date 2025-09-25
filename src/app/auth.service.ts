@@ -14,7 +14,7 @@ import {
 import { Firestore, doc, setDoc, serverTimestamp, getDoc } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Observable, BehaviorSubject, from } from 'rxjs';
-import { tap, switchMap } from 'rxjs/operators';
+import { tap, switchMap, map } from 'rxjs/operators';
 
 export interface UserData {
   uid: string;
@@ -192,17 +192,37 @@ export class AuthService {
   private async updateUserData(credential: UserCredential): Promise<void> {
     const user = credential.user;
     if (!user) return;
-
+  
     const userRef = doc(this.firestore, `users/${user.uid}`);
     const userSnap = await getDoc(userRef);
     const timestamp = serverTimestamp();
-
+  
+    // Log untuk debugging
+    console.log('Updating user data for:', user.uid);
+    console.log('Original photoURL from auth:', user.photoURL);
+  
+    // Dapatkan photoURL dari provider jika tersedia
+    let photoURL = user.photoURL || '';
+    
+    // Jika login dengan Google, pastikan URL foto menggunakan format yang benar
+    if (credential.providerId === 'google.com' && photoURL) {
+      // Hapus parameter size yang ada jika ada
+      const baseUrl = photoURL.split('?')[0];
+      // Pastikan URL menggunakan format yang benar
+      if (!baseUrl.endsWith('=s96-c')) {
+        // Jika URL sudah memiliki parameter size, hapus dulu
+        const cleanUrl = baseUrl.replace(/=s\d+(-c)?$/, '');
+        // Tambahkan parameter size yang sesuai (s96-c adalah ukuran default Google)
+        photoURL = `${cleanUrl}=s96-c`;
+        console.log('Processed Google photo URL:', photoURL);
+      }
+    }
+  
     const userData: UserData = {
       uid: user.uid,
       email: user.email || '',
-      displayName: user.displayName || '',
-      photoURL: user.photoURL || '',
-      providerId: credential.providerId || 'email',
+      displayName: user.displayName || user.email?.split('@')[0] || 'User',
+      photoURL: photoURL,
       createdAt: userSnap.exists() ? userSnap.data()['createdAt'] : timestamp,
       lastLogin: timestamp
     };
@@ -210,8 +230,15 @@ export class AuthService {
     // If it's a new user, set the creation timestamp
     if (!userSnap.exists()) {
       userData.createdAt = timestamp;
+    } else {
+      // Jika user sudah ada, pertahankan photoURL yang ada jika tidak ada yang baru
+      const existingData = userSnap.data() as UserData;
+      if (!userData.photoURL && existingData.photoURL) {
+        userData.photoURL = existingData.photoURL;
+      }
     }
 
+    console.log('Saving user data:', userData);
     return setDoc(userRef, userData, { merge: true });
   }
 
@@ -219,11 +246,11 @@ export class AuthService {
   getUserData(uid: string): Observable<UserData | null> {
     const userRef = doc(this.firestore, `users/${uid}`);
     return from(getDoc(userRef)).pipe(
-      switchMap(snapshot => {
+      map(snapshot => {
         if (snapshot.exists()) {
-          return [snapshot.data() as UserData];
+          return snapshot.data() as UserData;
         } else {
-          return [null];
+          return null;
         }
       })
     );

@@ -12,8 +12,42 @@
     </div>
     <div class="header-right">
       <div class="user-profile" (click)="openProfileModal()">
-        <div class="user-avatar">
-          <span class="user-initial">{{ userInfo.initial }}</span>
+        <div class="avatar-container">
+          <div class="user-avatar" [title]="userInfo.name + (userInfo.email ? ' (' + userInfo.email + ')' : '')">
+            <!-- Debug info (hidden by default) -->
+            <div *ngIf="!userInfo.photoURL" style="display: none;">
+              No photo available
+            </div>
+            
+            <!-- Profile image with error handling -->
+            <div *ngIf="userInfo.photoURL" class="profile-image-container">
+              <img 
+                [src]="userInfo.photoURL" 
+                alt="Profile" 
+                class="profile-image"
+                (load)="onImageLoad($event)"
+                (error)="onImageError($event)"
+                crossorigin="anonymous"
+                referrerpolicy="no-referrer"
+                loading="eager"
+                decoding="async"
+                [style.display]="'block'"
+                [style.width]="'100%'"
+                [style.height]="'100%'"
+                [style.objectFit]="'cover'"
+                [style.backgroundColor]="'#f0f2f5'">
+              <div class="profile-url-debug" *ngIf="false">
+                {{ userInfo.photoURL }}
+              </div>
+            </div>
+              
+            <!-- Fallback initial avatar -->
+            <span 
+              class="user-initial" 
+              [style.display]="!userInfo.photoURL ? 'flex' : 'none'">
+              {{ userInfo.initial || 'U' }}
+            </span>
+          </div>
           <div class="online-indicator" *ngIf="userInfo.isOnline"></div>
         </div>
         <div class="user-info">
@@ -25,19 +59,6 @@
   </div>
 
   <div class="dashboard-content">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <div 
-        class="menu-item" 
-        *ngFor="let item of menuItems"
-        [class.active]="activeMenuItem === item.label"
-        (click)="selectMenuItem(item.label)"
-      >
-        <ion-icon [name]="item.icon" class="menu-icon"></ion-icon>
-        <span>{{ item.label }}</span>
-      </div>
-    </div>
-
     <!-- Main Content -->
     <div class="main-content">
       <div class="charts-grid">
