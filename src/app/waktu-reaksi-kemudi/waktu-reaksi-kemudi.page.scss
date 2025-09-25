@@ -1,126 +1,179 @@
-.dashboard-container {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 20px;
-  position: relative;
-  z-index: 1; /* Ensure main content is above sidebar but below header */
-  min-height: 100vh;
-  height: auto;
-  overflow-y: auto; /* Enable vertical scrolling */
-  overflow-x: hidden; /* Prevent horizontal scrolling */
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch; /* For iOS momentum scrolling */
+// Import theme variables
+@import '../../theme/variables';
+
+// Mixin for card styles
+@mixin card-style {
+  background: white;
+  border-radius: $border-radius-lg;
+  padding: $spacing-md;
+  box-shadow: $shadow-sm;
+  border: $border-width-sm solid rgba($accent-color, 0.1);
+  transition: all 0.3s ease;
+  min-height: $icon-size-xl * 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &:hover {
+    transform: translateY(-$spacing-xxs);
+    box-shadow: $shadow-md;
+  }
 }
 
+// Dashboard Container
+.dashboard-container {
+  height: 100vh;
+  background: $background-light;
+  padding: $spacing-md;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  @media (max-width: $breakpoint-md) {
+    padding: $spacing-sm;
+  }
+}
+
+// Dashboard Content
+.dashboard-content {
+  max-width: $container-max-width;
+  margin: 0 auto;
+  padding: $spacing-xl $spacing-xxl;
+  box-sizing: border-box;
+  margin-top: $spacing-lg;
+}
+
+// Header Styles
 .dashboard-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 30px 40px; /* Increased padding for more space */
-  background-color: rgba(255, 255, 255, 1); /* White 100% */
-  backdrop-filter: blur(10px); /* Add blur effect for better transparency */
-  -webkit-backdrop-filter: blur(10px); /* Safari support */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  border-bottom: 1px solid rgba(233, 236, 239, 0.5); /* Transparent border */
-  margin-bottom: 30px;
-  position: relative;
-  z-index: 10; /* Ensure header appears above sidebar */
-  min-height: 120px; /* Minimum height to prevent content collision */
-}
+  justify-content: space-between;
+  background: $blue-gradient-2;
+  color: white;
+  padding: $spacing-md $spacing-lg;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-md;
+  margin-bottom: $spacing-lg;
 
-.header-left {
-  .logo {
-    display: flex;
-    align-items: center;
-    height: 60px; /* Increased height */
-    
-    .logo-img {
-      height: 100%;
-      width: auto;
-      max-width: 200px; /* Increased max-width */
-      object-fit: contain;
+  @media (max-width: $breakpoint-md) {
+    flex-direction: column;
+    gap: $spacing-md;
+    text-align: center;
+  }
+
+  .header-left {
+    .logo {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur($blur-md);
+      border-radius: $border-radius;
+      padding: $spacing-sm;
+      display: inline-block;
+      border: $border-width-sm solid rgba(255, 255, 255, 0.3);
+      
+      .logo-img {
+        height: $icon-size-lg;
+        width: auto;
+        display: block;
+        filter: brightness(0) invert(1);
+        /* Membuat logo menjadi putih untuk kontras dengan background biru */
+      }
+    }
+  }
+
+  .header-center {
+    flex: 1;
+    margin: 0 $spacing-xxl;
+
+    .welcome-title {
+      font-size: $font-size-xxl;
+      font-weight: 600;
+      color: white;
+      margin: 0 0 $spacing-xs 0;
+      text-shadow: $text-shadow-sm;
+    }
+
+    .welcome-subtitle {
+      color: rgba(255, 255, 255, 0.9);
+      margin: 0;
+      font-size: $font-size-sm;
+      text-shadow: $text-shadow-sm;
+    }
+  }
+
+  .header-right {
+    .action-buttons {
+      display: flex;
+      gap: $spacing-sm;
+
+      ion-button {
+        --background: rgba(255, 255, 255, 0.1);
+        --background-hover: rgba(255, 255, 255, 0.2);
+        --border-radius: 50%;
+        --padding-start: $spacing-sm;
+        --padding-end: $spacing-sm;
+        --padding-top: $spacing-sm;
+        --padding-bottom: $spacing-sm;
+        --color: white;
+        --box-shadow: $shadow-sm;
+        transition: all 0.3s ease;
+
+        &:hover {
+          --background: rgba(255, 255, 255, 0.2);
+          transform: scale(1.05);
+        }
+
+        ion-icon {
+          font-size: $font-size-xl;
+          color: white;
+        }
+      }
     }
   }
 }
-.header-center {
-  text-align: center;
-  flex: 1;
-}
-.welcome-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: #2c3e50;
-  margin: 0 0 8px 0;
-}
 
-.welcome-subtitle {
-  font-size: 16px;
-  color: #6c757d;
-  margin: 0;
-  font-weight: 400;
-}
-
-.header-right .action-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.action-buttons ion-button {
-  --color: white;
-  --background-hover: rgba(255, 255, 255, 0.2);
-}
-
-.dashboard-content {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 30px 40px; /* Increased padding */
-  box-sizing: border-box;
-  margin-top: 20px; /* Add top margin */
-}
-
+// Current Performance
 .current-performance {
-  margin-bottom: 30px;
+  margin-bottom: $spacing-xxl;
 }
 
 .performance-card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 25px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.performance-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  @include card-style;
+  padding: $spacing-xl;
 }
 
 .performance-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: $spacing-lg;
 }
 
 .performance-header h2 {
-  color: white;
-  font-size: 24px;
-  font-weight: bold;
+  color: $text-primary;
+  font-size: $font-size-xxl;
+  font-weight: 600;
   margin: 0;
 }
 
 .performance-status {
-  padding: 8px 16px;
-  border-radius: 20px;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $border-radius-full;
   background: rgba(255, 255, 255, 0.2);
-  font-weight: bold;
-  font-size: 14px;
+  font-weight: 600;
+  font-size: $font-size-sm;
 }
 
 .performance-content {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-lg;
+  
+  @media (max-width: $breakpoint-lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .performance-metric {
@@ -128,56 +181,62 @@
 }
 
 .metric-value {
-  font-size: 32px;
-  font-weight: bold;
-  color: white;
-  margin-bottom: 5px;
+  font-size: $font-size-xxxl;
+  font-weight: 600;
+  color: $text-primary;
+  margin-bottom: $spacing-xs;
 }
 
 .metric-label {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 14px;
+  color: $text-secondary;
+  font-size: $font-size-sm;
 }
 
+// Statistics Overview
 .stats-overview {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Increased min-width */
-  gap: 25px; /* Increased gap */
-  margin-bottom: 40px; /* Increased margin */
-  margin-top: 20px; /* Add top margin */
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-lg;
+  margin-bottom: $spacing-xxl;
+  
+  @media (max-width: $breakpoint-lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .stat-card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 35px; /* Increased padding */
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  display: flex;
-  align-items: center;
-  gap: 25px; /* Increased gap */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  min-height: 130px; /* Minimum height for consistency */
-}
+  @include card-style;
+  position: relative;
+  overflow: hidden;
 
-.stat-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: $border-width-md * 2;
+    background: $blue-gradient-2;
+  }
 }
 
 .stat-icon {
-  width: 60px;
-  height: 60px;
+  width: $icon-size-xl;
+  height: $icon-size-xl;
   background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
+  border-radius: $border-radius-full;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .stat-icon ion-icon {
-  font-size: 30px;
-  color: white;
+  font-size: $font-size-xxl;
+  color: $primary-blue;
 }
 
 .stat-content {
@@ -185,137 +244,427 @@
 }
 
 .stat-value {
-  font-size: 32px;
-  font-weight: bold;
-  color: white;
-  margin-bottom: 5px;
+  font-size: $font-size-xxxl;
+  font-weight: 600;
+  color: $text-primary;
+  margin-bottom: $spacing-xs;
 }
 
 .stat-label {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 14px;
+  color: $text-secondary;
+  font-size: $font-size-sm;
 }
 
 .steering-scenarios-section {
-  margin-bottom: 30px;
+  margin-bottom: $spacing-xxl;
 }
 
 .section-title {
-  color: white;
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  @include section-title-waktu-reaksi-kemudi;
 }
 
 .steering-scenarios-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-lg;
+  max-width: 1200px;
+  margin: 0 auto;
+  
+  // For medium screens, tetap 2 kotak per baris
+  @media (max-width: 1199px) and (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 800px;
+  }
+  
+  // For mobile, 1 kotak per baris
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .steering-card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 25px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.steering-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  @include card-style;
+  min-height: 280px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, $primary-blue, $accent-color);
+    border-radius: $border-radius-lg $border-radius-lg 0 0;
+    transition: height 0.3s ease;
+  }
+  
+  &:hover {
+    transform: translateY(-$spacing-xs);
+    box-shadow: $shadow-lg;
+    
+    &::before {
+      height: 6px;
+    }
+    
+    .scenario-icon {
+      transform: scale(1.1);
+      background: rgba($primary-blue, 0.15);
+    }
+    
+    .steering-status {
+      transform: translateY(-$spacing-xxs);
+    }
+  }
 }
 
 .steering-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: $spacing-lg;
 }
 
 .scenario-title {
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
+  color: $text-primary;
+  font-size: $font-size-lg;
+  font-weight: 600;
 }
 
 .difficulty-indicator {
-  padding: 6px 12px;
-  border-radius: 12px;
+  padding: $spacing-xs $spacing-md;
+  border-radius: $border-radius-md;
   color: white;
-  font-size: 12px;
-  font-weight: bold;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  
+  &.easy {
+    background: $success-color;
+  }
+  
+  &.medium {
+    background: $warning-color;
+  }
+  
+  &.hard {
+    background: $danger-color;
+  }
+  
+  &.expert {
+    background: linear-gradient(135deg, $danger-color, $primary-blue-dark);
+  }
 }
 
 .steering-metrics {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-bottom: 15px;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+  
+  .metric-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-sm;
+    background: rgba($primary-blue, 0.05);
+    border-radius: $border-radius-md;
+    border-left: 3px solid $primary-blue;
+    
+    .metric-label {
+      color: $text-secondary;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+    }
+    
+    .metric-value {
+      color: $text-primary;
+      font-size: $font-size-base;
+      font-weight: 600;
+    }
+  }
 }
 
-.steering-metric {
+.scenario-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 14px;
+  color: $primary-blue;
+  font-size: $font-size-sm;
+  margin-bottom: $spacing-md;
+  
+  .scenario-description {
+    flex: 1;
+    color: $text-secondary;
+    line-height: 1.5;
+    margin-right: $spacing-md;
+  }
+  
+  .scenario-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba($primary-blue, 0.1);
+    border-radius: $border-radius-lg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    
+    ion-icon {
+      font-size: $font-size-xl;
+      color: $primary-blue;
+    }
+  }
 }
 
 .steering-status {
   text-align: center;
-  font-weight: bold;
-  font-size: 16px;
-  padding: 8px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.1);
+  font-weight: 600;
+  font-size: $font-size-md;
+  padding: $spacing-md;
+  border-radius: $border-radius-md;
+  background: linear-gradient(135deg, rgba($primary-blue, 0.1), rgba($accent-color, 0.1));
+  border: 1px solid rgba($primary-blue, 0.2);
+  margin-top: auto;
+  transition: all 0.3s ease;
+  
+  &.completed {
+    background: linear-gradient(135deg, rgba($success-color, 0.1), rgba($success-color, 0.05));
+    border-color: rgba($success-color, 0.3);
+    color: $success-color;
+  }
+  
+  &.in-progress {
+    background: linear-gradient(135deg, rgba($warning-color, 0.1), rgba($warning-color, 0.05));
+    border-color: rgba($warning-color, 0.3);
+    color: $warning-color;
+  }
+  
+  &.not-started {
+    background: linear-gradient(135deg, rgba($danger-color, 0.1), rgba($danger-color, 0.05));
+    border-color: rgba($danger-color, 0.3);
+    color: $danger-color;
+  }
+  
+  .status-icon {
+    display: block;
+    font-size: $font-size-xl;
+    margin-bottom: $spacing-xs;
+  }
+  
+  .status-text {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+// Action Buttons untuk Steering Scenarios
+.steering-actions {
+  display: flex;
+  gap: $spacing-sm;
+  margin-top: $spacing-md;
+  
+  .action-btn {
+    flex: 1;
+    padding: $spacing-sm;
+    border-radius: $border-radius-md;
+    border: none;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    
+    &.primary {
+      background: linear-gradient(135deg, $primary-blue, $accent-color);
+      color: white;
+      
+      &:hover {
+        transform: translateY(-$spacing-xxs);
+        box-shadow: 0 4px 12px rgba($primary-blue, 0.3);
+      }
+    }
+    
+    &.secondary {
+      background: rgba($primary-blue, 0.1);
+      color: $primary-blue;
+      border: 1px solid rgba($primary-blue, 0.2);
+      
+      &:hover {
+        background: rgba($primary-blue, 0.15);
+        transform: translateY(-$spacing-xxs);
+      }
+    }
+    
+    &.outline {
+      background: transparent;
+      color: $text-secondary;
+      border: 1px solid rgba($text-secondary, 0.3);
+      
+      &:hover {
+        background: rgba($text-secondary, 0.05);
+        color: $text-primary;
+      }
+    }
+    
+    ion-icon {
+      font-size: $font-size-md;
+      margin-right: $spacing-xs;
+      vertical-align: middle;
+    }
+  }
+}
+
+// Progress Bar untuk Steering Scenarios
+.steering-progress {
+  margin: $spacing-md 0;
+  
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-xs;
+    
+    .progress-title {
+      color: $text-secondary;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+    }
+    
+    .progress-percentage {
+      color: $primary-blue;
+      font-size: $font-size-sm;
+      font-weight: 600;
+    }
+  }
+  
+  .progress-bar {
+    height: 8px;
+    background: rgba($primary-blue, 0.1);
+    border-radius: $border-radius-full;
+    overflow: hidden;
+    position: relative;
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, $primary-blue, $accent-color);
+      border-radius: $border-radius-full;
+      transition: width 0.3s ease;
+      position: relative;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        animation: shimmer 2s infinite;
+      }
+    }
+  }
+}
+
+// Animation untuk progress bar
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+// Visual indicators untuk steering scenarios
+.steering-indicators {
+  display: flex;
+  gap: $spacing-sm;
+  margin: $spacing-md 0;
+  
+  .indicator {
+    flex: 1;
+    text-align: center;
+    padding: $spacing-xs;
+    border-radius: $border-radius-md;
+    background: rgba($primary-blue, 0.05);
+    border: 1px solid rgba($primary-blue, 0.1);
+    
+    .indicator-icon {
+      font-size: $font-size-lg;
+      color: $primary-blue;
+      margin-bottom: $spacing-xxs;
+    }
+    
+    .indicator-label {
+      color: $text-secondary;
+      font-size: $font-size-xs;
+      font-weight: $font-weight-medium;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .indicator-value {
+      color: $text-primary;
+      font-size: $font-size-sm;
+      font-weight: 600;
+      margin-top: $spacing-xxs;
+    }
+  }
 }
 
 .charts-section {
-  margin-bottom: 30px;
+  margin-bottom: $spacing-xxl;
 }
 
 .charts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-lg;
+  max-width: 1200px;
+  margin: 0 auto;
+  
+  // For medium screens, tetap 2 kotak per baris
+  @media (max-width: 1199px) and (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 800px;
+  }
+  
+  // For mobile, 1 kotak per baris
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .chart-card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  @include card-style;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.chart-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .card-header {
   background: rgba(255, 255, 255, 0.1);
-  padding: 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: $spacing-lg;
+  border-bottom: $border-width solid rgba(255, 255, 255, 0.2);
 }
 
 .card-title {
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
+  color: $text-primary;
+  font-size: $font-size-lg;
+  font-weight: 600;
   margin: 0;
 }
 
 .card-content {
-  padding: 20px;
+  padding: $spacing-lg;
 }
 
 .bar-chart {
-  height: 200px;
+  height: $icon-size-xl * 5;
 }
 
 .chart-container {
@@ -328,70 +677,73 @@
 .bar-item {
   display: flex;
   align-items: center;
-  gap: 15px;
-  margin-bottom: 15px;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
 }
 
 .bar-label {
-  min-width: 120px;
-  color: white;
-  font-size: 14px;
+  min-width: $icon-size-xl * 3;
+  color: $text-secondary;
+  font-size: $font-size-sm;
   font-weight: 500;
 }
-
 .bar-wrapper {
   flex: 1;
-  height: 20px;
+  height: $spacing-lg;
   background: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
+  border-radius: $border-radius-lg;
   overflow: hidden;
 }
 
 .bar-fill {
   height: 100%;
-  border-radius: 10px;
+  border-radius: $border-radius-md;
   transition: width 0.3s ease;
 }
 
 .bar-value {
-  min-width: 40px;
-  color: white;
-  font-size: 14px;
-  font-weight: bold;
+  min-width: $icon-size-lg;
+  color: $text-primary;
+  font-size: $font-size-sm;
+  font-weight: 600;
   text-align: right;
 }
 
 .factors-section {
-  margin-bottom: 30px;
+  margin-bottom: $spacing-xxl;
 }
 
 .factors-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-lg;
+  max-width: 1200px;
+  margin: 0 auto;
+  
+  // For medium screens, tetap 2 kotak per baris
+  @media (max-width: 1199px) and (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 800px;
+  }
+  
+  // For mobile, 1 kotak per baris
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .factor-card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 25px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  @include card-style;
+  padding: $spacing-xl;
   display: flex;
-  gap: 20px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.factor-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  gap: $spacing-lg;
 }
 
 .factor-icon {
-  width: 50px;
-  height: 50px;
+  width: $icon-size-lg;
+  height: $icon-size-lg;
   background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
+  border-radius: $border-radius-full;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -399,7 +751,8 @@
 }
 
 .factor-icon ion-icon {
-  font-size: 25px;
+  font-size: $font-size-xl;
+  color: $primary-blue;
 }
 
 .factor-content {
@@ -407,113 +760,120 @@
 }
 
 .factor-content h3 {
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-  margin: 0 0 5px 0;
-}
-
-.factor-impact {
-  color: white;
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 10px;
+  color: $text-primary;
+  font-size: $font-size-lg;
+  font-weight: 600;
+  margin: 0 0 $spacing-md 0;
 }
 
 .factor-content p {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 14px;
+  color: $text-secondary;
+  font-size: $font-size-sm;
   line-height: 1.5;
   margin: 0;
 }
 
+// Recent Tests Section
 .recent-tests-section {
-  margin-bottom: 30px;
+  margin-bottom: $spacing-xxl;
 }
 
 .recent-tests-list {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: $spacing-md;
 }
 
 .test-item {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  @include card-style;
   display: flex;
   align-items: center;
-  gap: 20px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+  gap: $spacing-lg;
 
-.test-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  &:hover {
+    transform: translateY(-$spacing-xs);
+    box-shadow: $shadow-md;
+  }
 }
 
 .test-status {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
+  width: $spacing-md;
+  height: $spacing-md;
+  border-radius: $border-radius-full;
   flex-shrink: 0;
 }
 
-.test-details {
+.test-content {
   flex: 1;
 }
 
-.test-time {
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 10px;
+.test-title {
+  color: $text-primary;
+  font-size: $font-size-lg;
+  font-weight: 600;
+  margin: 0 0 $spacing-xs 0;
+}
+
+.test-subtitle {
+  color: $text-secondary;
+  font-size: $font-size-sm;
+  margin: 0;
 }
 
 .test-metrics {
   display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
+  gap: $spacing-lg;
+  align-items: center;
 }
 
 .test-metric {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 14px;
+  text-align: center;
 }
 
+.test-metric-value {
+  color: $text-primary;
+  font-size: $font-size-lg;
+  font-weight: 600;
+  display: block;
+}
+
+.test-metric-label {
+  color: $text-secondary;
+  font-size: $font-size-xs;
+  display: block;
+}
+
+// Recommendations Section
 .recommendations-section {
-  margin-bottom: 30px;
+  margin-bottom: $spacing-xxl;
 }
 
 .recommendations-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-lg;
+  
+  @media (max-width: $breakpoint-lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .recommendation-card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 25px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  @include card-style;
+  padding: $spacing-xl;
   display: flex;
-  gap: 20px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.recommendation-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  gap: $spacing-lg;
 }
 
 .recommendation-icon {
-  width: 50px;
-  height: 50px;
+  width: $icon-size-lg;
+  height: $icon-size-lg;
   background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
+  border-radius: $border-radius-full;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -521,7 +881,8 @@
 }
 
 .recommendation-icon ion-icon {
-  font-size: 25px;
+  font-size: $font-size-xl;
+  color: $primary-blue;
 }
 
 .recommendation-content {
@@ -529,15 +890,15 @@
 }
 
 .recommendation-content h3 {
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-  margin: 0 0 10px 0;
+  color: $text-primary;
+  font-size: $font-size-lg;
+  font-weight: 600;
+  margin: 0 0 $spacing-md 0;
 }
 
 .recommendation-content p {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 14px;
+  color: $text-secondary;
+  font-size: $font-size-sm;
   line-height: 1.5;
   margin: 0;
 }
@@ -548,35 +909,105 @@
 }
 
 .priority-badge {
-  padding: 4px 12px;
-  border-radius: 12px;
+  padding: $spacing-xs $spacing-md;
+  border-radius: $border-radius-md;
   color: white;
-  font-size: 12px;
-  font-weight: bold;
+  font-size: $font-size-xs;
+  font-weight: 600;
 }
 
+// Trends Section
 .trends-section {
-  margin-bottom: 30px;
+  margin-bottom: $spacing-xxl;
 }
 
 .trends-card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 25px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  @include card-style;
+  min-height: 400px;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, $primary-blue, $accent-color, $success-color);
+    border-radius: $border-radius-lg $border-radius-lg 0 0;
+  }
 }
 
 .trends-chart {
-  height: 300px;
+  height: $icon-size-xl * 7;
+  position: relative;
+  padding: $spacing-xl 0 $spacing-md 0;
+  
+  .chart-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: $text-primary;
+    font-size: $font-size-lg;
+    font-weight: 600;
+    margin-bottom: $spacing-md;
+    z-index: 10;
+  }
+  
+  .chart-subtitle {
+    position: absolute;
+    top: $spacing-md;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    margin-bottom: $spacing-xl;
+    z-index: 10;
+  }
+
+  // Grid lines for better readability - adjusted for 60%-90% scale
+  .grid-lines {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: $spacing-xl * 2;
+    bottom: $spacing-xl * 2;
+    pointer-events: none;
+
+    .grid-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba($text-secondary, 0.1);
+      border-bottom: 1px dashed rgba($primary-blue, 0.2);
+
+      &::after {
+        content: attr(data-value);
+        position: absolute;
+        left: -35px;
+        top: -8px;
+        font-size: $font-size-xs;
+        color: $text-secondary;
+        font-weight: 500;
+      }
+    }
+  }
 }
 
 .trend-bars {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: flex-end;
-  height: 100%;
-  gap: 20px;
+  height: calc(100% - #{$spacing-xl * 3});
+  gap: $spacing-xs;
+  margin-top: $spacing-xl * 2;
+  padding: 0 $spacing-sm;
+  position: relative;
+  z-index: 5;
 }
 
 .trend-bar {
@@ -584,84 +1015,125 @@
   flex-direction: column;
   align-items: center;
   flex: 1;
+  max-width: 70px;
   height: 100%;
+  position: relative;
+  
+  &:hover {
+    .trend-bar-fill {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba($primary-blue, 0.3);
+    }
+    
+    .trend-value {
+      transform: scale(1.1);
+      color: $primary-blue;
+    }
+  }
 }
 
 .trend-day {
-  color: white;
-  font-size: 14px;
+  color: $text-primary;
+  font-size: $font-size-sm;
   font-weight: 500;
-  margin-bottom: 10px;
+  margin-top: $spacing-md;
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
 }
 
 .trend-bar-wrapper {
   flex: 1;
-  width: 40px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
+  width: 100%;
+  background: rgba($primary-blue, 0.05);
+  border-radius: $border-radius-md;
   overflow: hidden;
   display: flex;
   align-items: flex-end;
+  transition: all 0.3s ease;
+  border: 1px solid rgba($primary-blue, 0.1);
+  position: relative;
+  height: 100%;
 }
 
 .trend-bar-fill {
   width: 100%;
-  border-radius: 20px;
-  transition: height 0.3s ease;
+  border-radius: $border-radius-md $border-radius-md 0 0;
+  transition: all 0.3s ease;
+  position: relative;
+  background: linear-gradient(180deg, $primary-blue, $accent-color);
+  
+  // Highlight highest value
+  &.highest {
+    background: linear-gradient(180deg, $success-color, $success-color-light);
+    box-shadow: 0 0 20px rgba($success-color, 0.4);
+    
+    &::after {
+      background: rgba(255, 255, 255, 0.5);
+    }
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: $border-radius-md $border-radius-md 0 0;
+  }
+  
+  &:hover {
+    background: linear-gradient(180deg, $primary-blue-dark, $primary-blue);
+  }
 }
 
 .trend-value {
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-  margin-top: 10px;
+  color: $text-primary;
+  font-size: 10px;
+  font-weight: 600;
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba($primary-blue, 0.1);
+  padding: 2px 6px;
+  border-radius: $border-radius-xs;
+  border: 1px solid rgba($primary-blue, 0.2);
+  transition: all 0.3s ease;
+  min-width: 30px;
+  text-align: center;
+  white-space: nowrap;
+  z-index: 15;
 }
 
-@media (max-width: 768px) {
+// Responsive Design
+@media (max-width: $breakpoint-md) {
   .dashboard-header {
     flex-direction: column;
-    gap: 15px;
+    gap: $spacing-md;
     text-align: center;
-    padding: 15px 20px;
+    padding: $spacing-md $spacing-lg;
   }
 
   .header-center {
     order: -1;
   }
 
-  .stats-overview {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  }
-
-  .steering-scenarios-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .charts-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .factors-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .recommendations-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .performance-content {
-    grid-template-columns: 1fr;
-  }
+  // Grid layouts sudah ditangani di masing-masing section
 
   .test-metrics {
     flex-direction: column;
-    gap: 5px;
+    gap: $spacing-xs;
   }
 
   .bar-item {
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
+    gap: $spacing-md;
   }
 
   .bar-label {
@@ -674,7 +1146,7 @@
   }
 
   .trend-bar {
-    height: 200px;
+    height: $icon-size-xl * 5;
   }
 
   .factor-card {
@@ -687,3 +1159,4 @@
     text-align: center;
   }
 }
+

@@ -18,6 +18,9 @@
         <ion-button (click)="exportData()" fill="clear" size="small">
           <ion-icon name="download-outline"></ion-icon>
         </ion-button>
+        <ion-button class="profile-button" (click)="toggleProfilePopup()" fill="clear" size="small">
+          <ion-icon name="person-outline"></ion-icon>
+        </ion-button>
       </div>
     </div>
   </div>
@@ -236,20 +239,88 @@
       <h2 class="section-title">Tren Performa Mingguan</h2>
       <div class="trends-card">
         <div class="trends-chart">
+          <div class="chart-title">Performa Mengemudi</div>
+          <div class="chart-subtitle">Skor rata-rata harian</div>
+          <div class="y-axis-labels">
+            <div class="y-label">90%</div>
+            <div class="y-label">82.5%</div>
+            <div class="y-label">75%</div>
+            <div class="y-label">67.5%</div>
+            <div class="y-label">60%</div>
+          </div>
+          <div class="grid-lines">
+            <div class="grid-line" style="bottom: 0%;" data-value="60%"></div>
+            <div class="grid-line" style="bottom: 25%;" data-value="67.5%"></div>
+            <div class="grid-line" style="bottom: 50%;" data-value="75%"></div>
+            <div class="grid-line" style="bottom: 75%;" data-value="82.5%"></div>
+            <div class="grid-line" style="bottom: 100%;" data-value="90%"></div>
+          </div>
           <div class="trend-bars">
-            <div class="trend-bar" *ngFor="let value of performanceTrends.data; let i = index">
-              <div class="trend-day">{{ performanceTrends.labels[i] }}</div>
+            <div class="trend-bar" *ngFor="let trend of weeklyPerformanceData; let i = index">
+              <div class="trend-day">{{ trend.day }}</div>
               <div class="trend-bar-wrapper">
-                <div 
-                  class="trend-bar-fill" 
-                  [style.height.%]="value"
-                  [style.background]="getBarColor(value)"
-                ></div>
+                <div class="trend-bar-fill" 
+                     [style.height.%]="((trend.value - 60) / 30) * 100"
+                     [class.highest]="trend.value === getHighestValue()"></div>
               </div>
-              <div class="trend-value">{{ value }}%</div>
+              <div class="trend-value">{{ trend.score }}</div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Popup -->
+  <div class="profile-popup" [class.active]="isProfilePopupOpen">
+    <div class="popup-content">
+      <div class="popup-header">
+        <h3 class="popup-title">Profil Pengguna</h3>
+        <ion-button class="close-button" (click)="toggleProfilePopup()" fill="clear" size="small">
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-button>
+      </div>
+      <div class="popup-body">
+        <div *ngIf="isLoggedIn; else loginPrompt" class="user-info">
+          <div class="user-avatar">
+            {{ userInitials }}
+          </div>
+          <h4 class="user-name">{{ userName }}</h4>
+          <p class="user-email">{{ userEmail }}</p>
+          
+          <div class="user-stats">
+            <div class="stat-item">
+              <div class="stat-number">{{ userStats.totalTests }}</div>
+              <div class="stat-text">Total Tes</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">{{ userStats.averageScore }}%</div>
+              <div class="stat-text">Skor Rata-rata</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">{{ userStats.hoursDriven }}</div>
+              <div class="stat-text">Jam Mengemudi</div>
+            </div>
+          </div>
+        </div>
+        
+        <ng-template #loginPrompt>
+          <div class="login-prompt">
+            <div class="prompt-icon">
+              <ion-icon name="person-circle-outline"></ion-icon>
+            </div>
+            <h4 class="prompt-title">Masuk ke Akun Anda</h4>
+            <p class="prompt-text">Masuk untuk menyimpan progress dan melihat statistik lengkap Anda</p>
+            <div>
+              <ion-button class="login-button" (click)="login()" fill="solid">
+                Masuk
+              </ion-button>
+              <ion-button class="register-button" (click)="register()" fill="outline">
+                Daftar
+              </ion-button>
+            </div>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>

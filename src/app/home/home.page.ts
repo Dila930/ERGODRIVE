@@ -17,8 +17,8 @@ interface UserInfo {
 
 @Component({
   selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  templateUrl: './home.page.html',
+  styleUrls: ['./home.page.scss'],
   standalone: false,
 })
 export class HomePage implements OnInit, OnDestroy {
@@ -128,6 +128,17 @@ export class HomePage implements OnInit, OnDestroy {
     labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
     data: [65, 72, 68, 75, 80, 78, 82]
   };
+  
+  // Weekly performance data for new chart format
+  weeklyPerformanceData = [
+    { day: 'Sen', value: 65, score: '65%' },
+    { day: 'Sel', value: 72, score: '72%' },
+    { day: 'Rab', value: 68, score: '68%' },
+    { day: 'Kam', value: 75, score: '75%' },
+    { day: 'Jum', value: 80, score: '80%' },
+    { day: 'Sab', value: 78, score: '78%' },
+    { day: 'Min', value: 82, score: '82%' }
+  ];
   
   private updateInterval: any;
   
@@ -358,12 +369,6 @@ export class HomePage implements OnInit, OnDestroy {
     });
   }
   
-  // Method to get bar color based on value
-  getBarColor(value: number): string {
-    if (value >= 80) return '#28a745'; // Green for high values
-    if (value >= 60) return '#ffc107'; // Yellow for medium values
-    return '#dc3545'; // Red for low values
-  }
   
   // Method to get status color
   getStatusColor(status: string): string {

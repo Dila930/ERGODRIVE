@@ -8,6 +8,19 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 })
 export class BebanKerjaKejadianPage implements OnInit, OnDestroy {
   
+  // Profile popup properties
+  isProfilePopupOpen: boolean = false;
+  isLoggedIn: boolean = false;
+  userName: string = '';
+  userEmail: string = '';
+  userInitials: string = '';
+  
+  userStats = {
+    totalTests: 0,
+    averageScore: 0,
+    hoursDriven: 0
+  };
+  
   // Chart data for beban kerja kejadian
   chartData = {
     deteksiSensor: {
@@ -150,6 +163,22 @@ export class BebanKerjaKejadianPage implements OnInit, OnDestroy {
     data: [82, 85, 79, 88, 91, 87, 90]
   };
 
+  // Weekly performance data for new chart format
+  weeklyPerformanceData = [
+    { day: 'Sen', value: 82, score: '82%' },
+    { day: 'Sel', value: 85, score: '85%' },
+    { day: 'Rab', value: 79, score: '79%' },
+    { day: 'Kam', value: 88, score: '88%' },
+    { day: 'Jum', value: 91, score: '91%' },
+    { day: 'Sab', value: 87, score: '87%' },
+    { day: 'Min', value: 90, score: '90%' }
+  ];
+
+  // Get highest value for highlighting
+  getHighestValue(): number {
+    return Math.max(...this.weeklyPerformanceData.map(item => item.value));
+  }
+
   private updateInterval: any;
 
   constructor() { }
@@ -226,5 +255,44 @@ export class BebanKerjaKejadianPage implements OnInit, OnDestroy {
   getEventIcon(type: string): string {
     const event = this.eventTypes.find(e => e.name === type);
     return event ? event.icon : 'help-outline';
+  }
+
+  // Profile popup methods
+  toggleProfilePopup() {
+    this.isProfilePopupOpen = !this.isProfilePopupOpen;
+    
+    // Load user data if opening popup
+    if (this.isProfilePopupOpen && this.isLoggedIn) {
+      this.loadUserData();
+    }
+  }
+
+  loadUserData() {
+    // Simulate loading user data - in real app, this would come from a service
+    this.userName = 'John Doe';
+    this.userEmail = 'john.doe@example.com';
+    this.userInitials = 'JD';
+    
+    this.userStats = {
+      totalTests: 24,
+      averageScore: 85,
+      hoursDriven: 156
+    };
+  }
+
+  login() {
+    console.log('Login clicked');
+    // Simulate login - in real app, this would open login modal or navigate to login page
+    this.isLoggedIn = true;
+    this.loadUserData();
+    this.isProfilePopupOpen = false;
+  }
+
+  register() {
+    console.log('Register clicked');
+    // Simulate registration - in real app, this would open registration modal or navigate to register page
+    this.isLoggedIn = true;
+    this.loadUserData();
+    this.isProfilePopupOpen = false;
   }
 }
