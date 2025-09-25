@@ -255,39 +255,7 @@
 }
 
 .section-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: $text-primary;
-  margin-bottom: 1.5rem;
-  position: relative;
-  padding-left: 1.5rem;
-  display: flex;
-  align-items: center;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 6px;
-    height: 28px;
-    background: $blue-gradient-2;
-    border-radius: 3px;
-    box-shadow: $shadow-sm;
-  }
-  
-  &::after {
-    content: '';
-    position: absolute;
-    left: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 2px;
-    height: 20px;
-    background: rgba($primary-blue, 0.5);
-    border-radius: 1px;
-  }
+  @include section-title-beban-kerja-kejadian;
 }
 
 .event-types-grid {
@@ -549,13 +517,12 @@
       margin: 0;
     }
   }
-
   .card-content {
     padding: 1rem;
   }
 
   .bar-chart {
-    height: 150px;
+    height: $icon-size-xl * 2.5;
 
     .chart-container {
       height: 100%;
@@ -566,41 +533,75 @@
       .bar-item {
         display: flex;
         align-items: center;
-        gap: 1rem;
-        margin-bottom: 1rem;
+        gap: $spacing-md;
+        margin-bottom: $spacing-md;
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
 
         .bar-label {
-          min-width: 120px;
-          color: $text-primary;
-          font-size: 0.875rem;
-          font-weight: 500;
+          min-width: 100px;
+          color: $text-secondary;
+          font-size: $font-size-xs;
+          font-weight: $font-weight-medium;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .bar-wrapper {
           flex: 1;
           height: 20px;
-          background: $light-gray;
-          border-radius: 10px;
+          background: $border-light;
+          border-radius: $border-radius-sm;
           overflow: hidden;
+          position: relative;
+          
+          &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+            pointer-events: none;
+          }
 
           .bar-fill {
             height: 100%;
-            border-radius: 10px;
+            border-radius: $border-radius-sm;
+            transition: width 0.8s ease;
+            position: relative;
+            background: $green-gradient;
+            box-shadow: $shadow-sm;
+            
+            &::after {
+              content: '';
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+              animation: shimmer 2s infinite;
+            }
           }
         }
 
         .bar-value {
-          min-width: 40px;
-          color: $text-primary;
-          font-size: 0.875rem;
+          min-width: 35px;
+          color: $success-color;
+          font-size: $font-size-sm;
           font-weight: 600;
           text-align: right;
+          white-space: nowrap;
         }
       }
     }
   }
 }
-
 
 // Profile Button and Popup
 .profile-button {
@@ -818,23 +819,6 @@
     order: -1;
   }
 
-  .section-title {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-    padding-left: 1.25rem;
-    
-    &::before {
-      height: 22px;
-      width: 5px;
-    }
-    
-    &::after {
-      height: 16px;
-      width: 1.5px;
-      left: 6px;
-    }
-  }
-
   .stats-overview {
     grid-template-columns: 1fr;
     max-width: none;
@@ -1002,35 +986,135 @@
 }
 
 .trends-card {
-  background: white;
-  border-radius: $border-radius-lg;
-  padding: 1.5rem;
-  box-shadow: $shadow-sm;
-  border-top: 3px solid #3b82f6;
+  @include card-style;
+  min-height: 400px;
+  position: relative;
+  overflow: hidden;
+  padding: $spacing-xl;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, $primary-blue, $accent-color, $success-color);
+    border-radius: $border-radius-lg $border-radius-lg 0 0;
+    z-index: 15;
+  }
 }
 
 .trends-chart {
-  .trend-bars {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 1rem;
-    height: 200px;
-    padding: 1rem 0;
+  height: $icon-size-xl * 6;
+  position: relative;
+  padding: $spacing-lg 0 $spacing-md 0;
+  overflow: hidden;
+  
+  .chart-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    font-size: $font-size-sm;
+    margin-bottom: $spacing-xl;
+    z-index: 10;
   }
 
+  .chart-subtitle {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    font-size: $font-size-xs;
+    color: $text-secondary;
+    text-align: center;
+    z-index: 10;
+  }
+
+  // Grid lines for better readability - adjusted for 60%-90% scale
+  .grid-lines {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: $spacing-xl * 1.8;
+    bottom: $spacing-md;
+    pointer-events: none;
+
+    .grid-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba($text-secondary, 0.1);
+      border-bottom: 1px dashed rgba($primary-blue, 0.2);
+
+      &::after {
+        content: attr(data-value);
+        position: absolute;
+        left: -35px;
+        top: -8px;
+        font-size: $font-size-xs;
+        color: $text-secondary;
+        font-weight: 500;
+      }
+    }
+  }
+
+  // Y-axis labels
+  .y-axis-labels {
+    position: absolute;
+    left: 0;
+    top: $spacing-xl * 1.8;
+    bottom: $spacing-md;
+    width: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 3;
+
+    .y-label {
+      font-size: $font-size-xs;
+      color: $text-secondary;
+      font-weight: 500;
+      text-align: right;
+      padding-right: $spacing-xs;
+    }
+  }
+  
+  .trend-bars {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: calc(100% - #{$spacing-xl * 2});
+    gap: $spacing-xs;
+    margin-top: $spacing-xl * 1.5;
+    padding: 0 $spacing-md 0 35px;
+    position: relative;
+    z-index: 5;
+  }
   .trend-bar {
-    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
-
-    .trend-day {
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: $text-secondary;
-      text-align: center;
+    flex: 1;
+    max-width: 65px;
+    height: 100%;
+    position: relative;
+    margin-bottom: $spacing-xs;
+    
+    &:hover {
+      .trend-bar-fill {
+        transform: scale(1.02);
+        box-shadow: 0 4px 12px rgba($primary-blue, 0.3);
+      }
+      
+      .trend-value {
+        transform: scale(1.1);
+        color: $primary-blue;
+        white-space: nowrap;
+      }
     }
 
     .trend-bar-wrapper {
@@ -1038,42 +1122,53 @@
       width: 100%;
       display: flex;
       align-items: flex-end;
-      justify-content: center;
-      background: $light-gray;
-      border-radius: $border-radius;
+      transition: all 0.3s ease;
       position: relative;
-      min-height: 100px;
+      height: 100%;
     }
 
     .trend-bar-fill {
-      width: 80%;
-      border-radius: $border-radius;
+      width: 100%;
+      border-radius: 2px 2px 0 0;
+      transition: all 0.3s ease;
       position: relative;
-      background: #3b82f6;
-
-      &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: rgba(255, 255, 255, 0.3);
-        border-radius: $border-radius $border-radius 0 0;
+      background: $primary-blue;
+      min-height: 4px;
+      max-height: 100%;
+      
+      // Highest value gets different color
+      &.highest {
+        background: linear-gradient(180deg, $success-color, $success-color-dark);
+        box-shadow: 0 2px 8px rgba($success-color, 0.3);
+      }
+      
+      &:hover {
+        background: linear-gradient(180deg, $primary-blue-dark, $primary-blue);
+        transform: scale(1.02);
       }
     }
 
     .trend-value {
-      font-size: 0.875rem;
+      font-size: $font-size-xs;
       font-weight: 600;
       color: $text-primary;
       text-align: center;
+      position: absolute;
+      top: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba($primary-blue, 0.1);
+      padding: 3px 8px;
+      border-radius: $border-radius-xs;
+      border: 1px solid rgba($primary-blue, 0.2);
+      transition: all 0.3s ease;
+      min-width: 32px;
+      white-space: nowrap;
+      z-index: 10;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
   }
 }
-
-
-// Responsive Design for Mobile
 @media (max-width: 768px) {
   .recent-events-section {
     margin-bottom: 1.5rem;
@@ -1096,18 +1191,23 @@
     }
   }
 
-  .trends-chart .trend-bars {
-    gap: 0.5rem;
-    height: 150px;
-  }
-
   .trend-bar {
     .trend-day {
-      font-size: 0.75rem;
+      font-size: $font-size-xs;
+      color: $text-secondary;
+      text-align: center;
+      margin-top: $spacing-xs;
+      font-weight: 500;
     }
+  }
+}
 
-    .trend-value {
-      font-size: 0.75rem;
-    }
+// Shimmer animation for bars
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
   }
 }

@@ -198,6 +198,22 @@ export class TesKantukPage implements OnInit, OnDestroy {
     data: [72, 68, 75, 82, 79, 85, 78]
   };
 
+  // Weekly performance data for new chart format
+  weeklyPerformanceData = [
+    { day: 'Sen', value: 72, score: '72%' },
+    { day: 'Sel', value: 68, score: '68%' },
+    { day: 'Rab', value: 75, score: '75%' },
+    { day: 'Kam', value: 82, score: '82%' },
+    { day: 'Jum', value: 79, score: '79%' },
+    { day: 'Sab', value: 85, score: '85%' },
+    { day: 'Min', value: 78, score: '78%' }
+  ];
+
+  // Get highest value for highlighting
+  getHighestValue(): number {
+    return Math.max(...this.weeklyPerformanceData.map(item => item.value));
+  }
+
   private updateInterval: any;
 
   constructor() {}

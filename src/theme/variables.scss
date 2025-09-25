@@ -31,6 +31,7 @@ $warning-yellow: #ffc107;
 $danger-red: #dc3545;
 $info-blue: #17a2b8;
 $success-color: #10b981;
+$success-color-dark: #059669;
 $warning-color: #f59e0b;
 $danger-color: #ef4444;
 $info-color: #06b6d4;
@@ -47,6 +48,9 @@ $shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.2);
 $blue-gradient-1: linear-gradient(135deg, $primary-blue 0%, $primary-blue-dark 100%);
 $blue-gradient-2: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
 $blue-gradient-3: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+$purple-gradient: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+$green-gradient: linear-gradient(135deg, #059669 0%, #10b981 100%);
+$red-gradient: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
 
 // Text Colors
 $text-primary: #1f2937;
@@ -67,6 +71,7 @@ $border-dark: #d1d5db;
 $font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 $font-size-xs: 12px;
 $font-size-sm: 14px;
+$font-size-md: 15px;
 $font-size-base: 16px;
 $font-size-lg: 18px;
 $font-size-xl: 20px;
@@ -96,6 +101,7 @@ $spacing-xl: 25px;
 $spacing-xxl: 30px;
 
 // Border Radius
+$border-radius-xs: 4px;
 $border-radius-sm: 8px;
 $border-radius-md: 12px;
 $border-radius-lg: 16px;
@@ -279,5 +285,127 @@ $breakpoint-xl: 1200px;
     --ion-card-background: #{$gray-800};
     --ion-card-border-color: #{$gray-700};
     --ion-card-text-color: #{$white};
+  }
+}
+
+// Page-specific accent colors for unique characteristics
+$page-home-accent: #1e40af;      // Deep blue for home page
+$page-tes-kantuk-accent: #7c3aed;  // Purple for sleep test page
+$page-beban-kerja-kejadian-accent: #059669;  // Green for workload events page
+$page-beban-kerja-kemudi-accent: #dc2626;  // Red for workload driving page
+$page-waktu-reaksi-rem-accent: #ea580c;  // Orange for brake reaction time page
+$page-waktu-reaksi-kemudi-accent: #0891b2;  // Cyan for steering reaction time page
+
+// Section Title Mixin - consistent styling across all pages
+@mixin section-title {
+  font-size: $font-size-xl;
+  font-weight: 600;
+  color: $text-primary;
+  margin-bottom: $spacing-xl;
+  padding-bottom: $spacing-sm;
+  border-bottom: 2px solid rgba($accent-color, 0.1);
+  position: relative;
+  letter-spacing: $letter-spacing-sm;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background: $accent-color;
+    border-radius: 1px;
+  }
+  
+  // Hover effect
+  &:hover {
+    color: $accent-color;
+    transition: color $transition-base;
+  }
+}
+
+// Page-specific section title variations
+@mixin section-title-home {
+  @include section-title;
+  border-bottom-color: rgba($page-home-accent, 0.1);
+  
+  &::after {
+    background: $page-home-accent;
+    width: 80px;
+  }
+  
+  &:hover {
+    color: $page-home-accent;
+  }
+}
+
+@mixin section-title-tes-kantuk {
+  @include section-title;
+  border-bottom-color: rgba($page-tes-kantuk-accent, 0.1);
+  
+  &::after {
+    background: $page-tes-kantuk-accent;
+    width: 70px;
+  }
+  
+  &:hover {
+    color: $page-tes-kantuk-accent;
+  }
+}
+
+@mixin section-title-beban-kerja-kejadian {
+  @include section-title;
+  border-bottom-color: rgba($page-beban-kerja-kejadian-accent, 0.1);
+  
+  &::after {
+    background: $page-beban-kerja-kejadian-accent;
+    width: 75px;
+  }
+  
+  &:hover {
+    color: $page-beban-kerja-kejadian-accent;
+  }
+}
+
+@mixin section-title-beban-kerja-kemudi {
+  @include section-title;
+  border-bottom-color: rgba($page-beban-kerja-kemudi-accent, 0.1);
+  
+  &::after {
+    background: $page-beban-kerja-kemudi-accent;
+    width: 70px;
+  }
+  
+  &:hover {
+    color: $page-beban-kerja-kemudi-accent;
+  }
+}
+
+@mixin section-title-waktu-reaksi-rem {
+  @include section-title;
+  border-bottom-color: rgba($page-waktu-reaksi-rem-accent, 0.1);
+  
+  &::after {
+    background: $page-waktu-reaksi-rem-accent;
+    width: 65px;
+  }
+  
+  &:hover {
+    color: $page-waktu-reaksi-rem-accent;
+  }
+}
+
+@mixin section-title-waktu-reaksi-kemudi {
+  @include section-title;
+  border-bottom-color: rgba($page-waktu-reaksi-kemudi-accent, 0.1);
+  
+  &::after {
+    background: $page-waktu-reaksi-kemudi-accent;
+    width: 65px;
+  }
+  
+  &:hover {
+    color: $page-waktu-reaksi-kemudi-accent;
   }
 }

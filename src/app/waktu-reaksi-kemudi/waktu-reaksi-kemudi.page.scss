@@ -260,11 +260,7 @@
 }
 
 .section-title {
-  color: $primary-blue;
-  font-size: $font-size-xxl;
-  font-weight: 600;
-  margin-bottom: $spacing-lg;
-  text-shadow: $text-shadow-md;
+  @include section-title-waktu-reaksi-kemudi;
 }
 
 .steering-scenarios-grid {
@@ -943,20 +939,9 @@
 }
 
 .trends-chart {
-  height: $icon-size-xl * 6;
+  height: $icon-size-xl * 7;
   position: relative;
-  padding: $spacing-md 0;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: $spacing-md;
-    bottom: $spacing-lg;
-    width: 2px;
-    background: rgba($primary-blue, 0.1);
-    border-radius: $border-radius-full;
-  }
+  padding: $spacing-xl 0 $spacing-md 0;
   
   .chart-title {
     position: absolute;
@@ -968,28 +953,61 @@
     font-size: $font-size-lg;
     font-weight: 600;
     margin-bottom: $spacing-md;
+    z-index: 10;
   }
   
   .chart-subtitle {
     position: absolute;
-    top: $spacing-lg;
+    top: $spacing-md;
     left: 0;
     right: 0;
     text-align: center;
     color: $text-secondary;
     font-size: $font-size-sm;
     margin-bottom: $spacing-xl;
+    z-index: 10;
+  }
+
+  // Grid lines for better readability - adjusted for 60%-90% scale
+  .grid-lines {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: $spacing-xl * 2;
+    bottom: $spacing-xl * 2;
+    pointer-events: none;
+
+    .grid-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba($text-secondary, 0.1);
+      border-bottom: 1px dashed rgba($primary-blue, 0.2);
+
+      &::after {
+        content: attr(data-value);
+        position: absolute;
+        left: -35px;
+        top: -8px;
+        font-size: $font-size-xs;
+        color: $text-secondary;
+        font-weight: 500;
+      }
+    }
   }
 }
 
 .trend-bars {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: flex-end;
-  height: calc(100% - #{$spacing-xl * 2});
-  gap: $spacing-md;
-  margin-top: $spacing-xl;
+  height: calc(100% - #{$spacing-xl * 3});
+  gap: $spacing-xs;
+  margin-top: $spacing-xl * 2;
   padding: 0 $spacing-sm;
+  position: relative;
+  z-index: 5;
 }
 
 .trend-bar {
@@ -997,13 +1015,14 @@
   flex-direction: column;
   align-items: center;
   flex: 1;
+  max-width: 70px;
   height: 100%;
-  max-width: 60px;
+  position: relative;
   
   &:hover {
-    .trend-bar-wrapper {
-      transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba($primary-blue, 0.2);
+    .trend-bar-fill {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba($primary-blue, 0.3);
     }
     
     .trend-value {
@@ -1017,12 +1036,17 @@
   color: $text-primary;
   font-size: $font-size-sm;
   font-weight: 500;
-  margin-bottom: $spacing-md;
+  margin-top: $spacing-md;
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
 }
 
 .trend-bar-wrapper {
   flex: 1;
-  width: 40px;
+  width: 100%;
   background: rgba($primary-blue, 0.05);
   border-radius: $border-radius-md;
   overflow: hidden;
@@ -1030,16 +1054,8 @@
   align-items: flex-end;
   transition: all 0.3s ease;
   border: 1px solid rgba($primary-blue, 0.1);
-  
-  &::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: rgba($primary-blue, 0.2);
-  }
+  position: relative;
+  height: 100%;
 }
 
 .trend-bar-fill {
@@ -1048,6 +1064,16 @@
   transition: all 0.3s ease;
   position: relative;
   background: linear-gradient(180deg, $primary-blue, $accent-color);
+  
+  // Highlight highest value
+  &.highest {
+    background: linear-gradient(180deg, $success-color, $success-color-light);
+    box-shadow: 0 0 20px rgba($success-color, 0.4);
+    
+    &::after {
+      background: rgba(255, 255, 255, 0.5);
+    }
+  }
   
   &::after {
     content: '';
@@ -1067,16 +1093,21 @@
 
 .trend-value {
   color: $text-primary;
-  font-size: $font-size-xs;
+  font-size: 10px;
   font-weight: 600;
-  margin-top: $spacing-sm;
-  padding: $spacing-xs $spacing-sm;
-  background: rgba($primary-blue, 0.05);
-  border-radius: $border-radius-full;
-  border: 1px solid rgba($primary-blue, 0.1);
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba($primary-blue, 0.1);
+  padding: 2px 6px;
+  border-radius: $border-radius-xs;
+  border: 1px solid rgba($primary-blue, 0.2);
   transition: all 0.3s ease;
-  min-width: 45px;
+  min-width: 30px;
   text-align: center;
+  white-space: nowrap;
+  z-index: 15;
 }
 
 // Responsive Design

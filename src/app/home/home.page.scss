@@ -1,6 +1,26 @@
 // Import theme variables
 @import '../../theme/variables';
 
+// Card Style Mixin
+@mixin card-style {
+  background: white;
+  border-radius: $border-radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-md;
+  border: 1px solid rgba($accent-color, 0.1);
+  transition: all 0.3s ease;
+  min-height: $icon-size-xl * 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  &:hover {
+    transform: translateY(-$spacing-xxs);
+    box-shadow: $shadow-md;
+    border-color: rgba($accent-color, 0.2);
+  }
+}
+
 // Page-specific variables - using global variables from theme/variables.scss
 
 // Dashboard Container
@@ -11,8 +31,8 @@
   overflow-y: auto;
   overflow-x: hidden;
 
-  @media (max-width: 768px) {
-    padding: 0.5rem;
+  @media (max-width: $breakpoint-md) {
+    padding: $spacing-xs;
   }
 }
 
@@ -28,23 +48,23 @@
   box-shadow: $shadow-md;
   margin-bottom: 1.5rem;
 
-  @media (max-width: 768px) {
+  @media (max-width: $breakpoint-md) {
     flex-direction: column;
-    gap: 1rem;
+    gap: $spacing-md;
     text-align: center;
   }
 
   .header-left {
     .logo {
       background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur($blur-md);
       border-radius: $border-radius;
-      padding: 0.5rem;
+      padding: $spacing-sm;
       display: inline-block;
       border: 1px solid rgba(255, 255, 255, 0.3);
       
       .logo-img {
-        height: 40px;
+        height: $icon-size-md;
         width: auto;
         display: block;
         filter: brightness(0) invert(1);
@@ -55,9 +75,9 @@
 
   .header-center {
     flex: 1;
-    margin: 0 2rem;
+    margin: 0 $spacing-xl;
 
-    @media (max-width: 768px) {
+    @media (max-width: $breakpoint-md) {
       margin: 0;
     }
 
@@ -254,39 +274,7 @@
   margin-bottom: 30px;
 
   .section-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: $text-primary;
-    margin-bottom: 1.5rem;
-    position: relative;
-    padding-left: 1.5rem;
-    display: flex;
-    align-items: center;
-    
-    &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 6px;
-      height: 28px;
-      background: $blue-gradient-2;
-      border-radius: 3px;
-      box-shadow: $shadow-sm;
-    }
-    
-    &::after {
-      content: '';
-      position: absolute;
-      left: 8px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 2px;
-      height: 20px;
-      background: rgba($primary-blue, 0.5);
-      border-radius: 1px;
-    }
+    @include section-title-home;
   }
 
   .trend-card {
@@ -376,39 +364,7 @@
   margin-bottom: 30px;
 
   .section-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: $text-primary;
-    margin-bottom: 1.5rem;
-    position: relative;
-    padding-left: 1.5rem;
-    display: flex;
-    align-items: center;
-    
-    &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 6px;
-      height: 28px;
-      background: $blue-gradient-2;
-      border-radius: 3px;
-      box-shadow: $shadow-sm;
-    }
-    
-    &::after {
-      content: '';
-      position: absolute;
-      left: 8px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 2px;
-      height: 20px;
-      background: rgba($primary-blue, 0.5);
-      border-radius: 1px;
-    }
+    @include section-title-home;
   }
   .activities-grid {
     display: grid;
@@ -560,39 +516,7 @@
   margin-bottom: 30px;
 
   .section-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: $text-primary;
-    margin-bottom: 1.5rem;
-    position: relative;
-    padding-left: 1.5rem;
-    display: flex;
-    align-items: center;
-    
-    &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 6px;
-      height: 28px;
-      background: $blue-gradient-2;
-      border-radius: 3px;
-      box-shadow: $shadow-sm;
-    }
-    
-    &::after {
-      content: '';
-      position: absolute;
-      left: 8px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 2px;
-      height: 20px;
-      background: rgba($primary-blue, 0.5);
-      border-radius: 1px;
-    }
+    @include section-title-home;
   }
 
   .notifications-grid {
@@ -782,39 +706,7 @@
   margin-bottom: 30px;
 
   .section-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: $text-primary;
-    margin-bottom: 1.5rem;
-    position: relative;
-    padding-left: 1.5rem;
-    display: flex;
-    align-items: center;
-    
-    &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 6px;
-      height: 28px;
-      background: $blue-gradient-2;
-      border-radius: 3px;
-      box-shadow: $shadow-sm;
-    }
-    
-    &::after {
-      content: '';
-      position: absolute;
-      left: 8px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 2px;
-      height: 20px;
-      background: rgba($primary-blue, 0.5);
-      border-radius: 1px;
-    }
+    @include section-title-home;
   }
 
   .charts-grid {
@@ -826,49 +718,263 @@
 
 // Trends Section
 .trends-section {
-  margin-bottom: 30px;
+  margin-bottom: $spacing-xxl;
 
   .section-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: $text-primary;
-    margin-bottom: 1.5rem;
+    @include section-title-home;
+  }
+
+  .trend-card {
+    @include card-style;
+    min-height: 400px;
     position: relative;
-    padding-left: 1.5rem;
-    display: flex;
-    align-items: center;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, $primary-blue, $accent-color, $success-color);
+      border-radius: $border-radius-lg $border-radius-lg 0 0;
+    }
+  }
+
+  .trends-chart {
+    height: $icon-size-xl * 6;
+    position: relative;
+    padding: $spacing-md 0;
     
     &::before {
       content: '';
       position: absolute;
       left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 6px;
-      height: 28px;
-      background: $blue-gradient-2;
-      border-radius: 3px;
-      box-shadow: $shadow-sm;
+      top: $spacing-md;
+      bottom: $spacing-lg;
+      width: 2px;
+      background: rgba($primary-blue, 0.1);
+      border-radius: $border-radius-full;
     }
     
-    &::after {
-      content: '';
+    // Grid lines for better readability
+    .grid-lines {
       position: absolute;
-      left: 8px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 2px;
-      height: 20px;
-      background: rgba($primary-blue, 0.5);
-      border-radius: 1px;
+      left: 0;
+      right: 0;
+      top: $spacing-xl;
+      bottom: $spacing-xl;
+      pointer-events: none;
+      
+      .grid-line {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: rgba($text-secondary, 0.1);
+        border-bottom: 1px dashed rgba($primary-blue, 0.2);
+        
+        &::after {
+          content: attr(data-value);
+          position: absolute;
+          left: -35px;
+          top: -8px;
+          font-size: $font-size-xs;
+          color: $text-secondary;
+          font-weight: 500;
+        }
+      }
     }
-  }
+    
+    .chart-title {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: $text-primary;
+      font-size: $font-size-lg;
+      font-weight: 600;
+      margin-bottom: $spacing-md;
+    }
+    
+    .chart-subtitle {
+      position: absolute;
+      top: $spacing-lg;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: $text-secondary;
+      font-size: $font-size-sm;
+      margin-bottom: $spacing-xl;
+    }
+    
+    .trend-bars {
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+      height: calc(100% - #{$spacing-xl * 2});
+      gap: $spacing-md;
+      margin-top: $spacing-xl;
+      padding: 0 $spacing-sm;
+      position: relative;
+      z-index: 2;
+    }
 
-  .trend-card {
-    background: white;
-    border-radius: $border-radius-lg;
-    box-shadow: $shadow-md;
-    padding: 1.5rem;
+    .trend-bar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      max-width: 60px;
+      height: 100%;
+      position: relative;
+      
+      &:hover {
+        .trend-bar-wrapper {
+          transform: scale(1.05);
+          box-shadow: 0 4px 12px rgba($primary-blue, 0.2);
+        }
+        
+        .trend-value {
+          transform: scale(1.1);
+          color: $primary-blue;
+          font-weight: 700;
+        }
+        
+        // Show connecting line on hover
+        &::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 2px;
+          height: 20px;
+          background: $primary-blue;
+          transform: translate(-50%, -50%) rotate(45deg);
+          z-index: 3;
+          opacity: 0.8;
+        }
+      }
+
+      .trend-day {
+        color: $text-primary;
+        font-size: $font-size-sm;
+        font-weight: 600;
+        margin-bottom: $spacing-md;
+        text-align: center;
+        position: relative;
+        
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -4px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 20px;
+          height: 2px;
+          background: rgba($primary-blue, 0.3);
+          border-radius: $border-radius-full;
+        }
+      }
+
+      .trend-bar-wrapper {
+        flex: 1;
+        width: 40px;
+        background: rgba($primary-blue, 0.05);
+        border-radius: $border-radius-md;
+        overflow: hidden;
+        display: flex;
+        align-items: flex-end;
+        transition: all 0.3s ease;
+        border: 1px solid rgba($primary-blue, 0.1);
+        position: relative;
+        
+        &::before {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background: rgba($primary-blue, 0.2);
+        }
+        
+        // Connecting line to value
+        &::after {
+          content: '';
+          position: absolute;
+          top: -8px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 1px;
+          height: 8px;
+          background: rgba($primary-blue, 0.4);
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+      }
+
+      .trend-bar-fill {
+        width: 100%;
+        border-radius: $border-radius-md $border-radius-md 0 0;
+        transition: all 0.3s ease;
+        position: relative;
+        background: linear-gradient(180deg, $primary-blue, $accent-color);
+        
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 4px;
+          background: rgba(255, 255, 255, 0.3);
+          border-radius: $border-radius-md $border-radius-md 0 0;
+        }
+        
+        &:hover {
+          background: linear-gradient(180deg, $primary-blue-dark, $primary-blue);
+        }
+      }
+
+      .trend-value {
+        color: $text-primary;
+        font-size: $font-size-xs;
+        font-weight: 600;
+        margin-top: $spacing-sm;
+        padding: $spacing-xs $spacing-sm;
+        background: rgba($primary-blue, 0.05);
+        border-radius: $border-radius-full;
+        border: 1px solid rgba($primary-blue, 0.1);
+        transition: all 0.3s ease;
+        min-width: 45px;
+        text-align: center;
+        position: relative;
+        
+        // Pointer line to bar
+        &::before {
+          content: '';
+          position: absolute;
+          bottom: -6px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 0;
+          height: 0;
+          border-left: 4px solid transparent;
+          border-right: 4px solid transparent;
+          border-top: 4px solid rgba($primary-blue, 0.2);
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+      }
+      
+      // Show connecting lines on hover
+      &:hover .trend-value::before,
+      &:hover .trend-bar-wrapper::after {
+        opacity: 1;
+      }
+    }
   }
 }
 
@@ -918,30 +1024,50 @@
     padding: 1.5rem;
     
     .bar-chart {
+      height: $icon-size-xl * 3;
+      position: relative;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 100px;
+        right: 35px;
+        height: 1px;
+        background: $border-color;
+      }
+      
       .chart-container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
         .bar-item {
           display: flex;
           align-items: center;
-          margin-bottom: 1.25rem;
+          gap: $spacing-md;
+          margin-bottom: $spacing-md;
           
           &:last-child {
             margin-bottom: 0;
           }
           
           .bar-label {
-            flex: 0 0 140px;
-            font-size: $font-size-sm;
+            min-width: 100px;
             color: $text-secondary;
+            font-size: $font-size-xs;
             font-weight: $font-weight-medium;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
           
           .bar-wrapper {
             flex: 1;
-            height: 24px;
-            background-color: $border-light;
-            border-radius: $border-radius-md;
+            height: 20px;
+            background: $border-light;
+            border-radius: $border-radius-sm;
             overflow: hidden;
-            margin: 0 1rem;
             position: relative;
             
             &::before {
@@ -957,10 +1083,10 @@
             
             .bar-fill {
               height: 100%;
-              background: $blue-gradient-1;
-              border-radius: $border-radius-md;
+              border-radius: $border-radius-sm;
               transition: width 0.8s ease;
               position: relative;
+              background: $blue-gradient-2;
               box-shadow: $shadow-sm;
               
               &::after {
@@ -977,11 +1103,12 @@
           }
           
           .bar-value {
-            flex: 0 0 40px;
-            text-align: right;
-            font-size: $font-size-base;
-            font-weight: $font-weight-semibold;
+            min-width: 35px;
             color: $primary-blue;
+            font-size: $font-size-sm;
+            font-weight: 600;
+            text-align: right;
+            white-space: nowrap;
           }
         }
       }
@@ -1032,24 +1159,32 @@
       padding: 20px;
       
       .bar-chart {
+        &::after {
+          left: 0;
+          right: 0;
+        }
+        
         .chart-container {
           .bar-item {
             flex-direction: column;
             align-items: flex-start;
-            gap: 8px;
+            gap: $spacing-xs;
             
             .bar-label {
               flex: none;
+              font-size: $font-size-xs;
             }
             
             .bar-wrapper {
               width: 100%;
               margin: 0;
+              height: 18px;
             }
             
             .bar-value {
               flex: none;
               align-self: flex-end;
+              font-size: $font-size-xs;
             }
           }
         }
@@ -1294,27 +1429,6 @@
 // Animations
 // Additional mobile responsive design
 @media (max-width: 768px) {
-  .charts-section,
-  .trends-section,
-  .activities-section,
-  .notifications-section {
-    .section-title {
-      font-size: 1.25rem;
-      margin-bottom: 1rem;
-      padding-left: 1.25rem;
-      
-      &::before {
-        height: 22px;
-        width: 5px;
-      }
-      
-      &::after {
-        height: 16px;
-        width: 1.5px;
-        left: 6px;
-      }
-    }
-  }
   
   .trends-section {
     .trend-card {
@@ -1412,16 +1526,92 @@
           padding: 1rem;
           
           .bar-chart {
+            height: $icon-size-xl * 3;
+            position: relative;
+            
+            &::after {
+              content: '';
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              right: 0;
+              height: 1px;
+              background: $border-color;
+            }
+            
             .chart-container {
+              height: 100%;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-around;
+              
               .bar-item {
-                margin-bottom: 1rem;
+                display: flex;
+                align-items: center;
+                gap: $spacing-md;
+                margin-bottom: $spacing-md;
+                
+                &:last-child {
+                  margin-bottom: 0;
+                }
                 
                 .bar-label {
-                  font-size: 0.75rem;
+                  min-width: 100px;
+                  color: $text-secondary;
+                  font-size: $font-size-xs;
+                  font-weight: $font-weight-medium;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                }
+                
+                .bar-wrapper {
+                  flex: 1;
+                  height: 20px;
+                  background: $border-light;
+                  border-radius: $border-radius-sm;
+                  overflow: hidden;
+                  position: relative;
+                  
+                  &::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+                    pointer-events: none;
+                  }
+                  
+                  .bar-fill {
+                    height: 100%;
+                    border-radius: $border-radius-sm;
+                    transition: width 0.8s ease;
+                    position: relative;
+                    background: $blue-gradient-2;
+                    box-shadow: $shadow-sm;
+                    
+                    &::after {
+                      content: '';
+                      position: absolute;
+                      top: 0;
+                      left: 0;
+                      right: 0;
+                      bottom: 0;
+                      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+                      animation: shimmer 2s infinite;
+                    }
+                  }
                 }
                 
                 .bar-value {
-                  font-size: 0.875rem;
+                  min-width: 35px;
+                  color: $primary-blue;
+                  font-size: $font-size-sm;
+                  font-weight: 600;
+                  text-align: right;
+                  white-space: nowrap;
                 }
               }
             }

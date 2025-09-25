@@ -199,6 +199,22 @@ export class WaktuReaksiRemPage implements OnInit, OnDestroy {
     data: [78, 82, 75, 88, 85, 90, 86]
   };
 
+  // Weekly performance data for new chart format
+  weeklyPerformanceData = [
+    { day: 'Sen', value: 78, score: '78%' },
+    { day: 'Sel', value: 82, score: '82%' },
+    { day: 'Rab', value: 75, score: '75%' },
+    { day: 'Kam', value: 88, score: '88%' },
+    { day: 'Jum', value: 85, score: '85%' },
+    { day: 'Sab', value: 90, score: '90%' },
+    { day: 'Min', value: 86, score: '86%' }
+  ];
+
+  // Get highest value for highlighting
+  getHighestValue(): number {
+    return Math.max(...this.weeklyPerformanceData.map(item => item.value));
+  }
+
   private updateInterval: any;
 
   constructor() {}

@@ -163,6 +163,22 @@ export class BebanKerjaKejadianPage implements OnInit, OnDestroy {
     data: [82, 85, 79, 88, 91, 87, 90]
   };
 
+  // Weekly performance data for new chart format
+  weeklyPerformanceData = [
+    { day: 'Sen', value: 82, score: '82%' },
+    { day: 'Sel', value: 85, score: '85%' },
+    { day: 'Rab', value: 79, score: '79%' },
+    { day: 'Kam', value: 88, score: '88%' },
+    { day: 'Jum', value: 91, score: '91%' },
+    { day: 'Sab', value: 87, score: '87%' },
+    { day: 'Min', value: 90, score: '90%' }
+  ];
+
+  // Get highest value for highlighting
+  getHighestValue(): number {
+    return Math.max(...this.weeklyPerformanceData.map(item => item.value));
+  }
+
   private updateInterval: any;
 
   constructor() { }

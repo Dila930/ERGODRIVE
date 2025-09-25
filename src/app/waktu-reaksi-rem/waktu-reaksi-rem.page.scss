@@ -412,10 +412,7 @@
 }
 
 .section-title {
-  color: $text-primary;
-  font-size: $font-size-xxl;
-  font-weight: 600;
-  margin-bottom: $spacing-md;
+  @include section-title-waktu-reaksi-rem;
 }
 
 .speed-analysis-grid {
@@ -797,62 +794,176 @@
 }
 
 .trends-card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: $blur-md;
-  border-radius: $border-radius-lg;
-  padding: $spacing-xl;
-  border: $border-width solid rgba(255, 255, 255, 0.2);
+  @include card-style;
+  min-height: 400px;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, $primary-blue, $accent-color, $success-color);
+    border-radius: $border-radius-lg $border-radius-lg 0 0;
+  }
 }
 
 .trends-chart {
-  height: $icon-size-xl * 5;
+  height: $icon-size-xl * 7;
+  position: relative;
+  padding: $spacing-xl 0 $spacing-md 0;
+  
+  .chart-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: $text-primary;
+    font-size: $font-size-lg;
+    font-weight: 600;
+    margin-bottom: $spacing-md;
+    z-index: 10;
+  }
+  
+  .chart-subtitle {
+    position: absolute;
+    top: $spacing-md;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    margin-bottom: $spacing-xl;
+    z-index: 10;
+  }
+
+  // Grid lines for better readability - adjusted for 60%-90% scale
+  .grid-lines {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: $spacing-xl * 2;
+    bottom: $spacing-xl * 2;
+    pointer-events: none;
+
+    .grid-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba($text-secondary, 0.1);
+      border-bottom: 1px dashed rgba($primary-blue, 0.2);
+
+      &::after {
+        content: attr(data-value);
+        position: absolute;
+        left: -35px;
+        top: -8px;
+        font-size: $font-size-xs;
+        color: $text-secondary;
+        font-weight: 500;
+      }
+    }
+  }
+  
+  .trend-bars {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: calc(100% - #{$spacing-xl * 3});
+    gap: $spacing-xs;
+    margin-top: $spacing-xl * 2;
+    padding: 0 $spacing-sm;
+    position: relative;
+    z-index: 5;
+  }
+  
+  .trend-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    max-width: 70px;
+    height: 100%;
+    position: relative;
+    
+    &:hover {
+      .trend-bar-fill {
+        transform: scale(1.02);
+        box-shadow: 0 4px 12px rgba($primary-blue, 0.3);
+      }
+      
+      .trend-value {
+        transform: scale(1.1);
+        color: $primary-blue;
+      }
+    }
+
+    .trend-day {
+      font-size: $font-size-sm;
+      font-weight: 600;
+      color: $text-primary;
+      text-align: center;
+      margin-top: $spacing-md;
+      position: absolute;
+      bottom: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+
+    .trend-bar-wrapper {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      align-items: flex-end;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .trend-bar-fill {
+      width: 100%;
+      border-radius: 2px 2px 0 0;
+      transition: all 0.3s ease;
+      position: relative;
+      background: $primary-blue;
+      min-height: 4px;
+      
+      // Highest value gets different color
+      &.highest {
+        background: linear-gradient(180deg, $success-color, $success-color-dark);
+        box-shadow: 0 2px 8px rgba($success-color, 0.3);
+      }
+      
+      &:hover {
+        background: linear-gradient(180deg, $primary-blue-dark, $primary-blue);
+        transform: scale(1.02);
+      }
+    }
+
+    .trend-value {
+      font-size: $font-size-xs;
+      font-weight: 600;
+      color: $text-primary;
+      text-align: center;
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba($primary-blue, 0.1);
+      padding: 2px 6px;
+      border-radius: $border-radius-xs;
+      border: 1px solid rgba($primary-blue, 0.2);
+      transition: all 0.3s ease;
+      min-width: 30px;
+      white-space: nowrap;
+    }
+  }
 }
 
-.trend-bars {
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-end;
-  height: 100%;
-  gap: $spacing-lg;
-}
-
-.trend-bar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-  height: 100%;
-}
-
-.trend-day {
-  color: $text-primary;
-  font-size: $font-size-sm;
-  font-weight: 500;
-  margin-bottom: $spacing-sm;
-}
-
-.trend-bar-wrapper {
-  flex: 1;
-  width: $icon-size-lg * 1.33;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: $border-radius-lg;
-  overflow: hidden;
-  display: flex;
-  align-items: flex-end;
-}
-
-.trend-bar-fill {
-  width: 100%;
-  border-radius: $border-radius-lg;
-  transition: height 0.3s ease;
-}
-
-.trend-value {
-  color: $text-primary;
-  font-size: $font-size-xs;
-  font-weight: 600;
-  margin-top: $spacing-sm;
-}
 
 @media (max-width: $breakpoint-md) {
   .dashboard-header {

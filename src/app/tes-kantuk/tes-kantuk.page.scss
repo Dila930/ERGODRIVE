@@ -276,39 +276,7 @@
 }
 
 .section-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: $text-primary;
-  margin-bottom: 1.5rem;
-  position: relative;
-  padding-left: 1.5rem;
-  display: flex;
-  align-items: center;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 6px;
-    height: 28px;
-    background: $blue-gradient-2;
-    border-radius: 3px;
-    box-shadow: $shadow-sm;
-  }
-  
-  &::after {
-    content: '';
-    position: absolute;
-    left: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 2px;
-    height: 20px;
-    background: rgba($primary-blue, 0.5);
-    border-radius: 1px;
-  }
+  @include section-title-tes-kantuk;
 }
 
 .warning-levels-grid {
@@ -449,7 +417,7 @@
 }
 
 .bar-chart {
-  height: 12.5rem;
+  height: $icon-size-xl * 3;
 }
 
 .chart-container {
@@ -462,37 +430,71 @@
 .bar-item {
   display: flex;
   align-items: center;
-  gap: 0.9375rem;
-  margin-bottom: 0.9375rem;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .bar-label {
-  min-width: 7.5rem;
-  color: $text-primary;
-  font-size: 0.875rem;
-  font-weight: 500;
+  min-width: 100px;
+  color: $text-secondary;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .bar-wrapper {
   flex: 1;
-  height: 1.25rem;
-  background: rgba(59, 130, 246, 0.1);
-  border-radius: 0.625rem;
+  height: 20px;
+  background: $border-light;
+  border-radius: $border-radius-sm;
   overflow: hidden;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+    pointer-events: none;
+  }
 }
 
 .bar-fill {
   height: 100%;
-  border-radius: 0.625rem;
-  transition: width 0.3s ease;
+  border-radius: $border-radius-sm;
+  transition: width 0.8s ease;
+  position: relative;
+  background: $purple-gradient;
+  box-shadow: $shadow-sm;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+    animation: shimmer 2s infinite;
+  }
 }
 
 .bar-value {
-  min-width: 2.5rem;
-  color: $text-secondary;
-  font-size: 0.875rem;
+  min-width: 35px;
+  color: $accent-color;
+  font-size: $font-size-sm;
   font-weight: 600;
   text-align: right;
+  white-space: nowrap;
 }
 
 .sleep-patterns-section {
@@ -689,22 +691,103 @@
 }
 
 .trends-card {
-  background: white;
-  border-radius: $border-radius-lg;
-  padding: 1.5rem;
-  box-shadow: $shadow-sm;
+  @include card-style;
+  min-height: 400px;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, $primary-blue, $accent-color, $success-color);
+    border-radius: $border-radius-lg $border-radius-lg 0 0;
+  }
 }
 
 .trends-chart {
-  height: 18.75rem;
+  height: $icon-size-xl * 7;
+  position: relative;
+  padding: $spacing-xl 0 $spacing-md 0;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: $spacing-xl;
+    bottom: $spacing-lg;
+    width: 2px;
+    background: rgba($primary-blue, 0.1);
+    border-radius: $border-radius-full;
+  }
+  
+  .chart-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: $text-primary;
+    font-size: $font-size-lg;
+    font-weight: 600;
+    margin-bottom: $spacing-md;
+    z-index: 10;
+  }
+  
+  .chart-subtitle {
+    position: absolute;
+    top: $spacing-md;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    margin-bottom: $spacing-xl;
+    z-index: 10;
+  }
+
+  // Grid lines for better readability - adjusted for 60%-90% scale
+  .grid-lines {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: $spacing-xl * 2;
+    bottom: $spacing-xl * 2;
+    pointer-events: none;
+
+    .grid-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba($text-secondary, 0.1);
+      border-bottom: 1px dashed rgba($primary-blue, 0.2);
+
+      &::after {
+        content: attr(data-value);
+        position: absolute;
+        left: -35px;
+        top: -8px;
+        font-size: $font-size-xs;
+        color: $text-secondary;
+        font-weight: 500;
+      }
+    }
+  }
 }
 
 .trend-bars {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: flex-end;
-  height: 100%;
-  gap: 1.25rem;
+  height: calc(100% - #{$spacing-xl * 3});
+  gap: $spacing-xs;
+  margin-top: $spacing-xl * 2;
+  padding: 0 $spacing-sm;
+  position: relative;
+  z-index: 5;
 }
 
 .trend-bar {
@@ -712,37 +795,81 @@
   flex-direction: column;
   align-items: center;
   flex: 1;
+  max-width: 70px;
   height: 100%;
+  position: relative;
+  
+  &:hover {
+    .trend-bar-fill {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba($primary-blue, 0.3);
+    }
+    
+    .trend-value {
+      transform: scale(1.1);
+      color: $primary-blue;
+    }
+  }
 }
 
 .trend-day {
   color: $text-primary;
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-bottom: 0.625rem;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  margin-top: $spacing-md;
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
 }
 
 .trend-bar-wrapper {
   flex: 1;
-  width: 2.5rem;
-  background: rgba(59, 130, 246, 0.1);
-  border-radius: 1.25rem;
-  overflow: hidden;
+  width: 100%;
   display: flex;
   align-items: flex-end;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
 .trend-bar-fill {
   width: 100%;
-  border-radius: 1.25rem;
-  transition: height 0.3s ease;
+  border-radius: 2px 2px 0 0;
+  transition: all 0.3s ease;
+  position: relative;
+  background: $primary-blue;
+  min-height: 4px;
+  
+  // Highest value gets different color
+  &.highest {
+    background: linear-gradient(180deg, $success-color, $success-color-dark);
+    box-shadow: 0 2px 8px rgba($success-color, 0.3);
+  }
+  
+  &:hover {
+    background: linear-gradient(180deg, $primary-blue-dark, $primary-blue);
+    transform: scale(1.02);
+  }
 }
 
 .trend-value {
-  color: $text-secondary;
-  font-size: 0.75rem;
+  color: $text-primary;
+  font-size: 10px;
   font-weight: 600;
-  margin-top: 0.625rem;
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba($primary-blue, 0.1);
+  padding: 2px 6px;
+  border-radius: $border-radius-xs;
+  border: 1px solid rgba($primary-blue, 0.2);
+  transition: all 0.3s ease;
+  min-width: 30px;
+  text-align: center;
+  white-space: nowrap;
+  z-index: 15;
 }
 
 @media (max-width: 768px) {
@@ -757,35 +884,6 @@
     order: -1;
   }
 
-  .section-title {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-    padding-left: 1.25rem;
-    
-    &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      height: 22px;
-      width: 5px;
-      background: $primary-blue;
-      border-radius: 2.5px;
-    }
-    
-    &::after {
-      content: '';
-      position: absolute;
-      left: 6px;
-      top: 50%;
-      transform: translateY(-50%);
-      height: 16px;
-      width: 1.5px;
-      background: $primary-blue;
-      border-radius: 0.75px;
-    }
-  }
 
 
   .warning-levels-grid {
@@ -847,5 +945,15 @@
   .recommendation-card {
     flex-direction: column;
     text-align: center;
+  }
+}
+
+// Shimmer animation for bars
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
   }
 }
