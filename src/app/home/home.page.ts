@@ -180,13 +180,11 @@ export class HomePage implements OnInit, OnDestroy {
         
         // If this is a Google user with a photo URL
         if (photoURL && photoURL.includes('googleusercontent.com')) {
-          // Ensure the URL has the correct format
-          if (!photoURL.includes('=s96-c')) {
-            // If it doesn't have the size parameter, add it
-            const baseUrl = photoURL.split('=')[0];
-            photoURL = `${baseUrl}=s96-c`;
-            console.log('Processed Google photo URL:', photoURL);
-          }
+          // Remove any existing size parameters and add our own for consistent sizing
+          const baseUrl = photoURL.split('=')[0];
+          // Request a higher resolution image (s400) for better quality
+          photoURL = `${baseUrl}=s400`;
+          console.log('Processed Google photo URL:', photoURL);
         }
         
         // Set user info
@@ -396,6 +394,19 @@ export class HomePage implements OnInit, OnDestroy {
     const notification = this.notifications.find(n => n.id === notificationId);
     if (notification) {
       notification.read = true;
+    }
+  }
+
+  // Method to determine bar color based on value (0-100)
+  getBarColor(value: number): string {
+    if (value >= 75) {
+      return '#28a745'; // Green for high values
+    } else if (value >= 50) {
+      return '#ffc107'; // Yellow for medium-high values
+    } else if (value >= 25) {
+      return '#fd7e14'; // Orange for medium-low values
+    } else {
+      return '#dc3545'; // Red for low values
     }
   }
   

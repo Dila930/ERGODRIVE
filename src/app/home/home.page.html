@@ -13,40 +13,19 @@
     <div class="header-right">
       <div class="user-profile" (click)="openProfileModal()">
         <div class="avatar-container">
-          <div class="user-avatar" [title]="userInfo.name + (userInfo.email ? ' (' + userInfo.email + ')' : '')">
-            <!-- Debug info (hidden by default) -->
-            <div *ngIf="!userInfo.photoURL" style="display: none;">
-              No photo available
-            </div>
-            
-            <!-- Profile image with error handling -->
-            <div *ngIf="userInfo.photoURL" class="profile-image-container">
+          <div class="user-avatar">
+            <ng-container *ngIf="userInfo.photoURL; else initialAvatar">
               <img 
                 [src]="userInfo.photoURL" 
                 alt="Profile" 
                 class="profile-image"
                 (load)="onImageLoad($event)"
                 (error)="onImageError($event)"
-                crossorigin="anonymous"
-                referrerpolicy="no-referrer"
-                loading="eager"
-                decoding="async"
-                [style.display]="'block'"
-                [style.width]="'100%'"
-                [style.height]="'100%'"
-                [style.objectFit]="'cover'"
-                [style.backgroundColor]="'#f0f2f5'">
-              <div class="profile-url-debug" *ngIf="false">
-                {{ userInfo.photoURL }}
-              </div>
-            </div>
-              
-            <!-- Fallback initial avatar -->
-            <span 
-              class="user-initial" 
-              [style.display]="!userInfo.photoURL ? 'flex' : 'none'">
-              {{ userInfo.initial || 'U' }}
-            </span>
+                referrerpolicy="no-referrer">
+            </ng-container>
+            <ng-template #initialAvatar>
+              <span class="user-initial">{{ userInfo.initial }}</span>
+            </ng-template>
           </div>
           <div class="online-indicator" *ngIf="userInfo.isOnline"></div>
         </div>
@@ -59,19 +38,6 @@
   </div>
 
   <div class="dashboard-content">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <div 
-        class="menu-item" 
-        *ngFor="let item of menuItems"
-        [class.active]="activeMenuItem === item.label"
-        (click)="selectMenuItem(item.label)"
-      >
-        <ion-icon [name]="item.icon" class="menu-icon"></ion-icon>
-        <span>{{ item.label }}</span>
-      </div>
-    </div>
-
     <!-- Main Content -->
     <div class="main-content">
       <div class="charts-grid">
@@ -89,9 +55,10 @@
                     <div 
                       class="bar-fill" 
                       [style.width.%]="data.percentage"
+                      [style.background]="getBarColor(data.value)"
                     ></div>
                   </div>
-                  <div class="bar-value">{{ data.value }}</div>
+                  <div class="bar-value">{{ data.value | number:'1.0-0' }}</div>
                 </div>
               </div>
             </div>
@@ -112,9 +79,10 @@
                     <div 
                       class="bar-fill" 
                       [style.width.%]="data.percentage"
+                      [style.background]="getBarColor(data.value)"
                     ></div>
                   </div>
-                  <div class="bar-value">{{ data.value }}</div>
+                  <div class="bar-value">{{ data.value | number:'1.0-0' }}</div>
                 </div>
               </div>
             </div>
@@ -135,9 +103,10 @@
                     <div 
                       class="bar-fill" 
                       [style.width.%]="data.percentage"
+                      [style.background]="getBarColor(data.value)"
                     ></div>
                   </div>
-                  <div class="bar-value">{{ data.value }}</div>
+                  <div class="bar-value">{{ data.value | number:'1.0-0' }}</div>
                 </div>
               </div>
             </div>
@@ -158,48 +127,36 @@
                     <div 
                       class="bar-fill" 
                       [style.width.%]="data.percentage"
+                      [style.background]="getBarColor(data.value)"
                     ></div>
                   </div>
-                  <div class="bar-value">{{ data.value }}</div>
+                  <div class="bar-value">{{ data.value | number:'1.0-0' }}</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Performance Trends Section -->
-    <div class="trends-section">
-      <h2 class="section-title">Tren Performa Mingguan</h2>
-      <div class="trend-card">
-        <div class="trends-chart">
-          <div class="chart-title">Performa Mengemudi</div>
-          <div class="chart-subtitle">Skor rata-rata harian</div>
-          <div class="grid-lines">
-            <div class="grid-line" style="bottom: 0%;" data-value="0%"></div>
-            <div class="grid-line" style="bottom: 25%;" data-value="25%"></div>
-            <div class="grid-line" style="bottom: 50%;" data-value="50%"></div>
-            <div class="grid-line" style="bottom: 75%;" data-value="75%"></div>
-            <div class="grid-line" style="bottom: 100%;" data-value="100%"></div>
-          </div>
-          <div class="trend-bars">
-            <div class="trend-bar" *ngFor="let trend of weeklyPerformanceData; let i = index">
-              <div class="trend-day">{{ trend.day }}</div>
-              <div class="trend-bar-wrapper">
-                <div class="trend-bar-fill" [style.height.%]="trend.value"></div>
+      <!-- Performance Trends Section -->
+      <div class="performance-section">
+        <h2 class="section-title">Tren Performa Mingguan</h2>
+        <div class="trend-card">
+          <div class="trend-chart">
+            <div class="trend-container">
+              <div class="trend-item" *ngFor="let value of performanceTrends.data; let i = index">
+                <div class="trend-bar" [style.height.%]="value" [style.background]="getBarColor(value)"></div>
+                <div class="trend-label">{{ performanceTrends.labels[i] }}</div>
               </div>
-              <div class="trend-value">{{ trend.score }}</div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Recent Activities Section -->
-    <div class="activities-section">
-      <h2 class="section-title">Aktivitas Terkini</h2>
-      <div class="activities-grid">
+      <!-- Recent Activities Section -->
+      <div class="activities-section">
+        <h2 class="section-title">Aktivitas Terkini</h2>
+        <div class="activities-grid">
           <div class="activity-card" *ngFor="let activity of recentActivities">
             <div class="activity-header">
               <div class="activity-icon">
@@ -217,10 +174,10 @@
         </div>
       </div>
 
-    <!-- Notifications Section -->
-    <div class="notifications-section">
-      <h2 class="section-title">Notifikasi</h2>
-      <div class="notifications-grid">
+      <!-- Notifications Section -->
+      <div class="notifications-section">
+        <h2 class="section-title">Notifikasi</h2>
+        <div class="notifications-grid">
           <div class="notification-card" *ngFor="let notification of notifications" [class.unread]="!notification.read">
             <div class="notification-header">
               <h4 class="notification-title">{{ notification.title }}</h4>
@@ -235,6 +192,7 @@
       </div>
     </div>
   </div>
+</div>
 
 <!-- Profile Modal -->
 <div class="profile-modal" *ngIf="showProfileModal" (click)="closeProfileModal()">
