@@ -2,14 +2,16 @@
   <!-- Header -->
   <div class="dashboard-header">
     <div class="header-left">
-      <div class="logo">ERGODRIVE</div>
+      <div class="logo">
+        <img src="assets/logo/snapedit_1758626403883-removebg-preview.png" alt="ERGODRIVE Logo" class="logo-img">
+      </div>
     </div>
     <div class="header-center">
       <h1 class="welcome-title">Selamat datang kembali!</h1>
       <p class="welcome-subtitle">Berikut adalah analisis terbaru dari tes mengemudi.</p>
     </div>
     <div class="header-right">
-      <div class="user-profile">
+      <div class="user-profile" (click)="openProfileModal()">
         <div class="user-avatar">
           <span class="user-initial">{{ userInfo.initial }}</span>
           <div class="online-indicator" *ngIf="userInfo.isOnline"></div>
@@ -24,9 +26,17 @@
 
   <div class="dashboard-content">
     <!-- Sidebar -->
-    <app-sidebar [isVisible]="true"></app-sidebar>
-    
-    <!-- Main Content -->
+    <div class="sidebar">
+      <div 
+        class="menu-item" 
+        *ngFor="let item of menuItems"
+        [class.active]="activeMenuItem === item.label"
+        (click)="selectMenuItem(item.label)"
+      >
+        <ion-icon [name]="item.icon" class="menu-icon"></ion-icon>
+        <span>{{ item.label }}</span>
+      </div>
+    </div>
 
     <!-- Main Content -->
     <div class="main-content">
@@ -127,6 +137,117 @@
           </div>
         </div>
       </div>
+
+      <!-- Performance Trends Section -->
+      <div class="performance-section">
+        <h2 class="section-title">Tren Performa Mingguan</h2>
+        <div class="trend-card">
+          <div class="trend-chart">
+            <div class="trend-container">
+              <div class="trend-item" *ngFor="let value of performanceTrends.data; let i = index">
+                <div class="trend-bar" [style.height.%]="value" [style.background]="getBarColor(value)"></div>
+                <div class="trend-label">{{ performanceTrends.labels[i] }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activities Section -->
+      <div class="activities-section">
+        <h2 class="section-title">Aktivitas Terkini</h2>
+        <div class="activities-grid">
+          <div class="activity-card" *ngFor="let activity of recentActivities">
+            <div class="activity-header">
+              <div class="activity-icon">
+                <ion-icon [name]="getActivityIcon(activity.type)"></ion-icon>
+              </div>
+              <div class="activity-info">
+                <h4 class="activity-title">{{ activity.title }}</h4>
+                <p class="activity-time">{{ activity.time }}</p>
+              </div>
+              <div class="activity-status" [class]="activity.status">
+                {{ activity.status === 'completed' ? 'Selesai' : activity.status === 'warning' ? 'Peringatan' : 'Sukses' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notifications Section -->
+      <div class="notifications-section">
+        <h2 class="section-title">Notifikasi</h2>
+        <div class="notifications-grid">
+          <div class="notification-card" *ngFor="let notification of notifications" [class.unread]="!notification.read">
+            <div class="notification-header">
+              <h4 class="notification-title">{{ notification.title }}</h4>
+              <span class="notification-time">{{ notification.time }}</span>
+            </div>
+            <p class="notification-message">{{ notification.message }}</p>
+            <div class="notification-actions">
+              <button class="mark-read-btn" (click)="markNotificationAsRead(notification.id)">Tandai Dibaca</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Profile Modal -->
+<div class="profile-modal" *ngIf="showProfileModal" (click)="closeProfileModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Profil Pengguna</h2>
+      <button class="close-btn" (click)="closeProfileModal()">
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <div class="profile-avatar-section">
+        <div class="avatar-upload">
+          <div class="avatar-preview">
+            <span class="avatar-initial">{{ userInfo.initial }}</span>
+          </div>
+          <button class="avatar-change-btn" (click)="changeAvatar()">
+            <ion-icon name="camera-outline"></ion-icon>
+            Ganti Avatar
+          </button>
+        </div>
+      </div>
+      
+      <div class="profile-form">
+        <div class="form-group">
+          <label for="userName">Nama Lengkap</label>
+          <input type="text" id="userName" [(ngModel)]="editUserInfo.name" placeholder="Masukkan nama lengkap">
+        </div>
+        
+        <div class="form-group">
+          <label for="userEmail">Email</label>
+          <input type="email" id="userEmail" [(ngModel)]="editUserInfo.email" placeholder="Masukkan email">
+        </div>
+        
+        <div class="form-group">
+          <label for="userPhone">Nomor Telepon</label>
+          <input type="tel" id="userPhone" [(ngModel)]="editUserInfo.phone" placeholder="Masukkan nomor telepon">
+        </div>
+        
+        <div class="form-group">
+          <label for="userStatus">Status</label>
+          <select id="userStatus" [(ngModel)]="editUserInfo.status">
+            <option value="Online">Online</option>
+            <option value="Offline">Offline</option>
+            <option value="Sibuk">Sibuk</option>
+            <option value="Away">Away</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="closeProfileModal()">Batal</button>
+      <button class="btn-save" (click)="saveProfile()">Simpan Perubahan</button>
     </div>
   </div>
 </div>

@@ -1,15 +1,67 @@
+/* Reset untuk web browser */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-y: auto; /* Aktifkan scrolling vertikal */
+  overflow-x: hidden; /* Cegah scrolling horizontal */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
 ion-app {
-  display: flex;
+  display: block; /* Ubah dari flex ke block untuk scrolling yang lebih baik */
   min-height: 100vh;
+  height: auto;
+  overflow-y: auto; /* Aktifkan scrolling */
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Reset any potential height constraints */
+ion-content {
+  height: auto;
+  min-height: auto;
+  overflow: visible;
+}
+
+/* Ensure no fixed positioning interferes with scrolling */
+ion-header,
+ion-footer {
+  position: relative;
 }
 
 .content-wrapper {
-  flex: 1;
   margin-left: 250px; /* Same as sidebar width */
   padding: 20px;
   background-color: #f8f9fa;
-  min-height: 100vh;
+  min-height: 100vh; /* Minimum viewport height */
+  height: auto; /* Allow height to grow with content */
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
   box-sizing: border-box;
+  position: relative;
+  z-index: 1; /* Ensure content appears above sidebar */
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; /* For iOS momentum scrolling */
+}
+
+/* Custom scrollbar styling */
+.content-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.content-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.content-wrapper::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.content-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
 }
 
 /* Responsive styles */
@@ -18,4 +70,43 @@ ion-app {
     margin-left: 0;
     padding-top: 60px; /* Add space for mobile header */
   }
+}
+
+/* Fix for mobile devices */
+@media (max-width: 768px) {
+  .content-wrapper {
+    margin-left: 0;
+    padding: 10px;
+  }
+}
+
+/* Global box-sizing */
+* {
+  box-sizing: border-box;
+}
+
+/* Force scrolling untuk web browser */
+html, body {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+ion-app {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+.content-wrapper {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* Prevent any fixed elements from interfering */
+.dashboard-header {
+  position: relative; /* Ensure it's not fixed */
+}
+
+/* Reset semua height constraints yang mungkin mengganggu */
+* {
+  max-height: none !important;
 }
