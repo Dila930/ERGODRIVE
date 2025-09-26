@@ -18,28 +18,26 @@ import { environment } from '../environments/environment';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     SharedModule,
     IonicModule.forRoot({
       mode: 'md',
       rippleEffect: true,
       backButtonText: '',
-      loadingSpinner: 'crescent'
+      loadingSpinner: 'crescent',
     }),
     AppRoutingModule,
     CommonModule,
-    BrowserAnimationsModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
-    provideFirestore(() => getFirestore())
+    provideFirestore(() => getFirestore()),
   ],
   bootstrap: [AppComponent],
 })

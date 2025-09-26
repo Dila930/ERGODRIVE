@@ -1,6 +1,6 @@
-<ion-app style="--ion-safe-area-left: 0; --ion-safe-area-right: 0;">
-  <app-sidebar *ngIf="showSidebar"></app-sidebar>
-  <div class="content-wrapper" [class.sidebar-visible]="showSidebar" style="background: white !important;">
+<ion-app style="padding-left: 40px !important;">
+  <app-sidebar [isVisible]="false"></app-sidebar>
+  <div class="content-wrapper" style="padding-left: 40px !important; background: white !important;">
     <ion-router-outlet></ion-router-outlet>
   </div>
 </ion-app>
