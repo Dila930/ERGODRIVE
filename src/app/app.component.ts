@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { AuthService } from './auth.service';
+import { Router, NavigationEnd } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { User } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +10,60 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
   standalone: false,
 })
-export class AppComponent {
-  constructor() {}
+export class AppComponent implements OnInit, OnDestroy {
+  showSidebar = false;
+  private authSubscription: Subscription | undefined;
+  private routerSubscription: Subscription | undefined;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+    // Subscribe to authentication state changes
+    this.authSubscription = this.authService.user$.subscribe((user: User | null) => {
+      this.updateSidebarVisibility(!!user);
+    });
+
+    // Check current route on navigation
+    this.routerSubscription = this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.checkCurrentRoute(event.url);
+      }
+    });
+  }
+
+  private updateSidebarVisibility(isLoggedIn: boolean) {
+    // Hide sidebar on login/register/welcome pages even if user is logged in
+    const hideSidebarRoutes = ['/welcome', '/login', '/register'];
+    const shouldShowSidebar = isLoggedIn && !hideSidebarRoutes.some(route => 
+      this.router.url.startsWith(route)
+    );
+    
+    this.showSidebar = shouldShowSidebar;
+  }
+
+  private checkCurrentRoute(url: string) {
+    const hideSidebarRoutes = ['/welcome', '/login', '/register'];
+    const shouldHideSidebar = hideSidebarRoutes.some(route => url.startsWith(route));
+    
+    if (shouldHideSidebar) {
+      this.showSidebar = false;
+    } else {
+      // Update based on auth state
+      const currentUser = this.authService.getCurrentUser();
+      this.showSidebar = currentUser !== null;
+    }
+  }
+
+  ngOnDestroy() {
+    // Clean up subscriptions
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
+    }
+  }
 }
