@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from './auth.service';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, Event } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { User } from '@angular/fire/auth';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +28,9 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     // Check current route on navigation
-    this.routerSubscription = this.router.events.subscribe(event => {
+    this.routerSubscription = this.router.events.pipe(
+      filter((event: Event): event is NavigationEnd => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
       if (event instanceof NavigationEnd) {
         this.checkCurrentRoute(event.url);
       }
@@ -52,18 +55,15 @@ export class AppComponent implements OnInit, OnDestroy {
       this.showSidebar = false;
     } else {
       // Update based on auth state
-      const currentUser = this.authService.getCurrentUser();
-      this.showSidebar = currentUser !== null;
+      this.authService.user$.subscribe(user => {
+        this.updateSidebarVisibility(!!user);
+      });
     }
   }
 
   ngOnDestroy() {
     // Clean up subscriptions
-    if (this.authSubscription) {
-      this.authSubscription.unsubscribe();
-    }
-    if (this.routerSubscription) {
-      this.routerSubscription.unsubscribe();
-    }
+    this.authSubscription?.unsubscribe();
+    this.routerSubscription?.unsubscribe();
   }
 }

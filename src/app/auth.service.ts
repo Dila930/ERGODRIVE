@@ -199,6 +199,7 @@ export class AuthService {
   
     // Log untuk debugging
     console.log('Updating user data for:', user.uid);
+    console.log('User email from auth:', user.email);
     console.log('Original photoURL from auth:', user.photoURL);
   
     // Dapatkan photoURL dari provider jika tersedia
@@ -218,20 +219,39 @@ export class AuthService {
       }
     }
   
-    const userData: UserData = {
+    // Prepare base user data
+    const userData: Partial<UserData> = {
       uid: user.uid,
-      email: user.email || '',
-      displayName: user.displayName || user.email?.split('@')[0] || 'User',
-      photoURL: photoURL,
-      createdAt: userSnap.exists() ? userSnap.data()['createdAt'] : timestamp,
       lastLogin: timestamp
     };
+
+    // Always update email if available from the auth user
+    if (user.email) {
+      userData.email = user.email;
+    }
+
+    // Update displayName if available
+    if (user.displayName) {
+      userData.displayName = user.displayName;
+    } else if (user.email) {
+      userData.displayName = user.email.split('@')[0];
+    } else {
+      userData.displayName = 'User';
+    }
+
+    // Update photoURL if available
+    if (photoURL) {
+      userData.photoURL = photoURL;
+    }
 
     // If it's a new user, set the creation timestamp
     if (!userSnap.exists()) {
       userData.createdAt = timestamp;
     } else {
-      // Jika user sudah ada, pertahankan photoURL yang ada jika tidak ada yang baru
+      // For existing users, preserve the creation timestamp
+      userData.createdAt = userSnap.data()['createdAt'] || timestamp;
+      
+      // Preserve existing photoURL if no new one is provided
       const existingData = userSnap.data() as UserData;
       if (!userData.photoURL && existingData.photoURL) {
         userData.photoURL = existingData.photoURL;

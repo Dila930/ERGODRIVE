@@ -4,6 +4,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -22,7 +23,8 @@ import { environment } from '../environments/environment';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    SharedModule,
+    FormsModule,
+    CommonModule,
     IonicModule.forRoot({
       mode: 'md',
       rippleEffect: true,
@@ -30,7 +32,7 @@ import { environment } from '../environments/environment';
       loadingSpinner: 'crescent',
     }),
     AppRoutingModule,
-    CommonModule,
+    SharedModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

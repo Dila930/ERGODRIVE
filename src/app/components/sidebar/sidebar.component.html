@@ -40,4 +40,22 @@
       <span class="menu-text">Logout</span>
     </a>
   </div>
-</div>
+
+  <!-- User Profile Section -->
+  <div class="profile-section bottom-profile" *ngIf="user">
+    <div class="profile-avatar-container">
+      <div class="profile-avatar" [title]="user.displayName || 'User'">
+        <img *ngIf="user.photoURL" [src]="user.photoURL" alt="Profile" class="avatar-img">
+        <div *ngIf="!user.photoURL" class="avatar-placeholder">
+          {{ (user.displayName || 'U')[0] | uppercase }}
+        </div>
+      </div>
+      <span class="online-indicator"></span>
+    </div>
+    <div class="profile-details" *ngIf="!isCollapsed">
+      <div class="profile-name">{{ user.displayName || 'User' }}</div>
+      <div class="profile-email" [title]="user.email">
+        {{ user.email || '' }}
+      </div>
+    </div>
+  </div>

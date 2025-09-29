@@ -15,6 +15,7 @@ export class LoginPage implements OnInit, OnDestroy {
   password = '';
   isLoading = false;
   showPassword = false;
+  rememberMe = false;
   private authSubscription: Subscription = new Subscription();
 
   constructor(
@@ -27,6 +28,7 @@ export class LoginPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.checkAuthenticationState();
+    this.loadRememberedEmail();
   }
 
   ngOnDestroy() {
@@ -45,20 +47,39 @@ export class LoginPage implements OnInit, OnDestroy {
     this.showPassword = !this.showPassword;
   }
 
-  async login() {
+  private loadRememberedEmail() {
+    const rememberedEmail = localStorage.getItem('rememberedEmail');
+    if (rememberedEmail) {
+      this.email = rememberedEmail;
+      this.rememberMe = true;
+    }
+  }
+
+  private saveEmailIfRemembered(): void {
+    if (this.rememberMe) {
+      localStorage.setItem('rememberedEmail', this.email);
+    } else {
+      localStorage.removeItem('rememberedEmail');
+    }
+  }
+
+  async login(): Promise<void> {
     if (!this.email || !this.password) {
       this.showToast('Email dan password tidak boleh kosong', 'warning');
       return;
     }
 
+    this.isLoading = true;
     const loading = await this.loadingController.create({
-      message: 'Sedang login...',
-      translucent: true
+      message: 'Memproses login...',
+      spinner: 'crescent'
     });
     await loading.present();
 
+    // Save email if Remember Me is checked
+    this.saveEmailIfRemembered();
+
     try {
-      this.isLoading = true;
       await this.authService.loginWithEmail(this.email, this.password);
       this.showToast('Login berhasil!', 'success');
     } catch (error: any) {
@@ -70,7 +91,7 @@ export class LoginPage implements OnInit, OnDestroy {
     }
   }
 
-  async loginWithGoogle() {
+  async loginWithGoogle(): Promise<void> {
     const loading = await this.loadingController.create({
       message: 'Sedang login dengan Google...',
       translucent: true

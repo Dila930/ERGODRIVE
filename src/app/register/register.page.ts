@@ -17,6 +17,7 @@ export class RegisterPage implements OnInit, OnDestroy {
   isLoading = false;
   showPassword = false;
   showConfirmPassword = false;
+  acceptTerms = false;
   private authSubscription: Subscription = new Subscription();
 
   constructor(
@@ -45,6 +46,24 @@ export class RegisterPage implements OnInit, OnDestroy {
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
+  }
+
+  async registerWithGoogle() {
+    this.isLoading = true;
+    try {
+      await this.authService.loginWithGoogle();
+      this.router.navigate(['/home']);
+    } catch (error) {
+      console.error('Google registration error:', error);
+      const alert = await this.alertController.create({
+        header: 'Registrasi Gagal',
+        message: 'Terjadi kesalahan saat melakukan registrasi dengan Google. Silakan coba lagi.',
+        buttons: ['OK']
+      });
+      await alert.present();
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   toggleConfirmPasswordVisibility() {

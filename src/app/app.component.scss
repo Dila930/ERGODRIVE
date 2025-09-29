@@ -23,24 +23,43 @@ ion-app {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: #f5f5f5 !important; /* Pastikan warna background terlihat */
-  padding-left: 40px !important; /* Tambahkan padding kiri di sini */
+  background: #f5f5f5 !important;
+  
+  /* Only add left padding when sidebar is visible */
+  &:not(.sidebar-visible) {
+    padding-left: 0 !important;
+  }
+  
+  &.sidebar-visible {
+    padding-left: 40px !important;
+  }
 }
 
-/* Style untuk memastikan content-wrapper memiliki padding kiri */
+/* Style untuk content wrapper */
 .content-wrapper {
-  padding-left: 40px !important;
-  background-color: white !important; /* Tambahkan background putih untuk memastikan terlihat */
+  /* Remove default padding, will be handled by ion-app */
+  padding-left: 0 !important;
+  background-color: white !important;
   min-height: 100vh;
   margin: 0;
   position: relative;
   box-sizing: border-box;
+  
+  /* Add padding only when sidebar is visible */
+  &.with-sidebar {
+    padding-left: 40px !important;
+  }
 }
 
-/* Style untuk memastikan ion-content juga memiliki padding */
+/* Style untuk ion-content */
 ion-content {
-  --padding-start: 40px !important;
+  --padding-start: 0 !important;
   --background: white !important;
+  
+  /* Add padding only when inside a page with sidebar */
+  :host-context(.with-sidebar) & {
+    --padding-start: 40px !important;
+  }
 }
 
 .content-wrapper {
